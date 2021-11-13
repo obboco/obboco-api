@@ -1,0 +1,10 @@
+version: "3.1"
+services:
+  booking-api:
+    container_name: booking-api
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000

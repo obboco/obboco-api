@@ -1,0 +1,6 @@
+{
+  "path": "/heathcheck",
+  "method": "GET",
+  "response": 200,
+  "message": "OK"
+}
