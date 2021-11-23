@@ -1,5 +1,4 @@
 import { Partner } from './../../../src/Domain/partner';
-import { makeRandomPartner } from './../../Mock/Partner/partnerMother';
 import { PartnerFixtures } from './../../Mock/Partner/partnerFixtures';
 import { app } from '../../../src/app';
 import request from 'supertest';
