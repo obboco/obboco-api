@@ -1,9 +1,10 @@
-import { ActivityMysqlRepository } from './Infrastructure/activityMysqlRepository copy';
+import { Activity } from './Domain/activity';
+import { ListActivity } from './Application/Activity/listActivity';
+import { ActivityMysqlRepository } from './Infrastructure/activityMysqlRepository';
 import { CreateActivity } from './Application/Activity/createActivity';
 import { Uuid } from './Domain/Shared/uuid';
 import { PartnerMysqlRepository } from './Infrastructure/partnerMysqlRepository';
 import express from 'express';
-import { ulid } from 'ulid';
 import { CreatePartner } from './Application/Partner/createPartner';
 
 export const app = express();
@@ -12,8 +13,6 @@ app.use(express.json());
 app.get('/healthcheck', (req, res) => {
   res.send('ok');
 });
-
-app.get('/*', (req, res) => {});
 
 // Partner
 app.post('/partner', (req, res) => {
@@ -31,4 +30,14 @@ app.post('/activity', (req, res) => {
   );
   const activity_id: Uuid = createActivity.make(req);
   res.send({ activity_id: activity_id.value });
+});
+
+app.get('/activity/user/:user_id', async (req, res) => {
+  const listActivity: ListActivity = new ListActivity(
+    new ActivityMysqlRepository()
+  );
+  const activities: Array<Activity> = await listActivity.make(
+    req.params.user_id
+  );
+  res.send({ data: activities });
 });

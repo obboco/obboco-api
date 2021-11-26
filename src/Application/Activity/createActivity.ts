@@ -1,6 +1,5 @@
 import { Uuid } from './../../Domain/Shared/uuid';
 import { Activity } from './../../Domain/activity';
-import { Partner } from '../../Domain/partner';
 import { Request } from 'express';
 import { ActivityRepository } from './activityRepository';
 

@@ -1,15 +1,21 @@
+import { Activity } from './../../../src/Domain/activity';
 import { Uuid } from './../../../src/Domain/Shared/uuid';
 import { mysqlConnection } from '../../../src/Infrastructure/MysqlConnector';
 import { ActivityFactory } from '../../../src/Application/Activity/activityFactory';
 
 export class ActivityFixtures {
-  /*async addPartner(partner: Partner) {
+  async addActivity(activity: Activity) {
     const connection = await mysqlConnection();
     connection.execute(
-      'INSERT INTO partners(partner_id, email) VALUES(? , ?)',
-      [partner.partner_id.value, partner.email]
+      'INSERT INTO activity(activity_id, title, description, partner_id) VALUES(?, ?, ?, ?)',
+      [
+        activity.activity_id.value,
+        activity.title,
+        activity.description,
+        activity.partner_id.value
+      ]
     );
-  }*/
+  }
 
   async getActivity(activity_id: string) {
     const connection = await mysqlConnection();
