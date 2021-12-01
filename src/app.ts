@@ -1,3 +1,5 @@
+import { EventMysqlRepository } from './Infrastructure/eventMysqlRepository';
+import { CreateEvent } from './Application/Event/createEvent';
 import { Activity } from './Domain/activity';
 import { ListActivity } from './Application/Activity/listActivity';
 import { ActivityMysqlRepository } from './Infrastructure/activityMysqlRepository';
@@ -40,4 +42,17 @@ app.get('/activity/user/:user_id', async (req, res) => {
     req.params.user_id
   );
   res.send({ data: activities });
+});
+
+// Event
+app.post('/event', (req, res) => {
+  try {
+    const createEvent: CreateEvent = new CreateEvent(
+      new EventMysqlRepository()
+    );
+    const event_id: Uuid = createEvent.make(req);
+    res.send({ event_id: event_id.value });
+  } catch (error) {
+    console.log(error);
+  }
 });

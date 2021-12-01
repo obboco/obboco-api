@@ -1,7 +1,7 @@
 import { ActivityFactory } from '../Application/Activity/activityFactory';
 import { Activity } from '../Domain/activity';
 import { ActivityRepository } from '../Application/Activity/activityRepository';
-import { mysqlConnection } from './MysqlConnector';
+import { mysqlConnection } from './mysqlConnector';
 import { Uuid } from '../Domain/Shared/uuid';
 
 export class ActivityMysqlRepository implements ActivityRepository {

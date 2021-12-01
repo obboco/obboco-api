@@ -1,4 +1,4 @@
-import { mysqlConnection } from './../../../src/Infrastructure/MysqlConnector';
+import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
 import { PartnerFactory } from './../../../src/Application/Partner/partnerFactory';
 import { Partner } from './../../../src/Domain/partner';
 

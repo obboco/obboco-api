@@ -1,6 +1,6 @@
 import { Activity } from './../../../src/Domain/activity';
 import { Uuid } from './../../../src/Domain/Shared/uuid';
-import { mysqlConnection } from '../../../src/Infrastructure/MysqlConnector';
+import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
 import { ActivityFactory } from '../../../src/Application/Activity/activityFactory';
 
 export class ActivityFixtures {
