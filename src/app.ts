@@ -1,3 +1,5 @@
+import { Event } from './Domain/event';
+import { ListEvent } from './Application/Event/listEvent';
 import { EventMysqlRepository } from './Infrastructure/eventMysqlRepository';
 import { CreateEvent } from './Application/Event/createEvent';
 import { Activity } from './Domain/activity';
@@ -55,4 +57,10 @@ app.post('/event', (req, res) => {
   } catch (error) {
     console.log(error);
   }
+});
+
+app.get('/event/activity/:activity_id', async (req, res) => {
+  const listEvent: ListEvent = new ListEvent(new EventMysqlRepository());
+  const events: Event[] = await listEvent.make(req.params.activity_id);
+  res.send({ data: events });
 });

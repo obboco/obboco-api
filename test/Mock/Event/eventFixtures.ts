@@ -3,7 +3,7 @@ import { Event } from './../../../src/Domain/event';
 import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
 
 export class EventFixtures {
-  async addActivity(event: Event) {
+  async addEvent(event: Event) {
     const connection = await mysqlConnection();
     connection.execute(
       'INSERT INTO event(event_id, start_date, duration, capacity, current_capacity, activity_id) VALUES(?, ?, ?, ?, ?, ?)',
