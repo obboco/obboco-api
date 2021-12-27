@@ -1,3 +1,4 @@
+import { GetEvent, BookingEventResponse } from './Application/Booking/getEvent';
 import { Event } from './Domain/event';
 import { ListEvent } from './Application/Event/listEvent';
 import { EventMysqlRepository } from './Infrastructure/eventMysqlRepository';
@@ -9,9 +10,11 @@ import { CreateActivity } from './Application/Activity/createActivity';
 import { Uuid } from './Domain/Shared/uuid';
 import { PartnerMysqlRepository } from './Infrastructure/partnerMysqlRepository';
 import express from 'express';
+import cors from 'cors';
 import { CreatePartner } from './Application/Partner/createPartner';
 
 export const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.get('/healthcheck', (req, res) => {
@@ -63,4 +66,14 @@ app.get('/event/activity/:activity_id', async (req, res) => {
   const listEvent: ListEvent = new ListEvent(new EventMysqlRepository());
   const events: Event[] = await listEvent.make(req.params.activity_id);
   res.send({ data: events });
+});
+
+//Booking
+app.get('/booking/event/:event_id', async (req, res) => {
+  const getEvent: GetEvent = new GetEvent(
+    new EventMysqlRepository(),
+    new ActivityMysqlRepository()
+  );
+  const result: BookingEventResponse = await getEvent.make(req.params.event_id);
+  res.send({ data: result });
 });

@@ -18,6 +18,18 @@ export class ActivityMysqlRepository implements ActivityRepository {
     );
   }
 
+  async get(activityId: Uuid): Promise<Activity> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'SELECT activity_id, title, description, partner_id FROM activity WHERE activity_id = ?',
+      [activityId.value]
+    );
+
+    return ActivityFactory.fromPrimitives(
+      JSON.parse(JSON.stringify(result[0]))
+    );
+  }
+
   async getByPartnerId(partner_id: Uuid): Promise<Activity[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(

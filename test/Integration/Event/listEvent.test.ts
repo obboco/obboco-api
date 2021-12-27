@@ -7,7 +7,6 @@ import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import { app } from '../../../src/app';
 import request from 'supertest';
-import faker from 'faker';
 
 describe('List events', () => {
   it('List empty events', async (done) => {
