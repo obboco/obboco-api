@@ -1,3 +1,7 @@
+import {
+  InitBookingSession,
+  InitBookingSessionResponse
+} from './Application/Booking/initBookingSession';
 import { GetEvent, BookingEventResponse } from './Application/Booking/getEvent';
 import { Event } from './Domain/event';
 import { ListEvent } from './Application/Event/listEvent';
@@ -12,6 +16,7 @@ import { PartnerMysqlRepository } from './Infrastructure/partnerMysqlRepository'
 import express from 'express';
 import cors from 'cors';
 import { CreatePartner } from './Application/Partner/createPartner';
+import { BookingSessionRedisRepository } from './Infrastructure/bookingRedisRepository';
 
 export const app = express();
 app.use(cors());
@@ -75,5 +80,15 @@ app.get('/booking/event/:event_id', async (req, res) => {
     new ActivityMysqlRepository()
   );
   const result: BookingEventResponse = await getEvent.make(req.params.event_id);
+  res.send({ data: result });
+});
+
+app.post('/booking/init', async (req, res) => {
+  const initBooking: InitBookingSession = new InitBookingSession(
+    new BookingSessionRedisRepository()
+  );
+  const result: InitBookingSessionResponse = await initBooking.make(
+    req.body.event_id
+  );
   res.send({ data: result });
 });

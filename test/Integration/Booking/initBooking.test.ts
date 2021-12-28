@@ -1,4 +1,5 @@
-import { ActivityFixtures } from './../../Mock/Activity/activityFixtures';
+import { BookingSession } from './../../../src/Domain/bookingSession';
+import { BookingSessionFixtures } from './../../Mock/Booking/bookingSessionFixtures';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
@@ -8,27 +9,33 @@ import { app } from '../../../src/app';
 import request from 'supertest';
 import { Event } from '../../../src/Domain/event';
 
-describe('Get event and activity for the booking page', () => {
-  it('Get event correctly', async (done) => {
+describe('Initilalize the booking funnel', () => {
+  it('Initialize the booking correctly', async (done) => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
-    const activityFixtures: ActivityFixtures = new ActivityFixtures();
-    await activityFixtures.addActivity(activity);
-
     const event: Event = makeRandomEvent(activity);
     const eventFixtures: EventFixtures = new EventFixtures();
     await eventFixtures.addEvent(event);
+    const bookingSessionFixtures: BookingSessionFixtures =
+      new BookingSessionFixtures();
 
     request(app)
-      .get('/booking/event/' + event.event_id.value)
+      .post('/booking/init')
       .set('accept', 'application/json')
       .type('json')
-      .send()
+      .send({
+        event_id: event.event_id.value
+      })
       .expect(200)
       .then(async (response) => {
-        expect(response.body.data.event.event_id.value).toEqual(
-          event.event_id.value
-        );
-        done();
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        bookingSessionFixtures
+          .get(event.event_id, response.body.data.booking_id.value)
+          .then((bookingSession: string) => {
+            expect(event.event_id.value).toEqual(
+              JSON.parse(bookingSession).event_id.value
+            );
+            done();
+          });
       });
   });
 });
