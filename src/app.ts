@@ -1,3 +1,5 @@
+import { FinishBookingSession } from './Application/Booking/finishBookingSession';
+import { BookingMysqlRepository } from './Infrastructure/bookingMysqlRepository';
 import { AddGuestBookingSession } from './Application/Booking/addGuesBookingSession';
 import {
   InitBookingSession,
@@ -98,5 +100,14 @@ app.post('/booking/guest', async (req, res) => {
   const addGuestBookingSession: AddGuestBookingSession =
     new AddGuestBookingSession(new BookingSessionRedisRepository());
   addGuestBookingSession.make(req);
+  res.send({ data: 'ok' });
+});
+
+app.post('/booking/finish', async (req, res) => {
+  const finishBookingSession: FinishBookingSession = new FinishBookingSession(
+    new BookingSessionRedisRepository(),
+    new BookingMysqlRepository()
+  );
+  finishBookingSession.make(req);
   res.send({ data: 'ok' });
 });

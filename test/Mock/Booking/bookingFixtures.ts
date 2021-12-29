@@ -1,28 +1,15 @@
-import { Activity } from '../../../src/Domain/activity';
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Booking } from './../../../src/Domain/booking';
+import { BookingFactory } from './../../../src/Application/Booking/bookingFactory';
+import { Uuid } from './../../../src/Domain/Shared/uuid';
 import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
-import { ActivityFactory } from '../../../src/Application/Activity/activityFactory';
 
 export class BookingFixtures {
-  async addActivity(activity: Activity) {
-    const connection = await mysqlConnection();
-    connection.execute(
-      'INSERT INTO activity(activity_id, title, description, partner_id) VALUES(?, ?, ?, ?)',
-      [
-        activity.activity_id.value,
-        activity.title,
-        activity.description,
-        activity.partner_id.value
-      ]
-    );
-  }
-
-  async getActivity(activity_id: string) {
+  async get(bookingId: Uuid): Promise<Booking> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT activity_id, title, description, partner_id FROM activity WHERE activity_id = ?',
-      [activity_id]
+      'SELECT booking_id, event_id, status, email, guest FROM booking WHERE booking_id = ?',
+      [bookingId.value]
     );
-    return ActivityFactory.fromPrimitives(result[0]);
+    return BookingFactory.fromPrimitives(result[0]);
   }
 }
