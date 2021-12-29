@@ -7,6 +7,8 @@ export class BookingSessionRedisRepository implements BookingSessionRepository {
     const connection = await redisConnection();
     const key: string =
       bookingSession.event_id.value + ':' + bookingSession.booking_id.value;
-    connection.set(key, JSON.stringify(bookingSession));
+    connection.set(key, JSON.stringify(bookingSession), {
+      EX: 900
+    });
   }
 }

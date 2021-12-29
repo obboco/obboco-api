@@ -3,6 +3,7 @@ import { Uuid } from './Shared/uuid';
 export interface BookingSessionProps {
   booking_id: Uuid;
   event_id: Uuid;
+  status: 'init' | 'guest';
   guest: {
     first_name: string;
     last_name: string;
@@ -18,6 +19,7 @@ export interface NewBookingSessionProps {
 export class BookingSession {
   readonly booking_id: Uuid;
   readonly event_id: Uuid;
+  readonly status: string;
   readonly guest: {
     first_name: string;
     last_name: string;
@@ -35,6 +37,7 @@ export class BookingSession {
     return new BookingSession({
       booking_id: Uuid.create(),
       event_id: props.event_id,
+      status: 'init',
       guest: {
         first_name: '',
         last_name: '',
