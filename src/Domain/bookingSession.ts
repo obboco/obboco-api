@@ -3,7 +3,7 @@ import { Uuid } from './Shared/uuid';
 export interface BookingSessionProps {
   booking_id: Uuid;
   event_id: Uuid;
-  status: 'init' | 'guest';
+  status: string;
   guest: {
     first_name: string;
     last_name: string;
@@ -30,6 +30,7 @@ export class BookingSession {
   protected constructor(props: BookingSessionProps) {
     this.booking_id = props.booking_id;
     this.event_id = props.event_id;
+    this.status = props.status;
     this.guest = props.guest;
   }
 

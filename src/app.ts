@@ -1,3 +1,4 @@
+import { AddGuestBookingSession } from './Application/Booking/addGuesBookingSession';
 import {
   InitBookingSession,
   InitBookingSessionResponse
@@ -91,4 +92,11 @@ app.post('/booking/init', async (req, res) => {
     req.body.event_id
   );
   res.send({ data: result });
+});
+
+app.post('/booking/guest', async (req, res) => {
+  const addGuestBookingSession: AddGuestBookingSession =
+    new AddGuestBookingSession(new BookingSessionRedisRepository());
+  addGuestBookingSession.make(req);
+  res.send({ data: 'ok' });
 });

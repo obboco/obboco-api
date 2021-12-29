@@ -1,5 +1,5 @@
-import { BookingSession } from './../../../src/Domain/bookingSession';
-import { BookingSessionFixtures } from './../../Mock/Booking/bookingSessionFixtures';
+import { BookingSession } from '../../../src/Domain/bookingSession';
+import { BookingSessionFixtures } from '../../Mock/Booking/bookingSessionFixtures';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
@@ -29,7 +29,7 @@ describe('Initilalize the booking funnel', () => {
       .then(async (response) => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         bookingSessionFixtures
-          .get(event.event_id, response.body.data.booking_id.value)
+          .get(event.event_id, response.body.data.booking_id)
           .then((bookingSession: string) => {
             expect(event.event_id.value).toEqual(
               JSON.parse(bookingSession).event_id.value
