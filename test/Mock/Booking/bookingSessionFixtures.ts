@@ -12,7 +12,7 @@ export class BookingSessionFixtures {
   async add(bookingSession: BookingSession): Promise<void> {
     const connection = await redisConnection();
     const key: string =
-      bookingSession.booking_id.value + ':' + bookingSession.event_id.value;
+      bookingSession.event_id.value + ':' + bookingSession.booking_id.value;
     connection.set(key, JSON.stringify(bookingSession));
   }
 }

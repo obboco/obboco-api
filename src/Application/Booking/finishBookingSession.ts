@@ -5,7 +5,6 @@ import { BookingSession } from '../../Domain/bookingSession';
 import { Uuid } from '../../Domain/Shared/uuid';
 import { BookingSessionRepository } from './bookingSessionRepository';
 import { BookingRepository } from './bookingRepository';
-import { BookingProps } from '../../Domain/booking';
 
 export class FinishBookingSession {
   bookingSessionRepository: BookingSessionRepository;
@@ -22,8 +21,8 @@ export class FinishBookingSession {
   async make(request: Request): Promise<void> {
     const bookingSession: BookingSession =
       await this.bookingSessionRepository.get(
-        Uuid.fromPrimitives(request.body.booking_id),
-        Uuid.fromPrimitives(request.body.event_id)
+        Uuid.fromPrimitives(request.body.event_id),
+        Uuid.fromPrimitives(request.body.booking_id)
       );
     const booking: Booking = Booking.create({
       booking_id: bookingSession.booking_id,
