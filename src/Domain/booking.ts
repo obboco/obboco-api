@@ -4,6 +4,8 @@ export interface BookingProps {
   booking_id: Uuid;
   event_id: Uuid;
   status: string;
+  title: string;
+  start_date: Date;
   email: string;
   guest: {
     first_name: string;
@@ -17,6 +19,8 @@ export class Booking {
   readonly booking_id: Uuid;
   readonly event_id: Uuid;
   readonly status: string;
+  readonly title: string;
+  readonly start_date: Date;
   readonly email: string;
   readonly guest: {
     first_name: string;
@@ -29,6 +33,8 @@ export class Booking {
     this.booking_id = props.booking_id;
     this.event_id = props.event_id;
     this.status = props.status;
+    this.title = props.title;
+    this.start_date = props.start_date;
     this.email = props.email;
     this.guest = props.guest;
   }

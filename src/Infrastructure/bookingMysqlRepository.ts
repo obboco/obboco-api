@@ -6,11 +6,13 @@ export class BookingMysqlRepository implements BookingRepository {
   async add(booking: Booking): Promise<void> {
     const connection = await mysqlConnection();
     connection.execute(
-      'INSERT INTO booking(booking_id, event_id, status, email, guest) VALUES(?, ?, ?, ?, ?)',
+      'INSERT INTO booking(booking_id, event_id, status, title, start_date, email, guest) VALUES(?, ?, ?, ?, ?, ?, ?)',
       [
         booking.booking_id.value,
         booking.event_id.value,
         booking.status,
+        booking.title,
+        booking.start_date,
         booking.email,
         JSON.stringify(booking.guest)
       ]

@@ -106,7 +106,9 @@ app.post('/booking/guest', async (req, res) => {
 app.post('/booking/finish', async (req, res) => {
   const finishBookingSession: FinishBookingSession = new FinishBookingSession(
     new BookingSessionRedisRepository(),
-    new BookingMysqlRepository()
+    new BookingMysqlRepository(),
+    new ActivityMysqlRepository(),
+    new EventMysqlRepository()
   );
   finishBookingSession.make(req);
   res.send({ data: 'ok' });

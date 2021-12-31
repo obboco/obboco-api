@@ -7,7 +7,7 @@ export class BookingFixtures {
   async get(bookingId: Uuid): Promise<Booking> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT booking_id, event_id, status, email, guest FROM booking WHERE booking_id = ?',
+      'SELECT booking_id, event_id, status, title, start_date, email, guest FROM booking WHERE booking_id = ?',
       [bookingId.value]
     );
     return BookingFactory.fromPrimitives(result[0]);

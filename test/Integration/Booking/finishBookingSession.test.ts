@@ -55,6 +55,8 @@ describe('Finish booking session', () => {
           .get(bookingSession.booking_id)
           .then((bookingResult: Booking) => {
             expect(bookingSession.booking_id).toEqual(bookingResult.booking_id);
+            expect(activity.title).toEqual(bookingResult.title);
+            expect(event.start_date).toEqual(bookingResult.start_date);
             done();
           });
       });

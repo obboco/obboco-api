@@ -4,6 +4,8 @@ interface BookingPrimitives {
   booking_id: string;
   event_id: string;
   status: string;
+  title: string;
+  start_date: string;
   email: string;
   guest: {
     first_name: string;
@@ -19,6 +21,8 @@ export class BookingFactory {
       booking_id: Uuid.fromPrimitives(primitives.booking_id),
       event_id: Uuid.fromPrimitives(primitives.event_id),
       status: primitives.status,
+      title: primitives.title,
+      start_date: new Date(primitives.start_date),
       email: primitives.email,
       guest: {
         first_name: primitives.guest.first_name,
