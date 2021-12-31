@@ -1,4 +1,7 @@
-import { BookingFactory } from './../Application/Booking/bookingFactory';
+import {
+  BookingFactory,
+  BookingPrimitives
+} from './../Application/Booking/bookingFactory';
 import { Uuid } from './../Domain/Shared/uuid';
 import { BookingRepository } from './../Application/Booking/bookingRepository';
 import { Booking } from './../Domain/booking';
@@ -27,6 +30,16 @@ export class BookingMysqlRepository implements BookingRepository {
       'SELECT booking_id, event_id, status, title, start_date, email, guest FROM booking WHERE booking_id = ?',
       [bookingId.value]
     );
-    return BookingFactory.fromPrimitives(result[0]);
+
+    const bookingPrimitives: BookingPrimitives = {
+      booking_id: result[0].booking_id,
+      event_id: result[0].event_id,
+      status: result[0].status,
+      title: result[0].title,
+      start_date: result[0].start_date,
+      email: result[0].email,
+      guest: JSON.parse(result[0].guest)
+    };
+    return BookingFactory.fromPrimitives(bookingPrimitives);
   }
 }

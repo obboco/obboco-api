@@ -1,6 +1,6 @@
 import { Booking } from '../../Domain/booking';
 import { Uuid } from '../../Domain/Shared/uuid';
-interface BookingPrimitives {
+export interface BookingPrimitives {
   booking_id: string;
   event_id: string;
   status: string;

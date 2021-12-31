@@ -8,7 +8,7 @@ describe('Get booking', () => {
   it('Get booking correctly', async (done) => {
     const booking: Booking = makeNewRandomBooking();
     const bookingFixtures = new BookingFixtures();
-    bookingFixtures.addBooking(booking);
+    await bookingFixtures.addBooking(booking);
 
     request(app)
       .get('/booking/' + booking.booking_id.value)
@@ -20,6 +20,7 @@ describe('Get booking', () => {
         expect(booking.booking_id.value).toEqual(
           response.body.data.booking_id.value
         );
+        expect(booking.guest).toEqual(response.body.data.guest);
         done();
       });
   });
