@@ -6,6 +6,7 @@ export interface BookingProps {
   status: string;
   title: string;
   start_date: Date;
+  duration: number;
   email: string;
   guest: {
     first_name: string;
@@ -21,6 +22,7 @@ export class Booking {
   readonly status: string;
   readonly title: string;
   readonly start_date: Date;
+  readonly duration: number;
   readonly email: string;
   readonly guest: {
     first_name: string;
@@ -35,6 +37,7 @@ export class Booking {
     this.status = props.status;
     this.title = props.title;
     this.start_date = props.start_date;
+    this.duration = props.duration;
     this.email = props.email;
     this.guest = props.guest;
   }

@@ -6,6 +6,7 @@ export interface BookingPrimitives {
   status: string;
   title: string;
   start_date: string;
+  duration: number;
   email: string;
   guest: {
     first_name: string;
@@ -23,6 +24,7 @@ export class BookingFactory {
       status: primitives.status,
       title: primitives.title,
       start_date: new Date(primitives.start_date),
+      duration: primitives.duration,
       email: primitives.email,
       guest: {
         first_name: primitives.guest.first_name,
