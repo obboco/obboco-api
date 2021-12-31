@@ -1,4 +1,4 @@
-import { Booking } from './../../Domain/booking';
+import { Booking } from '../../Domain/booking';
 import { Uuid } from '../../Domain/Shared/uuid';
 interface BookingPrimitives {
   booking_id: string;

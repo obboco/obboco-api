@@ -1,6 +1,6 @@
-import { makeNewRandomBookingSession } from './../../Mock/Booking/bookingSessionMother';
+import { makeNewRandomBookingSession } from '../../Mock/BookingSession/bookingSessionMother';
 import { BookingSession } from '../../../src/Domain/bookingSession';
-import { BookingSessionFixtures } from '../../Mock/Booking/bookingSessionFixtures';
+import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
 import { app } from '../../../src/app';
 import request from 'supertest';
 

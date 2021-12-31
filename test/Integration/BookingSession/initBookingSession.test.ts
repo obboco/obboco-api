@@ -1,5 +1,5 @@
 import { BookingSession } from '../../../src/Domain/bookingSession';
-import { BookingSessionFixtures } from '../../Mock/Booking/bookingSessionFixtures';
+import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';

@@ -1,7 +1,7 @@
 import { Uuid } from './../Domain/Shared/uuid';
 import { BookingSession } from './../Domain/bookingSession';
 import { redisConnection } from './redisConnector';
-import { BookingSessionRepository } from './../Application/Booking/bookingSessionRepository';
+import { BookingSessionRepository } from '../Application/BookingSession/bookingSessionRepository';
 
 export class BookingSessionRedisRepository implements BookingSessionRepository {
   async add(bookingSession: BookingSession): Promise<void> {

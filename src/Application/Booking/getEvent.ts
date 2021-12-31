@@ -1,4 +1,4 @@
-import { ActivityRepository } from './../Activity/activityRepository';
+import { ActivityRepository } from '../Activity/activityRepository';
 import { Event } from '../../Domain/event';
 import { EventRepository } from '../Event/eventRepository';
 import { Uuid } from '../../Domain/Shared/uuid';

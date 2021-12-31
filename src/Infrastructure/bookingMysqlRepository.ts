@@ -1,5 +1,7 @@
+import { BookingFactory } from './../Application/Booking/bookingFactory';
+import { Uuid } from './../Domain/Shared/uuid';
+import { BookingRepository } from './../Application/Booking/bookingRepository';
 import { Booking } from './../Domain/booking';
-import { BookingRepository } from '../Application/Booking/bookingRepository';
 import { mysqlConnection } from './mysqlConnector';
 
 export class BookingMysqlRepository implements BookingRepository {
@@ -17,5 +19,14 @@ export class BookingMysqlRepository implements BookingRepository {
         JSON.stringify(booking.guest)
       ]
     );
+  }
+
+  async get(bookingId: Uuid): Promise<Booking> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'SELECT booking_id, event_id, status, title, start_date, email, guest FROM booking WHERE booking_id = ?',
+      [bookingId.value]
+    );
+    return BookingFactory.fromPrimitives(result[0]);
   }
 }

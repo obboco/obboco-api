@@ -1,4 +1,4 @@
-import { BookingSessionProps } from './../../Domain/bookingSession';
+import { BookingSessionProps } from '../../Domain/bookingSession';
 import { Request } from 'express';
 import { BookingSession } from '../../Domain/bookingSession';
 import { Uuid } from '../../Domain/Shared/uuid';

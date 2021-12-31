@@ -1,10 +1,12 @@
-import { FinishBookingSession } from './Application/Booking/finishBookingSession';
+import { Booking } from './Domain/booking';
+import { GetBooking } from './Application/Booking/getBooking';
+import { FinishBookingSession } from './Application/BookingSession/finishBookingSession';
 import { BookingMysqlRepository } from './Infrastructure/bookingMysqlRepository';
-import { AddGuestBookingSession } from './Application/Booking/addGuesBookingSession';
+import { AddGuestBookingSession } from './Application/BookingSession/addGuesBookingSession';
 import {
   InitBookingSession,
   InitBookingSessionResponse
-} from './Application/Booking/initBookingSession';
+} from './Application/BookingSession/initBookingSession';
 import { GetEvent, BookingEventResponse } from './Application/Booking/getEvent';
 import { Event } from './Domain/event';
 import { ListEvent } from './Application/Event/listEvent';
@@ -51,9 +53,7 @@ app.get('/activity/user/:user_id', async (req, res) => {
   const listActivity: ListActivity = new ListActivity(
     new ActivityMysqlRepository()
   );
-  const activities: Array<Activity> = await listActivity.make(
-    req.params.user_id
-  );
+  const activities: Activity[] = await listActivity.make(req.params.user_id);
   res.send({ data: activities });
 });
 
@@ -112,4 +112,10 @@ app.post('/booking/finish', async (req, res) => {
   );
   finishBookingSession.make(req);
   res.send({ data: 'ok' });
+});
+
+app.get('/booking/:booking_id', async (req, res) => {
+  const getBooking: GetBooking = new GetBooking(new BookingMysqlRepository());
+  const booking: Booking = await getBooking.make(req.params.booking_id);
+  res.send({ data: booking });
 });

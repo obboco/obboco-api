@@ -1,13 +1,13 @@
-import { Event } from './../../Domain/event';
-import { Activity } from './../../Domain/activity';
-import { EventRepository } from './../Event/eventRepository';
-import { ActivityRepository } from './../Activity/activityRepository';
-import { Booking } from './../../Domain/booking';
+import { Event } from '../../Domain/event';
+import { Activity } from '../../Domain/activity';
+import { EventRepository } from '../Event/eventRepository';
+import { ActivityRepository } from '../Activity/activityRepository';
+import { Booking } from '../../Domain/booking';
 import { Request } from 'express';
 import { BookingSession } from '../../Domain/bookingSession';
 import { Uuid } from '../../Domain/Shared/uuid';
 import { BookingSessionRepository } from './bookingSessionRepository';
-import { BookingRepository } from './bookingRepository';
+import { BookingRepository } from '../Booking/bookingRepository';
 
 export class FinishBookingSession {
   bookingSessionRepository: BookingSessionRepository;

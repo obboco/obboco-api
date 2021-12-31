@@ -1,8 +1,8 @@
-import { Booking } from './../../../src/Domain/booking';
-import { makeNewRandomBookingSessionWithEvent } from './../../Mock/Booking/bookingSessionMother';
+import { Booking } from '../../../src/Domain/booking';
+import { makeNewRandomBookingSessionWithEvent } from '../../Mock/BookingSession/bookingSessionMother';
 import { BookingSession } from '../../../src/Domain/bookingSession';
-import { BookingSessionFixtures } from '../../Mock/Booking/bookingSessionFixtures';
-import { ActivityFixtures } from './../../Mock/Activity/activityFixtures';
+import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
+import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
