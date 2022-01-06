@@ -1,3 +1,4 @@
+import { GetBookings } from './Application/Booking/getBookings';
 import { Booking } from './Domain/booking';
 import { GetBooking } from './Application/Booking/getBooking';
 import { FinishBookingSession } from './Application/BookingSession/finishBookingSession';
@@ -118,4 +119,12 @@ app.get('/booking/:booking_id', async (req, res) => {
   const getBooking: GetBooking = new GetBooking(new BookingMysqlRepository());
   const booking: Booking = await getBooking.make(req.params.booking_id);
   res.send({ data: booking });
+});
+
+app.get('/bookings/event/:event_id', async (req, res) => {
+  const getBookings: GetBookings = new GetBookings(
+    new BookingMysqlRepository()
+  );
+  const bookings: Booking[] = await getBookings.make(req.params.event_id);
+  res.send({ data: bookings });
 });

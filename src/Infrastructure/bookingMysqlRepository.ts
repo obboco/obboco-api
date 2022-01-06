@@ -44,4 +44,28 @@ export class BookingMysqlRepository implements BookingRepository {
     };
     return BookingFactory.fromPrimitives(bookingPrimitives);
   }
+
+  async getByEventId(eventId: Uuid): Promise<Booking[]> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'SELECT booking_id, event_id, status, title, start_date, duration, email, guest FROM booking WHERE event_id = ?',
+      [eventId.value]
+    );
+
+    return Object.values(JSON.parse(JSON.stringify(result))).map(
+      (event: any) => {
+        const bookingPrimitives: BookingPrimitives = {
+          booking_id: event.booking_id,
+          event_id: event.event_id,
+          status: event.status,
+          title: event.title,
+          start_date: event.start_date,
+          duration: event.duration,
+          email: event.email,
+          guest: JSON.parse(event.guest)
+        };
+        return BookingFactory.fromPrimitives(bookingPrimitives);
+      }
+    );
+  }
 }

@@ -4,7 +4,6 @@ import { makeRandomActivity } from '../../Mock/Activity/activityMother';
 import { Uuid } from '../../../src/Domain/Shared/uuid';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import { app } from '../../../src/app';
 import request from 'supertest';
 
