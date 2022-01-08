@@ -23,6 +23,7 @@ import express from 'express';
 import cors from 'cors';
 import { CreatePartner } from './Application/Partner/createPartner';
 import { BookingSessionRedisRepository } from './Infrastructure/bookingRedisRepository';
+import { body, validationResult } from 'express-validator';
 
 export const app = express();
 app.use(cors());
@@ -42,13 +43,34 @@ app.post('/partner', (req, res) => {
 });
 
 // Activity
-app.post('/activity', (req, res) => {
-  const createActivity: CreateActivity = new CreateActivity(
-    new ActivityMysqlRepository()
-  );
-  const activity_id: Uuid = createActivity.make(req);
-  res.send({ activity_id: activity_id.value });
-});
+app.post(
+  '/activity',
+  body('title').isString().isLength({ min: 1, max: 255 }),
+  body('description').isString().isLength({ min: 1, max: 255 }),
+  body('partner_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const createActivity: CreateActivity = new CreateActivity(
+      new ActivityMysqlRepository()
+    );
+    const activity_id: Uuid = createActivity.make(req);
+    res.send({ activity_id: activity_id.value });
+  }
+);
 
 app.get('/activity/user/:user_id', async (req, res) => {
   const listActivity: ListActivity = new ListActivity(
