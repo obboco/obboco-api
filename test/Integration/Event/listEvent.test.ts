@@ -25,9 +25,9 @@ describe('List events', () => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
     const eventFixtures: EventFixtures = new EventFixtures();
 
-    eventFixtures.addEvent(makeRandomEvent(activity));
-    eventFixtures.addEvent(makeRandomEvent(activity));
-    eventFixtures.addEvent(makeRandomEvent(activity));
+    await eventFixtures.addEvent(makeRandomEvent(activity));
+    await eventFixtures.addEvent(makeRandomEvent(activity));
+    await eventFixtures.addEvent(makeRandomEvent(activity));
 
     request(app)
       .get('/event/activity/' + activity.activity_id.value)
@@ -36,10 +36,22 @@ describe('List events', () => {
       .send()
       .expect(200)
       .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
         expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
           3
         );
+        done();
+      });
+  });
+
+  it('List events with wrong activity_id format and throw an error', async (done) => {
+    request(app)
+      .get('/event/activity/' + 'wrong_id')
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });

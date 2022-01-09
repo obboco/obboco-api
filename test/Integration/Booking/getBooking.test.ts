@@ -24,4 +24,17 @@ describe('Get booking', () => {
         done();
       });
   });
+
+  it('Get booking with incorrect booking_id format and throw an error', async (done) => {
+    request(app)
+      .get('/booking/' + 'invalid_id')
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual('Invalid value');
+        done();
+      });
+  });
 });

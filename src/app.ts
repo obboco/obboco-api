@@ -23,7 +23,7 @@ import express from 'express';
 import cors from 'cors';
 import { CreatePartner } from './Application/Partner/createPartner';
 import { BookingSessionRedisRepository } from './Infrastructure/bookingRedisRepository';
-import { body, validationResult } from 'express-validator';
+import { body, param, validationResult } from 'express-validator';
 
 export const app = express();
 app.use(cors());
@@ -34,7 +34,12 @@ app.get('/healthcheck', (req, res) => {
 });
 
 // Partner
-app.post('/partner', (req, res) => {
+app.post('/partner', body('email').isEmail(), (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const createPartner: CreatePartner = new CreatePartner(
     new PartnerMysqlRepository()
   );
@@ -72,81 +77,279 @@ app.post(
   }
 );
 
-app.get('/activity/user/:user_id', async (req, res) => {
-  const listActivity: ListActivity = new ListActivity(
-    new ActivityMysqlRepository()
-  );
-  const activities: Activity[] = await listActivity.make(req.params.user_id);
-  res.send({ data: activities });
-});
+app.get(
+  '/activity/user/:user_id',
+  param('user_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const listActivity: ListActivity = new ListActivity(
+      new ActivityMysqlRepository()
+    );
+    const activities: Activity[] = await listActivity.make(req.params.user_id);
+    res.send({ data: activities });
+  }
+);
 
 // Event
-app.post('/event', (req, res) => {
-  try {
+app.post(
+  '/event',
+  body('start_date').isString().isLength({ min: 1, max: 255 }),
+  body('duration').isNumeric(),
+  body('capacity').isNumeric(),
+  body('activity_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const createEvent: CreateEvent = new CreateEvent(
       new EventMysqlRepository()
     );
     const event_id: Uuid = createEvent.make(req);
     res.send({ event_id: event_id.value });
-  } catch (error) {
-    console.log(error);
   }
-});
+);
 
-app.get('/event/activity/:activity_id', async (req, res) => {
-  const listEvent: ListEvent = new ListEvent(new EventMysqlRepository());
-  const events: Event[] = await listEvent.make(req.params.activity_id);
-  res.send({ data: events });
-});
+app.get(
+  '/event/activity/:activity_id',
+  param('activity_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-//Booking
-app.get('/booking/event/:event_id', async (req, res) => {
-  const getEvent: GetEvent = new GetEvent(
-    new EventMysqlRepository(),
-    new ActivityMysqlRepository()
-  );
-  const result: BookingEventResponse = await getEvent.make(req.params.event_id);
-  res.send({ data: result });
-});
+    const listEvent: ListEvent = new ListEvent(new EventMysqlRepository());
+    const events: Event[] = await listEvent.make(req.params.activity_id);
+    res.send({ data: events });
+  }
+);
 
-app.post('/booking/init', async (req, res) => {
-  const initBooking: InitBookingSession = new InitBookingSession(
-    new BookingSessionRedisRepository()
-  );
-  const result: InitBookingSessionResponse = await initBooking.make(
-    req.body.event_id
-  );
-  res.send({ data: result });
-});
+//Booking Session
+app.get(
+  '/booking/event/:event_id',
+  param('event_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-app.post('/booking/guest', async (req, res) => {
-  const addGuestBookingSession: AddGuestBookingSession =
-    new AddGuestBookingSession(new BookingSessionRedisRepository());
-  addGuestBookingSession.make(req);
-  res.send({ data: 'ok' });
-});
+    const getEvent: GetEvent = new GetEvent(
+      new EventMysqlRepository(),
+      new ActivityMysqlRepository()
+    );
+    const result: BookingEventResponse = await getEvent.make(
+      req.params.event_id
+    );
+    res.send({ data: result });
+  }
+);
 
-app.post('/booking/finish', async (req, res) => {
-  const finishBookingSession: FinishBookingSession = new FinishBookingSession(
-    new BookingSessionRedisRepository(),
-    new BookingMysqlRepository(),
-    new ActivityMysqlRepository(),
-    new EventMysqlRepository()
-  );
-  finishBookingSession.make(req);
-  res.send({ data: 'ok' });
-});
+app.post(
+  '/booking/init',
+  body('event_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-app.get('/booking/:booking_id', async (req, res) => {
-  const getBooking: GetBooking = new GetBooking(new BookingMysqlRepository());
-  const booking: Booking = await getBooking.make(req.params.booking_id);
-  res.send({ data: booking });
-});
+    const initBooking: InitBookingSession = new InitBookingSession(
+      new BookingSessionRedisRepository()
+    );
+    const result: InitBookingSessionResponse = await initBooking.make(
+      req.body.event_id
+    );
+    res.send({ data: result });
+  }
+);
 
-app.get('/bookings/event/:event_id', async (req, res) => {
-  const getBookings: GetBookings = new GetBookings(
-    new BookingMysqlRepository()
-  );
-  const bookings: Booking[] = await getBookings.make(req.params.event_id);
-  res.send({ data: bookings });
-});
+app.post(
+  '/booking/guest',
+  body('event_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  body('booking_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  body('guest.first_name').isString().isLength({ min: 1, max: 255 }),
+  body('guest.last_name').isString().isLength({ min: 1, max: 255 }),
+  body('guest.email').isString().isLength({ min: 1, max: 255 }).isEmail(),
+  body('guest.phone').isString().isLength({ min: 1, max: 255 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const addGuestBookingSession: AddGuestBookingSession =
+      new AddGuestBookingSession(new BookingSessionRedisRepository());
+    addGuestBookingSession.make(req);
+    res.send({ data: 'ok' });
+  }
+);
+
+app.post(
+  '/booking/finish',
+  body('event_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  body('booking_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const finishBookingSession: FinishBookingSession = new FinishBookingSession(
+      new BookingSessionRedisRepository(),
+      new BookingMysqlRepository(),
+      new ActivityMysqlRepository(),
+      new EventMysqlRepository()
+    );
+    finishBookingSession.make(req);
+    res.send({ data: 'ok' });
+  }
+);
+
+// Booking
+app.get(
+  '/booking/:booking_id',
+  param('booking_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const getBooking: GetBooking = new GetBooking(new BookingMysqlRepository());
+    const booking: Booking = await getBooking.make(req.params.booking_id);
+    res.send({ data: booking });
+  }
+);
+
+app.get(
+  '/bookings/event/:event_id',
+  param('event_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const getBookings: GetBookings = new GetBookings(
+      new BookingMysqlRepository()
+    );
+    const bookings: Booking[] = await getBookings.make(req.params.event_id);
+    res.send({ data: bookings });
+  }
+);

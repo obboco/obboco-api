@@ -46,4 +46,17 @@ describe('List booking', () => {
         done();
       });
   });
+
+  it('List events with incorrect event_id format and throw an error', async (done) => {
+    request(app)
+      .get('/bookings/event/' + 'invalid_uuid')
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual('Invalid value');
+        done();
+      });
+  });
 });

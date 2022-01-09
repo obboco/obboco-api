@@ -31,4 +31,17 @@ describe('Get event and activity for the booking page', () => {
         done();
       });
   });
+
+  it('Get event and activity with incorrect event_id format and throw an error', async (done) => {
+    request(app)
+      .get('/booking/event/' + 'invalid_id')
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual('Invalid value');
+        done();
+      });
+  });
 });

@@ -24,9 +24,9 @@ describe('List activities', () => {
   it('List some activities', async (done) => {
     const partner = makeRandomPartner();
     const activityFixtures = new ActivityFixtures();
-    activityFixtures.addActivity(makeRandomActivity(partner));
-    activityFixtures.addActivity(makeRandomActivity(partner));
-    activityFixtures.addActivity(makeRandomActivity(partner));
+    await activityFixtures.addActivity(makeRandomActivity(partner));
+    await activityFixtures.addActivity(makeRandomActivity(partner));
+    await activityFixtures.addActivity(makeRandomActivity(partner));
 
     request(app)
       .get('/activity/user/' + partner.partner_id.value)
@@ -35,10 +35,22 @@ describe('List activities', () => {
       .send()
       .expect(200)
       .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
         expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
           3
         );
+        done();
+      });
+  });
+
+  it('List activities with incorrect activity_id format and throw an error', async (done) => {
+    request(app)
+      .get('/activity/user/' + 'invalid_id')
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });

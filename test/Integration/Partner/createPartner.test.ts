@@ -26,4 +26,32 @@ describe('Create partner', () => {
           });
       });
   });
+
+  it('Create partner with an empty email and throw an error', async (done) => {
+    const randomEmail = '';
+    request(app)
+      .post('/partner')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({ email: randomEmail })
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual('Invalid value');
+        done();
+      });
+  });
+
+  it('Create partner with an wrong email format and throw an error', async (done) => {
+    const randomEmail = 'wrong_email';
+    request(app)
+      .post('/partner')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({ email: randomEmail })
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual('Invalid value');
+        done();
+      });
+  });
 });
