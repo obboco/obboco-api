@@ -1,3 +1,6 @@
+import { makeNewRandomBookingSessionWithEvent } from './../../Mock/BookingSession/bookingSessionMother';
+import { BookingSession } from './../../../src/Domain/bookingSession';
+import { BookingSessionFixtures } from './../../Mock/BookingSession/bookingSessionFixtures';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
@@ -9,6 +12,7 @@ import request from 'supertest';
 import { Event } from '../../../src/Domain/event';
 
 describe('Get event and activity for the booking page', () => {
+  /*
   it('Get event correctly', async (done) => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
     const activityFixtures: ActivityFixtures = new ActivityFixtures();
@@ -28,6 +32,32 @@ describe('Get event and activity for the booking page', () => {
         expect(response.body.data.event.event_id.value).toEqual(
           event.event_id.value
         );
+        done();
+      });
+  });*/
+
+  it('Get event correctly with booking sessions in progress', async (done) => {
+    const activity: Activity = makeRandomActivity(makeRandomPartner());
+    const activityFixtures: ActivityFixtures = new ActivityFixtures();
+    await activityFixtures.addActivity(activity);
+
+    const event: Event = makeRandomEvent(activity);
+    const eventFixtures: EventFixtures = new EventFixtures();
+    await eventFixtures.addEvent(event);
+
+    const bookingSessionFixtures: BookingSessionFixtures =
+      new BookingSessionFixtures();
+    bookingSessionFixtures.add(makeNewRandomBookingSessionWithEvent(event));
+    bookingSessionFixtures.add(makeNewRandomBookingSessionWithEvent(event));
+
+    request(app)
+      .get('/booking/event/' + event.event_id.value)
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(200)
+      .then(async (response) => {
+        expect(response.body.data.event.current_capacity).toEqual(2);
         done();
       });
   });

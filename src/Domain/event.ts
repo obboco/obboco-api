@@ -1,3 +1,4 @@
+import { BookingSession } from './bookingSession';
 import { Uuid } from './Shared/uuid';
 
 export interface EventProps {
@@ -50,5 +51,9 @@ export class Event {
 
   incrementCapacity(): void {
     this.current_capacity += 1;
+  }
+
+  calculateCurrentCapacity(totalBookingSessions: number): void {
+    this.current_capacity += totalBookingSessions;
   }
 }

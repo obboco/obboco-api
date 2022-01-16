@@ -4,5 +4,6 @@ import { BookingSession } from '../../Domain/bookingSession';
 export interface BookingSessionRepository {
   add(bookingSession: BookingSession): Promise<void>;
   get(eventId: Uuid, bookingId: Uuid): Promise<BookingSession>;
+  count(eventId: Uuid): Promise<number>;
   delete(bookingSession: BookingSession): Promise<void>;
 }

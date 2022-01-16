@@ -1,3 +1,5 @@
+import { BookingSession } from './../../Domain/bookingSession';
+import { BookingSessionRedisRepository } from './../../Infrastructure/bookingRedisRepository';
 import { ActivityRepository } from '../Activity/activityRepository';
 import { Event } from '../../Domain/event';
 import { EventRepository } from '../Event/eventRepository';
@@ -12,13 +14,16 @@ export interface BookingEventResponse {
 export class GetEvent {
   eventRepository: EventRepository;
   activityRepository: ActivityRepository;
+  bookingSessionRepository: BookingSessionRedisRepository;
 
   constructor(
     eventRepository: EventRepository,
-    activityRepository: ActivityRepository
+    activityRepository: ActivityRepository,
+    bookingSessionRepository: BookingSessionRedisRepository
   ) {
     this.eventRepository = eventRepository;
     this.activityRepository = activityRepository;
+    this.bookingSessionRepository = bookingSessionRepository;
   }
 
   async make(eventId: string): Promise<BookingEventResponse> {
@@ -27,6 +32,10 @@ export class GetEvent {
     const activity: Activity = await this.activityRepository.get(
       event.activity_id
     );
+    const totalBookingSessions: number =
+      await this.bookingSessionRepository.count(event_id);
+
+    event.calculateCurrentCapacity(totalBookingSessions);
     return { event, activity } as BookingEventResponse;
   }
 }

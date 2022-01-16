@@ -9,7 +9,10 @@ import {
   InitBookingSession,
   InitBookingSessionResponse
 } from './Application/BookingSession/initBookingSession';
-import { GetEvent, BookingEventResponse } from './Application/Booking/getEvent';
+import {
+  GetEvent,
+  BookingEventResponse
+} from './Application/BookingSession/getEvent';
 import { Event } from './Domain/event';
 import { ListEvent } from './Application/Event/listEvent';
 import { EventMysqlRepository } from './Infrastructure/eventMysqlRepository';
@@ -245,7 +248,8 @@ app.get(
 
     const getEvent: GetEvent = new GetEvent(
       new EventMysqlRepository(),
-      new ActivityMysqlRepository()
+      new ActivityMysqlRepository(),
+      new BookingSessionRedisRepository()
     );
     const result: BookingEventResponse = await getEvent.make(
       req.params.event_id

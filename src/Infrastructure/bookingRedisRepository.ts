@@ -19,6 +19,13 @@ export class BookingSessionRedisRepository implements BookingSessionRepository {
     return JSON.parse(await connection.get(key));
   }
 
+  async count(eventId: Uuid): Promise<number> {
+    const connection = await redisConnection();
+    const key: string = eventId.value + ':*';
+    const eventIds: string[] = await connection.keys(key);
+    return eventIds.length;
+  }
+
   async delete(bookingSession: BookingSession): Promise<void> {
     const connection = await redisConnection();
     const key: string =
