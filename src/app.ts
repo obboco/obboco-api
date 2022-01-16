@@ -1,3 +1,4 @@
+import { UpdateActivity } from './Application/Activity/updateActivity';
 import { GetBookings } from './Application/Booking/getBookings';
 import { Booking } from './Domain/booking';
 import { GetBooking } from './Application/Booking/getBooking';
@@ -75,6 +76,36 @@ app.post(
     );
     const activity_id: Uuid = createActivity.make(req);
     res.send({ activity_id: activity_id.value });
+  }
+);
+
+app.put(
+  '/activity',
+  body('activity_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  body('title').isString().isLength({ min: 1, max: 255 }),
+  body('description').isString().isLength({ min: 1, max: 255 }),
+
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const updateActivity: UpdateActivity = new UpdateActivity(
+      new ActivityMysqlRepository()
+    );
+    updateActivity.make(req);
+    res.send({ data: 'ok' });
   }
 );
 

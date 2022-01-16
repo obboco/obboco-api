@@ -18,6 +18,14 @@ export class ActivityMysqlRepository implements ActivityRepository {
     );
   }
 
+  async update(activity: Activity): Promise<void> {
+    const connection = await mysqlConnection();
+    connection.execute(
+      'UPDATE activity SET title = ?, description = ? WHERE activity_id = ?',
+      [activity.title, activity.description, activity.activity_id.value]
+    );
+  }
+
   async get(activityId: Uuid): Promise<Activity> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
