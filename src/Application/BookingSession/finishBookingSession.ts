@@ -55,5 +55,11 @@ export class FinishBookingSession {
 
     this.bookingSessionRepository.delete(bookingSession);
     this.bookingRepository.add(booking);
+    this.incrementCapacity(event);
+  }
+
+  async incrementCapacity(event: Event): Promise<void> {
+    event.incrementCapacity();
+    this.eventRepository.update(event);
   }
 }

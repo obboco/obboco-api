@@ -33,6 +33,20 @@ export class EventMysqlRepository implements EventRepository {
     );
   }
 
+  async update(event: Event): Promise<void> {
+    const connection = await mysqlConnection();
+    connection.execute(
+      'UPDATE event SET start_date = ?, duration = ?, capacity = ?, current_capacity = ? WHERE event_id = ?',
+      [
+        event.start_date,
+        event.duration,
+        event.capacity,
+        event.current_capacity,
+        event.event_id.value
+      ]
+    );
+  }
+
   async get(eventId: Uuid): Promise<Event> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(

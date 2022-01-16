@@ -33,7 +33,6 @@ describe('Finish booking session', () => {
     bookingSessionFixtures.add(bookingSession);
 
     const bookingFixtures: BookingFixtures = new BookingFixtures();
-
     request(app)
       .post('/booking/finish')
       .set('accept', 'application/json')
@@ -54,6 +53,21 @@ describe('Finish booking session', () => {
           });
       })
       .then(async () => {
+        bookingFixtures
+          .get(bookingSession.booking_id)
+          .then((bookingResult: Booking) => {
+            expect(bookingSession.booking_id).toEqual(bookingResult.booking_id);
+            expect(activity.title).toEqual(bookingResult.title);
+            expect(event.start_date).toEqual(bookingResult.start_date);
+          });
+      })
+      .then(async () => {
+        eventFixtures
+          .getEvent(event.event_id.value)
+          .then((eventResult: Event) => {
+            expect(1).toEqual(eventResult.current_capacity);
+          });
+
         bookingFixtures
           .get(bookingSession.booking_id)
           .then((bookingResult: Booking) => {

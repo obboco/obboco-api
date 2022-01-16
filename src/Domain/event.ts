@@ -21,7 +21,7 @@ export class Event {
   readonly start_date: Date;
   readonly duration: number;
   readonly capacity: number;
-  readonly current_capacity: number;
+  public current_capacity: number;
   readonly activity_id: Uuid;
 
   protected constructor(props: EventProps) {
@@ -46,5 +46,9 @@ export class Event {
 
   static create(props: EventProps): Event {
     return new Event(props);
+  }
+
+  incrementCapacity(): void {
+    this.current_capacity += 1;
   }
 }
