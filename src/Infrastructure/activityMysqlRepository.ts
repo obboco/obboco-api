@@ -25,6 +25,10 @@ export class ActivityMysqlRepository implements ActivityRepository {
       [activityId.value]
     );
 
+    if (result[0] == undefined) {
+      return null;
+    }
+
     return ActivityFactory.fromPrimitives(
       JSON.parse(JSON.stringify(result[0]))
     );

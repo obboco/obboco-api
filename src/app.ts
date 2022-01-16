@@ -24,6 +24,7 @@ import cors from 'cors';
 import { CreatePartner } from './Application/Partner/createPartner';
 import { BookingSessionRedisRepository } from './Infrastructure/bookingRedisRepository';
 import { body, param, validationResult } from 'express-validator';
+import { GetActivity } from './Application/Activity/getActivity';
 
 export const app = express();
 app.use(cors());
@@ -101,6 +102,37 @@ app.get(
     );
     const activities: Activity[] = await listActivity.make(req.params.user_id);
     res.send({ data: activities });
+  }
+);
+
+app.get(
+  '/activity/:activity_id',
+  param('activity_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const getActivity: GetActivity = new GetActivity(
+      new ActivityMysqlRepository()
+    );
+    const activity: Activity = await getActivity.make(req.params.activity_id);
+    if (activity === null) {
+      res.send({ data: {} });
+    } else {
+      res.send({ data: activity });
+    }
   }
 );
 
