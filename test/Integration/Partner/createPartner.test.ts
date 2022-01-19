@@ -27,6 +27,29 @@ describe('Create partner', () => {
       });
   });
 
+  it('Update partner correctly', async (done) => {
+    const partnerFixtures = new PartnerFixtures();
+    const partner = Partner.new(faker.internet.email());
+    partnerFixtures.addPartner(partner);
+
+    request(app)
+      .post('/partner')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({ email: partner.email })
+      .expect(200)
+      .then(async (response) => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        partnerFixtures
+          .getPartnerByEmail(partner.email)
+          .then((partnerConsole: Partner) => {
+            expect(typeof response.body.partner_id).toBe('string');
+            expect(partnerConsole.email).toEqual(partner.email);
+            done();
+          });
+      });
+  });
+
   it('Create partner with an empty email and throw an error', async (done) => {
     const randomEmail = '';
     request(app)

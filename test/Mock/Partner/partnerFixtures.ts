@@ -6,7 +6,7 @@ export class PartnerFixtures {
   async addPartner(partner: Partner) {
     const connection = await mysqlConnection();
     connection.execute(
-      'INSERT INTO partners(partner_id, email) VALUES(? , ?)',
+      'INSERT INTO partner (partner_id, email) VALUES(? , ?)',
       [partner.partner_id.value, partner.email]
     );
   }

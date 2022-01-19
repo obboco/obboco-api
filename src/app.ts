@@ -39,7 +39,7 @@ app.get('/healthcheck', (req, res) => {
 });
 
 // Partner
-app.post('/partner', body('email').isEmail(), (req, res) => {
+app.post('/partner', body('email').isEmail(), async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -48,7 +48,7 @@ app.post('/partner', body('email').isEmail(), (req, res) => {
   const createPartner: CreatePartner = new CreatePartner(
     new PartnerMysqlRepository()
   );
-  const partner_id: Uuid = createPartner.make(req);
+  const partner_id: Uuid = await createPartner.make(req);
   res.send({ partner_id: partner_id.value });
 });
 
