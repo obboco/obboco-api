@@ -10,7 +10,7 @@ describe('Create partner', () => {
 
     const randomEmail = faker.internet.email();
     request(app)
-      .post('/partner')
+      .put('/partner')
       .set('accept', 'application/json')
       .type('json')
       .send({ email: randomEmail })
@@ -20,8 +20,29 @@ describe('Create partner', () => {
         partnerFixtures
           .getPartnerByEmail(randomEmail)
           .then((partnerConsole: Partner) => {
-            expect(typeof response.body.partner_id).toBe('string');
             expect(partnerConsole.email).toEqual(randomEmail);
+            done();
+          });
+      });
+  });
+
+  it('Update partner correctly', async (done) => {
+    const partnerFixtures = new PartnerFixtures();
+    const partner = Partner.new(faker.internet.email());
+    await partnerFixtures.addPartner(partner);
+
+    request(app)
+      .put('/partner')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({ email: partner.email })
+      .expect(200)
+      .then(async (response) => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        partnerFixtures
+          .getPartnerByEmail(partner.email)
+          .then((partnerConsole: Partner) => {
+            expect(partnerConsole.email).toEqual(partner.email);
             done();
           });
       });
@@ -30,7 +51,7 @@ describe('Create partner', () => {
   it('Create partner with an empty email and throw an error', async (done) => {
     const randomEmail = '';
     request(app)
-      .post('/partner')
+      .put('/partner')
       .set('accept', 'application/json')
       .type('json')
       .send({ email: randomEmail })
@@ -44,7 +65,7 @@ describe('Create partner', () => {
   it('Create partner with an wrong email format and throw an error', async (done) => {
     const randomEmail = 'wrong_email';
     request(app)
-      .post('/partner')
+      .put('/partner')
       .set('accept', 'application/json')
       .type('json')
       .send({ email: randomEmail })
