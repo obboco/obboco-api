@@ -39,7 +39,7 @@ app.get('/healthcheck', (req, res) => {
 });
 
 // Partner
-app.put('/partner', body('email').isEmail(), (req, res) => {
+app.post('/partner', body('email').isEmail(), (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -48,8 +48,8 @@ app.put('/partner', body('email').isEmail(), (req, res) => {
   const createPartner: CreatePartner = new CreatePartner(
     new PartnerMysqlRepository()
   );
-  createPartner.make(req);
-  res.send('ok');
+  const partner_id: Uuid = createPartner.make(req);
+  res.send({ partner_id: partner_id.value });
 });
 
 // Activity
