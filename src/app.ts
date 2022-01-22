@@ -29,6 +29,7 @@ import { CreatePartner } from './Application/Partner/createPartner';
 import { BookingSessionRedisRepository } from './Infrastructure/bookingRedisRepository';
 import { body, param, validationResult } from 'express-validator';
 import { GetActivity } from './Application/Activity/getActivity';
+import { uploadSingleFile } from './Infrastructure/s3';
 
 export const app = express();
 app.use(cors());
@@ -169,6 +170,21 @@ app.get(
     }
   }
 );
+
+app.post('/activity/image', function (req, res) {
+  const multer = require('multer');
+  const fileNameId = Uuid.create().value;
+  const upload = uploadSingleFile(fileNameId).single('activity_photo');
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+    } else if (err) {
+      console.log(err);
+      // An unknown error occurred when uploading.
+    }
+  });
+  res.send({ data: { filename_id: fileNameId } });
+});
 
 // Event
 app.post(

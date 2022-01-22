@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# LocalStavck
+volumes/s3-storage/.localstack

@@ -18,5 +18,20 @@ services:
     container_name: booking-redis
     ports:
       - '6379:6379'
+  localstack:
+    image: localstack/localstack:0.13.3
+    container_name: booking-localstack
+    environment:
+      - SERVICES=s3,
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - AWS_ACCESS_KEY_ID=123
+      - AWS_SECRET_ACCESS_KEY=xyz
+    ports:
+      - '4563-4599:4563-4599'
+      - '8055:8080'
+    volumes:
+      - './volumes/s3-storage/.init:/docker-entrypoint-initaws.d'
+      - './volumes/s3-storage/.localstack:/tmp/localstack'
 volumes:
   mysql-data:
