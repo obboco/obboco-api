@@ -15,8 +15,7 @@ describe('Create activity', () => {
       .attach('activity_photo', filePath)
       .expect(200)
       .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        //expect(response.body.data.filename_id).toBeDefined();
+        expect(Uuid.fromPrimitives(response.body.data.activity_image_id));
         done();
       });
   });

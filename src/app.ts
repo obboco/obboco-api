@@ -171,14 +171,9 @@ app.get(
   }
 );
 
-app.post(
-  '/activity/image',
-  body('filename_id').isString().isLength({ min: 1, max: 255 }),
-  uploadFiles,
-  async (req, res) => {
-    res.send({ data: { filename_id: '' } });
-  }
-);
+app.post('/activity/image', uploadFiles, (req, res) => {
+  res.send({ data: { activity_image_id: res.locals.activityImageId } });
+});
 
 // Event
 app.post(

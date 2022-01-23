@@ -1,3 +1,4 @@
+import { Uuid } from './../Domain/Shared/uuid';
 import { body } from 'express-validator';
 const AWS = require('aws-sdk');
 var multer = require('multer');
@@ -32,16 +33,17 @@ const s3client = new AWS.S3({
 
 // upload to S3 storage
 export const uploadFiles = (req, res, next) => {
+  const activityImageId = Uuid.create();
   const upload = multer({
     limits: { files: 1 },
     storage: multerS3({
       s3: s3client,
       bucket: bucketName,
       metadata: function (req, file, cb) {
-        cb(null, { fieldName: file.fieldname });
+        cb(null, { fieldName: activityImageId.value });
       },
       key: function (req, file, cb) {
-        cb(null, req.body.filename_id + '.jpg');
+        cb(null, activityImageId.value + '.jpg');
       }
     })
   }).single('activity_photo');
@@ -60,7 +62,7 @@ export const uploadFiles = (req, res, next) => {
         message: 'Error occured',
         errorMessage: error.message
       });
-    console.log('Upload successful.');
+    res.locals.activityImageId = activityImageId.value;
     next();
   });
 };
