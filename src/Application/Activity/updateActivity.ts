@@ -18,7 +18,8 @@ export class UpdateActivity {
       activity_id: activity.activity_id,
       title: request.body.title,
       description: request.body.description,
-      partner_id: activity.partner_id
+      partner_id: activity.partner_id,
+      image_id: null
     });
     this.activityRepository.update(UpdateActivity);
   }
