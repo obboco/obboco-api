@@ -20,7 +20,7 @@ export class ActivityFixtures {
   async getActivity(activity_id: string) {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT activity_id, title, description, partner_id FROM activity WHERE activity_id = ?',
+      'SELECT activity_id, title, description, partner_id, image_id FROM activity WHERE activity_id = ?',
       [activity_id]
     );
     return ActivityFactory.fromPrimitives(result[0]);

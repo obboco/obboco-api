@@ -7,7 +7,8 @@ export const makeRandomActivity = (partner: Partner): Activity => {
   return Activity.new({
     title: faker.lorem.word(),
     description: faker.lorem.sentence(),
-    partner_id: partner.partner_id
+    partner_id: partner.partner_id,
+    image_id: null
   });
 };
 
@@ -15,6 +16,7 @@ export const makeRandomIsolatedActivity = (): Activity => {
   return Activity.new({
     title: faker.lorem.word(),
     description: faker.lorem.sentence(),
-    partner_id: Uuid.create()
+    partner_id: Uuid.create(),
+    image_id: null
   });
 };

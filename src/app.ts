@@ -69,6 +69,18 @@ app.post(
         return false;
       }
     }),
+  body('image_id')
+    .optional()
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

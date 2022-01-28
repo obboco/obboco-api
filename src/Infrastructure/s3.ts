@@ -1,5 +1,4 @@
 import { Uuid } from './../Domain/Shared/uuid';
-import { body } from 'express-validator';
 const AWS = require('aws-sdk');
 var multer = require('multer');
 var multerS3 = require('multer-s3');

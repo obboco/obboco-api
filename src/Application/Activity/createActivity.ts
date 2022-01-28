@@ -14,7 +14,10 @@ export class CreateActivity {
     const activity: Activity = Activity.new({
       title: request.body.title,
       description: request.body.description,
-      partner_id: Uuid.fromPrimitives(request.body.partner_id)
+      partner_id: Uuid.fromPrimitives(request.body.partner_id),
+      image_id: request.body.image_id
+        ? Uuid.fromPrimitives(request.body.image_id)
+        : null
     });
     this.activityRepository.add(activity);
     return activity.activity_id;

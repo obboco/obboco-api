@@ -8,12 +8,13 @@ export class ActivityMysqlRepository implements ActivityRepository {
   async add(activity: Activity): Promise<void> {
     const connection = await mysqlConnection();
     connection.execute(
-      'INSERT INTO activity(activity_id, title, description, partner_id) VALUES(?, ?, ?, ?)',
+      'INSERT INTO activity(activity_id, title, description, partner_id, image_id) VALUES(?, ?, ?, ?, ?)',
       [
         activity.activity_id.value,
         activity.title,
         activity.description,
-        activity.partner_id.value
+        activity.partner_id.value,
+        activity.image_id ? activity.image_id.value : null
       ]
     );
   }
