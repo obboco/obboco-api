@@ -28,7 +28,7 @@ export class BookingMysqlRepository implements BookingRepository {
   async get(bookingId: Uuid): Promise<Booking> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT booking_id, event_id, status, title, start_date, duration, email, guest FROM booking WHERE booking_id = ?',
+      'SELECT booking_id, event_id, status, title, start_date, duration, email, guest FROM booking WHERE booking_id = ? LIMIT 1',
       [bookingId.value]
     );
 
@@ -48,7 +48,7 @@ export class BookingMysqlRepository implements BookingRepository {
   async getByEventId(eventId: Uuid): Promise<Booking[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT booking_id, event_id, status, title, start_date, duration, email, guest FROM booking WHERE event_id = ?',
+      'SELECT booking_id, event_id, status, title, start_date, duration, email, guest FROM booking WHERE event_id = ? ORDER BY created_at ASC',
       [eventId.value]
     );
 

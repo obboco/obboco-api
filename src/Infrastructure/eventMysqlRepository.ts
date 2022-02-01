@@ -8,7 +8,7 @@ export class EventMysqlRepository implements EventRepository {
   async getByActivityId(activityId: Uuid): Promise<Event[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ?',
+      'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? ORDER BY start_date DESC',
       [activityId.value]
     );
 
@@ -50,7 +50,7 @@ export class EventMysqlRepository implements EventRepository {
   async get(eventId: Uuid): Promise<Event> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE event_id = ?',
+      'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE event_id = ? LIMIT 1',
       [eventId.value]
     );
 

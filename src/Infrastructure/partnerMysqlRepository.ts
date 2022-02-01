@@ -15,7 +15,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
   async getByEmail(email: string): Promise<Partner> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT partner_id, email FROM partner WHERE email = ?',
+      'SELECT partner_id, email FROM partner WHERE email = ? LIMIT 1',
       [email]
     );
 
