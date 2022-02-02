@@ -22,8 +22,13 @@ export class ActivityMysqlRepository implements ActivityRepository {
   async update(activity: Activity): Promise<void> {
     const connection = await mysqlConnection();
     connection.execute(
-      'UPDATE activity SET title = ?, description = ? WHERE activity_id = ?',
-      [activity.title, activity.description, activity.activity_id.value]
+      'UPDATE activity SET title = ?, description = ?, image_id = ? WHERE activity_id = ?',
+      [
+        activity.title,
+        activity.description,
+        activity.image_id ? activity.image_id.value : null,
+        activity.activity_id.value
+      ]
     );
   }
 

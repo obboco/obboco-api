@@ -37,6 +37,39 @@ describe('Update activity', () => {
       });
   });
 
+  it('Update activity with an image correctly', async (done) => {
+    const activity: Activity = makeRandomIsolatedActivity();
+    const activityFixtures = new ActivityFixtures();
+    await activityFixtures.addActivity(activity);
+
+    const randomTitle = faker.lorem.word();
+    const randomDescription = faker.lorem.sentence();
+    const randomActivityImageId = Uuid.create().value;
+
+    request(app)
+      .put('/activity')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({
+        activity_id: activity.activity_id.value,
+        title: randomTitle,
+        description: randomDescription,
+        image_id: randomActivityImageId
+      })
+      .expect(200)
+      .then(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        activityFixtures
+          .getActivity(activity.activity_id.value)
+          .then((activityResult: Activity) => {
+            expect(activityResult.image_id.value).toEqual(
+              randomActivityImageId
+            );
+            done();
+          });
+      });
+  });
+
   it('Update activity with empty activity_id and throw an error', async (done) => {
     const randomUuid = '';
     const randomTitle = faker.lorem.word();

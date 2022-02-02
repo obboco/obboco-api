@@ -19,7 +19,9 @@ export class UpdateActivity {
       title: request.body.title,
       description: request.body.description,
       partner_id: activity.partner_id,
-      image_id: null
+      image_id: request.body.image_id
+        ? Uuid.fromPrimitives(request.body.image_id)
+        : null
     });
     this.activityRepository.update(UpdateActivity);
   }

@@ -110,6 +110,18 @@ app.put(
     }),
   body('title').isString().isLength({ min: 1, max: 255 }),
   body('description').isString().isLength({ min: 1, max: 255 }),
+  body('image_id')
+    .optional()
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
 
   (req, res) => {
     const errors = validationResult(req);
