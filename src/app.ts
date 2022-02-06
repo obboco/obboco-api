@@ -1,3 +1,4 @@
+import { DeleteEvent } from './Application/Event/deleteEvent';
 import { UpdateActivity } from './Application/Activity/updateActivity';
 import { GetBookings } from './Application/Booking/getBookings';
 import { Booking } from './Domain/booking';
@@ -252,6 +253,39 @@ app.get(
     const listEvent: ListEvent = new ListEvent(new EventMysqlRepository());
     const events: Event[] = await listEvent.make(req.params.activity_id);
     res.send({ data: events });
+  }
+);
+
+app.delete(
+  '/event/:event_id',
+  param('event_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const deleteEvent: DeleteEvent = new DeleteEvent(
+      new EventMysqlRepository(),
+      new BookingMysqlRepository()
+    );
+
+    try {
+      await deleteEvent.make(req.params.event_id);
+      return res.send({ data: 'ok' });
+    } catch (e) {
+      return res.status(400).json({ errors: [{ msg: e.message }] });
+    }
   }
 );
 

@@ -6,4 +6,5 @@ export interface EventRepository {
   get(eventId: Uuid): Promise<Event>;
   getByActivityId(activityId: Uuid): Promise<Event[]>;
   update(event: Event): Promise<void>;
+  delete(eventId: Uuid): Promise<void>;
 }

@@ -56,4 +56,12 @@ export class EventMysqlRepository implements EventRepository {
 
     return EventFactory.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
   }
+
+  async delete(eventId: Uuid): Promise<void> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'DELETE FROM event WHERE event_id = ? LIMIT 1',
+      [eventId.value]
+    );
+  }
 }
