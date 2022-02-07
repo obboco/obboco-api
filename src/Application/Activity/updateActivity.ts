@@ -4,11 +4,7 @@ import { Request } from 'express';
 import { ActivityRepository } from './activityRepository';
 
 export class UpdateActivity {
-  activityRepository: ActivityRepository;
-
-  constructor(activityRepository: ActivityRepository) {
-    this.activityRepository = activityRepository;
-  }
+  constructor(private activityRepository: ActivityRepository) {}
 
   async make(request: Request): Promise<void> {
     const activity: Activity = await this.activityRepository.get(

@@ -1,3 +1,4 @@
+import { UpdateEvent } from './Application/Event/updateEvent';
 import { DeleteEvent } from './Application/Event/deleteEvent';
 import { UpdateActivity } from './Application/Activity/updateActivity';
 import { GetBookings } from './Application/Booking/getBookings';
@@ -228,6 +229,36 @@ app.post(
     );
     const event_id: Uuid = createEvent.make(req);
     res.send({ event_id: event_id.value });
+  }
+);
+
+app.put(
+  '/event',
+  body('event_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  body('start_date').isString().isLength({ min: 1, max: 255 }),
+  body('duration').isNumeric(),
+  body('capacity').isNumeric(),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const updateEvent: UpdateEvent = new UpdateEvent(
+      new EventMysqlRepository()
+    );
+    updateEvent.make(req);
+    res.send({ data: 'ok' });
   }
 );
 
