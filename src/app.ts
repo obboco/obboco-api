@@ -12,7 +12,7 @@ import {
   InitBookingSessionResponse
 } from './Application/BookingSession/initBookingSession';
 import {
-  GetEvent,
+  GetEvent as GetEventForBookingSession,
   BookingEventResponse
 } from './Application/BookingSession/getEvent';
 import { Event } from './Domain/event';
@@ -32,6 +32,7 @@ import { BookingSessionRedisRepository } from './Infrastructure/bookingRedisRepo
 import { body, param, validationResult } from 'express-validator';
 import { GetActivity } from './Application/Activity/getActivity';
 import { uploadFiles } from './Infrastructure/s3';
+import { GetEvent } from './Application/Event/getEvent';
 
 export const app = express();
 app.use(cors());
@@ -292,6 +293,35 @@ app.get(
   }
 );
 
+app.get(
+  '/event/:event_id',
+  param('event_id')
+    .isString()
+    .isLength({ min: 1, max: 255 })
+    .custom((value) => {
+      try {
+        Uuid.fromPrimitives(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const getEvent: GetEvent = new GetEvent(new EventMysqlRepository());
+    const event: Event = await getEvent.make(req.params.event_id);
+    if (event === null) {
+      res.send({ data: {} });
+    } else {
+      res.send({ data: event });
+    }
+  }
+);
+
 app.delete(
   '/event/:event_id',
   param('event_id')
@@ -345,7 +375,7 @@ app.get(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const getEvent: GetEvent = new GetEvent(
+    const getEvent: GetEventForBookingSession = new GetEventForBookingSession(
       new EventMysqlRepository(),
       new ActivityMysqlRepository(),
       new BookingSessionRedisRepository()

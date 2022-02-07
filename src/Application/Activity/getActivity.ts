@@ -3,11 +3,7 @@ import { Activity } from '../../Domain/activity';
 import { ActivityRepository } from './activityRepository';
 
 export class GetActivity {
-  activityRepository: ActivityRepository;
-
-  constructor(activityRepository: ActivityRepository) {
-    this.activityRepository = activityRepository;
-  }
+  constructor(private activityRepository: ActivityRepository) {}
 
   async make(activity_id: string): Promise<Activity> {
     const activityId: Uuid = Uuid.fromPrimitives(activity_id);

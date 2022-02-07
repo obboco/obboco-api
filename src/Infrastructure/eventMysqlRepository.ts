@@ -54,6 +54,10 @@ export class EventMysqlRepository implements EventRepository {
       [eventId.value]
     );
 
+    if (result[0] == undefined) {
+      return null;
+    }
+
     return EventFactory.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
   }
 
