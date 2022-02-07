@@ -248,17 +248,22 @@ app.put(
   body('start_date').isString().isLength({ min: 1, max: 255 }),
   body('duration').isNumeric(),
   body('capacity').isNumeric(),
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     const updateEvent: UpdateEvent = new UpdateEvent(
-      new EventMysqlRepository()
+      new EventMysqlRepository(),
+      new BookingMysqlRepository()
     );
-    updateEvent.make(req);
-    res.send({ data: 'ok' });
+    try {
+      await updateEvent.make(req);
+      res.send({ data: 'ok' });
+    } catch (e) {
+      return res.status(400).json({ errors: [{ msg: e.message }] });
+    }
   }
 );
 

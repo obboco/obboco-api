@@ -1,3 +1,6 @@
+import { BookingFixtures } from './../../Mock/Booking/bookingFixtures';
+import { makeNewRandomBookingWithEvent } from './../../Mock/Booking/bookingSessionMother';
+import { Booking } from './../../../src/Domain/booking';
 import { Activity } from './../../../src/Domain/activity';
 import { makeRandomActivity } from './../../Mock/Activity/activityMother';
 import { Event } from '../../../src/Domain/event';
@@ -37,6 +40,38 @@ describe('Update event', () => {
           });
       });
   });
+
+  it('Cannot delete event with bookings', async (done) => {
+    const activity: Activity = makeRandomActivity(makeRandomPartner());
+
+    const randomEvent = makeRandomEvent(activity);
+    const eventFixtures: EventFixtures = new EventFixtures();
+    await eventFixtures.addEvent(randomEvent);
+
+    const booking: Booking = makeNewRandomBookingWithEvent(randomEvent);
+    const bookingFixtures = new BookingFixtures();
+    await bookingFixtures.addBooking(booking);
+
+    const newEvent = makeRandomEvent(activity);
+    request(app)
+      .put('/event')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({
+        event_id: randomEvent.event_id.value,
+        start_date: newEvent.start_date,
+        duration: newEvent.duration,
+        capacity: newEvent.capacity
+      })
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual(
+          'Cannot update an event with bookings'
+        );
+        done();
+      });
+  });
+
   /*
   it('Create event with empty start_date format and throw an error', async (done) => {
     const start_date = '';

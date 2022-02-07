@@ -1,15 +1,25 @@
+import { BookingRepository } from './../Booking/bookingRepository';
 import { Event } from '../../Domain/event';
 import { Uuid } from '../../Domain/Shared/uuid';
 import { Request } from 'express';
 import { EventRepository } from './eventRepository';
 
 export class UpdateEvent {
-  constructor(private eventRepository: EventRepository) {}
+  constructor(
+    private eventRepository: EventRepository,
+    private bookingRepository: BookingRepository
+  ) {}
 
   async make(request: Request): Promise<void> {
-    const event: Event = await this.eventRepository.get(
-      Uuid.fromPrimitives(request.body.event_id)
-    );
+    const eventId = Uuid.fromPrimitives(request.body.event_id);
+
+    await this.bookingRepository.getByEventId(eventId).then((bookings) => {
+      if (bookings.length > 0) {
+        throw new Error('Cannot update an event with bookings');
+      }
+    });
+
+    const event: Event = await this.eventRepository.get(eventId);
 
     const updateEvent: Event = Event.create({
       event_id: event.event_id,
