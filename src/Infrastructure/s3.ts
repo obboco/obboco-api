@@ -19,7 +19,7 @@ const s3client = new AWS.S3({
    * When working locally, we'll use the Localstack endpoints. This is the one for S3.
    * A full list of endpoints for each service can be found in the Localstack docs.
    */
-  endpoint: 'http://localhost:4566',
+  endpoint: process.env.API_FILES,
   /**
    * Including this option gets localstack to more closely match the defaults for
    * live S3. If you omit this, you will need to add the bucketName to the `Key`
