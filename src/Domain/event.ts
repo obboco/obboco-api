@@ -17,35 +17,35 @@ export interface NewEventProps {
 }
 
 export class Event {
-  readonly event_id: Uuid;
-  readonly start_date: Date;
-  readonly duration: number;
-  readonly capacity: number;
-  public current_capacity: number;
-  readonly activity_id: Uuid;
-
-  protected constructor(props: EventProps) {
-    this.event_id = props.event_id;
-    this.start_date = props.start_date;
-    this.duration = props.duration;
-    this.capacity = props.capacity;
-    this.current_capacity = props.current_capacity;
-    this.activity_id = props.activity_id;
-  }
+  protected constructor(
+    readonly event_id: Uuid,
+    readonly start_date: Date,
+    readonly duration: number,
+    readonly capacity: number,
+    public current_capacity: number,
+    readonly activity_id: Uuid
+  ) {}
 
   static new(props: NewEventProps): Event {
-    return new Event({
-      event_id: Uuid.create(),
-      start_date: props.start_date,
-      duration: props.duration,
-      capacity: props.capacity,
-      current_capacity: 0,
-      activity_id: props.activity_id
-    });
+    return new Event(
+      Uuid.create(),
+      props.start_date,
+      props.duration,
+      props.capacity,
+      0,
+      props.activity_id
+    );
   }
 
   static create(props: EventProps): Event {
-    return new Event(props);
+    return new Event(
+      props.event_id,
+      props.start_date,
+      props.duration,
+      props.capacity,
+      props.current_capacity,
+      props.activity_id
+    );
   }
 
   incrementCapacity(): void {

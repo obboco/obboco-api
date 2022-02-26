@@ -27,8 +27,8 @@ describe('Add guest details into the booking session', () => {
         bookingSessionFixtures
           .get(bookingSession.event_id, bookingSession.booking_id)
           .then((bookingSessionResult: string) => {
-            expect(bookingSession.guest).toEqual(
-              JSON.parse(bookingSessionResult).guest
+            expect(bookingSession.guest.first_name).toEqual(
+              JSON.parse(bookingSessionResult).guest.first_name
             );
             expect('guest').toEqual(JSON.parse(bookingSessionResult).status);
           });

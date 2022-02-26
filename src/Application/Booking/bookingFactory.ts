@@ -1,3 +1,4 @@
+import { GuestFactory } from './../Guest/guestFactory';
 import { Booking } from '../../Domain/booking';
 import { Uuid } from '../../Domain/Shared/uuid';
 export interface BookingPrimitives {
@@ -7,8 +8,8 @@ export interface BookingPrimitives {
   title: string;
   start_date: string;
   duration: number;
-  email: string;
   guest: {
+    guest_id: string;
     first_name: string;
     last_name: string;
     email: string;
@@ -25,13 +26,7 @@ export class BookingFactory {
       title: primitives.title,
       start_date: new Date(primitives.start_date),
       duration: primitives.duration,
-      email: primitives.email,
-      guest: {
-        first_name: primitives.guest.first_name,
-        last_name: primitives.guest.last_name,
-        email: primitives.guest.email,
-        phone: primitives.guest.phone
-      }
+      guest: GuestFactory.fromPrimitives(primitives.guest)
     });
   }
 }

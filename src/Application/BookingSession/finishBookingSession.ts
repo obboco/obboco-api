@@ -49,7 +49,6 @@ export class FinishBookingSession {
       title: activity.title,
       start_date: event.start_date,
       duration: event.duration,
-      email: bookingSession.guest.email,
       guest: bookingSession.guest
     });
 

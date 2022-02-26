@@ -12,6 +12,7 @@ export const makeNewRandomBookingSession = (): BookingSession => {
     event_id: Uuid.create(),
     status: 'init',
     guest: {
+      guest_id: Uuid.create(),
       first_name: faker.name.firstName(),
       last_name: faker.name.lastName(),
       email: faker.internet.email(),
@@ -29,6 +30,7 @@ export const makeNewRandomBookingSessionWithEvent = (
     event_id: event.event_id,
     status: 'init',
     guest: {
+      guest_id: Uuid.create(),
       first_name: faker.name.firstName(),
       last_name: faker.name.lastName(),
       email: faker.internet.email(),

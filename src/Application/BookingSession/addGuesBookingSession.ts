@@ -13,17 +13,18 @@ export class AddGuestBookingSession {
   ) {}
 
   async make(request: Request): Promise<void> {
+    const guest: Guest = Guest.new(request.body.guest);
+    this.guestRepository.add(guest);
+
     const bookingSessionProps: BookingSessionProps = {
       booking_id: Uuid.fromPrimitives(request.body.booking_id),
       event_id: Uuid.fromPrimitives(request.body.event_id),
       status: 'guest',
-      guest: request.body.guest
+      guest: guest
     };
+
     const bookingSession: BookingSession =
       BookingSession.create(bookingSessionProps);
     this.bookingSessionRepository.add(bookingSession);
-
-    const guest: Guest = Guest.new(request.body.guest);
-    this.guestRepository.add(guest);
   }
 }

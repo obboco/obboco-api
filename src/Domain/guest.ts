@@ -18,10 +18,10 @@ export interface GuestProps {
 export class Guest {
   protected constructor(
     readonly guest_id: Uuid,
-    readonly first_name: string,
-    readonly last_name: string,
-    readonly email: string,
-    readonly phone: string
+    public first_name: string,
+    public last_name: string,
+    public email: string,
+    public phone: string
   ) {}
 
   static create(props: GuestProps): Guest {
