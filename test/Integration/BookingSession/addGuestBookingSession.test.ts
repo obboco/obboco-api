@@ -1,3 +1,4 @@
+import { GuestFixtures } from './../../Mock/Guest/guestFixtures';
 import { makeNewRandomBookingSession } from '../../Mock/BookingSession/bookingSessionMother';
 import { BookingSession } from '../../../src/Domain/bookingSession';
 import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
@@ -9,6 +10,7 @@ describe('Add guest details into the booking session', () => {
     const bookingSessionFixtures: BookingSessionFixtures =
       new BookingSessionFixtures();
     const bookingSession: BookingSession = makeNewRandomBookingSession();
+    const guestFixtures: GuestFixtures = new GuestFixtures();
 
     request(app)
       .post('/booking/guest')
@@ -29,8 +31,15 @@ describe('Add guest details into the booking session', () => {
               JSON.parse(bookingSessionResult).guest
             );
             expect('guest').toEqual(JSON.parse(bookingSessionResult).status);
-            done();
           });
+      })
+      .then(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        guestFixtures.getByEmail(bookingSession.guest.email).then((guest) => {
+          expect(guest).not.toBeNull();
+          expect(bookingSession.guest.first_name).toEqual(guest.first_name);
+          done();
+        });
       });
   });
 

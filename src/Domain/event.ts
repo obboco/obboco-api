@@ -1,4 +1,3 @@
-import { BookingSession } from './bookingSession';
 import { Uuid } from './Shared/uuid';
 
 export interface EventProps {

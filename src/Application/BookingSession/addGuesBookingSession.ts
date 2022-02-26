@@ -1,3 +1,5 @@
+import { Guest } from './../../Domain/guest';
+import { GuestRepository } from './../Guest/guestRepository';
 import { BookingSessionProps } from '../../Domain/bookingSession';
 import { Request } from 'express';
 import { BookingSession } from '../../Domain/bookingSession';
@@ -5,11 +7,10 @@ import { Uuid } from '../../Domain/Shared/uuid';
 import { BookingSessionRepository } from './bookingSessionRepository';
 
 export class AddGuestBookingSession {
-  bookingSessionRepository: BookingSessionRepository;
-
-  constructor(bookingSessionRepository: BookingSessionRepository) {
-    this.bookingSessionRepository = bookingSessionRepository;
-  }
+  constructor(
+    private bookingSessionRepository: BookingSessionRepository,
+    private guestRepository: GuestRepository
+  ) {}
 
   async make(request: Request): Promise<void> {
     const bookingSessionProps: BookingSessionProps = {
@@ -21,5 +22,8 @@ export class AddGuestBookingSession {
     const bookingSession: BookingSession =
       BookingSession.create(bookingSessionProps);
     this.bookingSessionRepository.add(bookingSession);
+
+    const guest: Guest = Guest.new(request.body.guest);
+    this.guestRepository.add(guest);
   }
 }

@@ -1,13 +1,10 @@
 import { v4 as uuidv4, validate } from 'uuid';
 
 export class Uuid {
-  readonly value: string;
-
-  protected constructor(value: string) {
+  protected constructor(readonly value: string) {
     if (!validate(value)) {
       throw new Error('Invalid uuid:' + value);
     }
-    this.value = value;
   }
 
   static create(): Uuid {

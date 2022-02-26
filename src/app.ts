@@ -1,3 +1,4 @@
+import { GuestMysqlRepository } from './Infrastructure/guestMysqlRepository';
 import { UpdateEvent } from './Application/Event/updateEvent';
 import { DeleteEvent } from './Application/Event/deleteEvent';
 import { UpdateActivity } from './Application/Activity/updateActivity';
@@ -451,7 +452,10 @@ app.post(
     }
 
     const addGuestBookingSession: AddGuestBookingSession =
-      new AddGuestBookingSession(new BookingSessionRedisRepository());
+      new AddGuestBookingSession(
+        new BookingSessionRedisRepository(),
+        new GuestMysqlRepository()
+      );
     addGuestBookingSession.make(req);
     res.send({ data: 'ok' });
   }
