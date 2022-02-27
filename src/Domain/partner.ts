@@ -2,24 +2,31 @@ import { Uuid } from './Shared/uuid';
 export interface PartnerProps {
   partner_id: Uuid;
   email: string;
+  locale: string;
+  subscription_plan: string;
 }
 export class Partner {
-  readonly partner_id: Uuid;
-  readonly email: string;
+  protected constructor(
+    readonly partner_id: Uuid,
+    readonly email: string,
+    readonly locale: string,
+    readonly subscription_plan: string
+  ) {}
 
-  protected constructor(props: PartnerProps) {
-    this.partner_id = props.partner_id;
-    this.email = props.email;
-  }
-
-  static new(email: string): Partner {
-    return new Partner({
-      partner_id: Uuid.create(),
-      email: email
-    });
+  static new(
+    email: string,
+    locale: string,
+    subscription_plan: string
+  ): Partner {
+    return new Partner(Uuid.create(), email, locale, subscription_plan);
   }
 
   static create(props: PartnerProps): Partner {
-    return new Partner(props);
+    return new Partner(
+      props.partner_id,
+      props.email,
+      props.locale,
+      props.subscription_plan
+    );
   }
 }
