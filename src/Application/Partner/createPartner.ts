@@ -15,7 +15,11 @@ export class CreatePartner {
       request.body.email
     );
     if (null === partner) {
-      partner = Partner.new(request.body.email);
+      partner = Partner.new(
+        request.body.email,
+        request.body.locale,
+        request.body.subscription_plan
+      );
       this.partnerRepository.add(partner);
     }
 
