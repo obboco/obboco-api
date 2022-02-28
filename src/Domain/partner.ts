@@ -18,7 +18,12 @@ export class Partner {
     locale: string,
     subscription_plan: string
   ): Partner {
-    return new Partner(Uuid.create(), email, locale, subscription_plan);
+    return new Partner(
+      Uuid.create(),
+      email,
+      locale ? locale : 'en-GB',
+      subscription_plan ? subscription_plan : 'BETA'
+    );
   }
 
   static create(props: PartnerProps): Partner {

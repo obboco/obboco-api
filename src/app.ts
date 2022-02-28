@@ -44,18 +44,27 @@ app.get('/healthcheck', (req, res) => {
 });
 
 // Partner
-app.post('/partner', body('email').isEmail(), async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
+app.post(
+  '/partner',
+  body('email').isEmail(),
+  body('locale').optional().isString().isLength({ min: 1, max: 255 }),
+  body('subscription_plan')
+    .optional()
+    .isString()
+    .isLength({ min: 1, max: 255 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  const createPartner: CreatePartner = new CreatePartner(
-    new PartnerMysqlRepository()
-  );
-  const partner_id: Uuid = await createPartner.make(req);
-  res.send({ partner_id: partner_id.value });
-});
+    const createPartner: CreatePartner = new CreatePartner(
+      new PartnerMysqlRepository()
+    );
+    const partner_id: Uuid = await createPartner.make(req);
+    res.send({ partner_id: partner_id.value });
+  }
+);
 
 // Activity
 app.post(

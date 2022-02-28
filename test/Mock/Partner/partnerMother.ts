@@ -7,6 +7,19 @@ export const makeRandomPartner = (): Partner => {
     partner_id: Uuid.create(),
     email: faker.internet.email(),
     locale: 'en-GB',
-    subscription_plan: 'BASIC'
+    subscription_plan: 'BETA'
+  });
+};
+
+export const makeNewPartner = (): Partner => {
+  return Partner.create({
+    partner_id: Uuid.create(),
+    email: faker.internet.email(),
+    locale: faker.random.locale(),
+    subscription_plan: faker.random.arrayElement([
+      'BETA',
+      'BASIC',
+      'ENTERPRISE'
+    ])
   });
 };

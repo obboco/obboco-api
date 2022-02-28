@@ -14,7 +14,7 @@ export class PartnerFixtures {
   async getPartnerByEmail(email: string) {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT partner_id, email FROM partner WHERE email = ?',
+      'SELECT partner_id, email, locale, subscription_plan FROM partner WHERE email = ?',
       [email]
     );
     return PartnerFactory.fromPrimitives(result[0]);

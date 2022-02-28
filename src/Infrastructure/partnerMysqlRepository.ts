@@ -6,10 +6,15 @@ import { mysqlConnection } from './mysqlConnector';
 export class PartnerMysqlRepository implements PartnerRepository {
   async add(partner: Partner): Promise<void> {
     const connection = await mysqlConnection();
-    connection.execute('INSERT INTO partner(partner_id, email) VALUES(? , ?)', [
-      partner.partner_id.value,
-      partner.email
-    ]);
+    connection.execute(
+      'INSERT INTO partner(partner_id, email, locale, subscription_plan) VALUES(?, ?, ?, ?)',
+      [
+        partner.partner_id.value,
+        partner.email,
+        partner.locale,
+        partner.subscription_plan
+      ]
+    );
   }
 
   async getByEmail(email: string): Promise<Partner> {
