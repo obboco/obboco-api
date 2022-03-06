@@ -1,5 +1,8 @@
 import { Event } from './../Domain/event';
-import { EventRepository } from './../Application/Event/eventRepository';
+import {
+  EventRepository,
+  EventRepostitoryFilter
+} from './../Application/Event/eventRepository';
 import { mysqlConnection } from './mysqlConnector';
 import { Uuid } from '../Domain/Shared/uuid';
 import { EventFactory } from '../Application/Event/eventFactory';
@@ -59,6 +62,35 @@ export class EventMysqlRepository implements EventRepository {
     }
 
     return EventFactory.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
+  }
+
+  async getByFilter(filters: EventRepostitoryFilter): Promise<Event[]> {
+    console.log(filters.time, filters.activityId.value);
+    const connection = await mysqlConnection();
+    const sqlOptionsMaker = (filters: EventRepostitoryFilter) => {
+      if (filters.time === 'past') {
+        return {
+          query:
+            'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? AND start_date < NOW() ORDER BY start_date ASC',
+          params: [filters.activityId.value]
+        };
+      } else {
+        return {
+          query:
+            'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? AND start_date >= NOW() ORDER BY start_date DESC',
+          params: [filters.activityId.value]
+        };
+      }
+    };
+    const sqlOptions = sqlOptionsMaker(filters);
+    const [result, fields] = await connection.execute(
+      sqlOptions.query,
+      sqlOptions.params
+    );
+
+    return Object.values(JSON.parse(JSON.stringify(result))).map((event: any) =>
+      EventFactory.fromPrimitives(event)
+    );
   }
 
   async delete(eventId: Uuid): Promise<void> {

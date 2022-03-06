@@ -1,4 +1,10 @@
-import { makeRandomEvent } from './../../Mock/Event/eventMother';
+import {
+  makeRandomEvent,
+  makeRandomFutureEvent,
+  makeRandomPastEvent,
+  makeRandomTodayEvent,
+  makeRandomTomorrowEvent
+} from './../../Mock/Event/eventMother';
 import { EventFixtures } from './../../Mock/Event/eventFixtures';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
 import { Uuid } from '../../../src/Domain/Shared/uuid';
@@ -21,7 +27,7 @@ describe('List events', () => {
       });
   });
 
-  it('List some events', async (done) => {
+  it('List all events', async (done) => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
     const eventFixtures: EventFixtures = new EventFixtures();
 
@@ -38,6 +44,53 @@ describe('List events', () => {
       .then(async (response) => {
         expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
           3
+        );
+        done();
+      });
+  });
+
+  it('List past events', async (done) => {
+    const activity: Activity = makeRandomActivity(makeRandomPartner());
+    const eventFixtures: EventFixtures = new EventFixtures();
+
+    await eventFixtures.addEvent(makeRandomFutureEvent(activity));
+    await eventFixtures.addEvent(makeRandomTodayEvent(activity));
+    await eventFixtures.addEvent(makeRandomPastEvent(activity));
+    await eventFixtures.addEvent(makeRandomPastEvent(activity));
+
+    request(app)
+      .get('/event/activity/' + activity.activity_id.value + '?time=past')
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(200)
+      .then(async (response) => {
+        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
+          2
+        );
+        done();
+      });
+  });
+
+  it('List future events', async (done) => {
+    const activity: Activity = makeRandomActivity(makeRandomPartner());
+    const eventFixtures: EventFixtures = new EventFixtures();
+
+    await eventFixtures.addEvent(makeRandomTodayEvent(activity));
+    await eventFixtures.addEvent(makeRandomTomorrowEvent(activity));
+    await eventFixtures.addEvent(makeRandomFutureEvent(activity));
+    await eventFixtures.addEvent(makeRandomFutureEvent(activity));
+    await eventFixtures.addEvent(makeRandomPastEvent(activity));
+
+    request(app)
+      .get('/event/activity/' + activity.activity_id.value + '?time=future')
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(200)
+      .then(async (response) => {
+        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
+          4
         );
         done();
       });

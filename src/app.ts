@@ -298,7 +298,10 @@ app.get(
     }
 
     const listEvent: ListEvent = new ListEvent(new EventMysqlRepository());
-    const events: Event[] = await listEvent.make(req.params.activity_id);
+    const events: Event[] = await listEvent.make({
+      activityId: req.params.activity_id,
+      time: req.query.time
+    });
     res.send({ data: events });
   }
 );

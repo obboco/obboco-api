@@ -10,3 +10,48 @@ export const makeRandomEvent = (activity: Activity): Event => {
     activity_id: activity.activity_id
   });
 };
+
+export const makeRandomPastEvent = (activity: Activity): Event => {
+  const date = new Date();
+  date.setDate(date.getDate() - 14);
+  return Event.new({
+    start_date: date,
+    duration: faker.datatype.number(2000),
+    capacity: faker.datatype.number(2000),
+    activity_id: activity.activity_id
+  });
+};
+
+export const makeRandomFutureEvent = (activity: Activity): Event => {
+  const date = new Date();
+  date.setDate(date.getDate() + 14);
+  return Event.new({
+    start_date: date,
+    duration: faker.datatype.number(2000),
+    capacity: faker.datatype.number(2000),
+    activity_id: activity.activity_id
+  });
+};
+
+export const makeRandomTodayEvent = (activity: Activity): Event => {
+  const today = new Date();
+  today.setHours(today.getHours() + 4);
+
+  return Event.new({
+    start_date: today,
+    duration: faker.datatype.number(2000),
+    capacity: faker.datatype.number(2000),
+    activity_id: activity.activity_id
+  });
+};
+
+export const makeRandomTomorrowEvent = (activity: Activity): Event => {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  return Event.new({
+    start_date: date,
+    duration: faker.datatype.number(2000),
+    capacity: faker.datatype.number(2000),
+    activity_id: activity.activity_id
+  });
+};
