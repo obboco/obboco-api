@@ -65,19 +65,18 @@ export class EventMysqlRepository implements EventRepository {
   }
 
   async getByFilter(filters: EventRepostitoryFilter): Promise<Event[]> {
-    console.log(filters.time, filters.activityId.value);
     const connection = await mysqlConnection();
     const sqlOptionsMaker = (filters: EventRepostitoryFilter) => {
       if (filters.time === 'past') {
         return {
           query:
-            'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? AND start_date < NOW() ORDER BY start_date ASC',
+            'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? AND start_date < NOW() ORDER BY start_date DESC',
           params: [filters.activityId.value]
         };
       } else {
         return {
           query:
-            'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? AND start_date >= NOW() ORDER BY start_date DESC',
+            'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? AND start_date >= NOW() ORDER BY start_date ASC',
           params: [filters.activityId.value]
         };
       }
