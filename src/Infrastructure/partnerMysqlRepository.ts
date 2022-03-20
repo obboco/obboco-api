@@ -34,4 +34,18 @@ export class PartnerMysqlRepository implements PartnerRepository {
 
     return PartnerFactory.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
   }
+
+  async getBySubdomain(subdomain: string): Promise<Partner> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE subdomain = ? LIMIT 1',
+      [subdomain]
+    );
+
+    if (result[0] == undefined) {
+      return null;
+    }
+
+    return PartnerFactory.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
+  }
 }

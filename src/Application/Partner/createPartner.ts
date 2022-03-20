@@ -4,9 +4,7 @@ import { Uuid } from './../../Domain/Shared/uuid';
 import { PartnerRepository } from './partnerRepository';
 
 export class CreatePartner {
-  partnerRepository: PartnerRepository;
-
-  constructor(partnerRepository: PartnerRepository) {
+  constructor(readonly partnerRepository: PartnerRepository) {
     this.partnerRepository = partnerRepository;
   }
 

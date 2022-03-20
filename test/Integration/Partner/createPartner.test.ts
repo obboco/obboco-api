@@ -41,7 +41,7 @@ describe('Create partner', () => {
   it('Create already registered partner', async (done) => {
     const partnerFixtures = new PartnerFixtures();
     const partner: Partner = makeRandomPartner();
-    partnerFixtures.addPartner(partner);
+    await partnerFixtures.addPartner(partner);
 
     request(app)
       .post('/partner')

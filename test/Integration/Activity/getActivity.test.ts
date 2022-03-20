@@ -5,7 +5,7 @@ import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import { app } from '../../../src/app';
 import request from 'supertest';
 
-describe('Get empty activity', () => {
+describe('Get activity', () => {
   it('Get empty activty', async (done) => {
     request(app)
       .get('/activity/' + Uuid.create().value)

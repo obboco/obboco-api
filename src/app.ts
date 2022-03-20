@@ -1,3 +1,5 @@
+import { GetPartner } from './Application/Partner/getPartner';
+import { Partner } from './Domain/partner';
 import { GuestMysqlRepository } from './Infrastructure/guestMysqlRepository';
 import { UpdateEvent } from './Application/Event/updateEvent';
 import { DeleteEvent } from './Application/Event/deleteEvent';
@@ -66,6 +68,26 @@ app.post(
     try {
       const partner_id: Uuid = await createPartner.make(req);
       res.send({ partner_id: partner_id.value });
+    } catch (e) {
+      return res.status(400).json({ errors: [{ msg: e.message }] });
+    }
+  }
+);
+
+app.get(
+  '/partner/subdomain/:subdomain',
+  param('subdomain').isString().isLength({ min: 1, max: 255 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const getPartner: GetPartner = new GetPartner(new PartnerMysqlRepository());
+
+    try {
+      const partner: Partner = await getPartner.make(req.params.subdomain);
+      res.send({ data: partner });
     } catch (e) {
       return res.status(400).json({ errors: [{ msg: e.message }] });
     }
