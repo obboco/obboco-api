@@ -14,15 +14,21 @@ export class CreatePartner {
     let partner: Partner = await this.partnerRepository.getByEmail(
       request.body.email
     );
-    if (null === partner) {
-      partner = Partner.new(
-        request.body.email,
-        request.body.locale,
-        request.body.subscription_plan
-      );
-      this.partnerRepository.add(partner);
+
+    if (partner) {
+      throw new Error('Partner already exists');
     }
 
+    partner = Partner.new(
+      request.body.email,
+      request.body.given_name,
+      request.body.family_name,
+      request.body.picture,
+      request.body.locale,
+      request.body.subscription_plan,
+      request.body.subdomain
+    );
+    this.partnerRepository.add(partner);
     return partner.partner_id;
   }
 }

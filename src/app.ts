@@ -47,11 +47,12 @@ app.get('/healthcheck', (req, res) => {
 app.post(
   '/partner',
   body('email').isEmail(),
-  body('locale').optional().isString().isLength({ min: 1, max: 255 }),
-  body('subscription_plan')
-    .optional()
-    .isString()
-    .isLength({ min: 1, max: 255 }),
+  body('given_name').isString().isLength({ min: 1, max: 255 }),
+  body('family_name').isString().isLength({ min: 1, max: 255 }),
+  body('picture').isString().isLength({ min: 1, max: 255 }),
+  body('locale').isString().isLength({ min: 1, max: 255 }),
+  body('subscription_plan').isString().isLength({ min: 1, max: 255 }),
+  body('subdomain').isString().isLength({ min: 1, max: 255 }),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -61,8 +62,13 @@ app.post(
     const createPartner: CreatePartner = new CreatePartner(
       new PartnerMysqlRepository()
     );
-    const partner_id: Uuid = await createPartner.make(req);
-    res.send({ partner_id: partner_id.value });
+
+    try {
+      const partner_id: Uuid = await createPartner.make(req);
+      res.send({ partner_id: partner_id.value });
+    } catch (e) {
+      return res.status(400).json({ errors: [{ msg: e.message }] });
+    }
   }
 );
 

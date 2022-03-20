@@ -6,15 +6,24 @@ export class PartnerFixtures {
   async addPartner(partner: Partner) {
     const connection = await mysqlConnection();
     connection.execute(
-      'INSERT INTO partner (partner_id, email) VALUES(? , ?)',
-      [partner.partner_id.value, partner.email]
+      'INSERT INTO partner (partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain) VALUES(? , ? , ? , ? , ? , ? , ? , ?)',
+      [
+        partner.partner_id.value,
+        partner.email,
+        partner.given_name,
+        partner.family_name,
+        partner.picture,
+        partner.locale,
+        partner.subscription_plan,
+        partner.subdomain
+      ]
     );
   }
 
   async getPartnerByEmail(email: string) {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT partner_id, email, locale, subscription_plan FROM partner WHERE email = ?',
+      'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE email = ?',
       [email]
     );
     return PartnerFactory.fromPrimitives(result[0]);

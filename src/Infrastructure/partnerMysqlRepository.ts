@@ -7,12 +7,16 @@ export class PartnerMysqlRepository implements PartnerRepository {
   async add(partner: Partner): Promise<void> {
     const connection = await mysqlConnection();
     connection.execute(
-      'INSERT INTO partner(partner_id, email, locale, subscription_plan) VALUES(?, ?, ?, ?)',
+      'INSERT INTO partner (partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain) VALUES(? , ? , ? , ? , ? , ? , ? , ?)',
       [
         partner.partner_id.value,
         partner.email,
+        partner.given_name,
+        partner.family_name,
+        partner.picture,
         partner.locale,
-        partner.subscription_plan
+        partner.subscription_plan,
+        partner.subdomain
       ]
     );
   }
@@ -20,7 +24,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
   async getByEmail(email: string): Promise<Partner> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT partner_id, email FROM partner WHERE email = ? LIMIT 1',
+      'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE email = ? LIMIT 1',
       [email]
     );
 

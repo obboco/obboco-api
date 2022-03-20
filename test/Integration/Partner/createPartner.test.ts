@@ -2,38 +2,9 @@ import { Partner } from './../../../src/Domain/partner';
 import { PartnerFixtures } from './../../Mock/Partner/partnerFixtures';
 import { app } from '../../../src/app';
 import request from 'supertest';
-import {
-  makeRandomPartner,
-  makeNewPartner
-} from '../../Mock/Partner/partnerMother';
+import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 
 describe('Create partner', () => {
-  it('Create partner correctly', async (done) => {
-    const partnerFixtures: PartnerFixtures = new PartnerFixtures();
-    const partner: Partner = makeNewPartner();
-
-    request(app)
-      .post('/partner')
-      .set('accept', 'application/json')
-      .type('json')
-      .send({
-        email: partner.email
-      })
-      .expect(200)
-      .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        partnerFixtures
-          .getPartnerByEmail(partner.email)
-          .then((partnerConsole: Partner) => {
-            expect(typeof response.body.partner_id).toBe('string');
-            expect(partnerConsole.email).toEqual(partner.email);
-            expect(partnerConsole.locale).toEqual('en-GB');
-            expect(partnerConsole.subscription_plan).toEqual('BETA');
-            done();
-          });
-      });
-  });
-
   it('Create partner correctly', async (done) => {
     const partnerFixtures: PartnerFixtures = new PartnerFixtures();
     const partner: Partner = makeRandomPartner();
@@ -44,8 +15,12 @@ describe('Create partner', () => {
       .type('json')
       .send({
         email: partner.email,
+        given_name: partner.given_name,
+        family_name: partner.family_name,
+        picture: partner.picture,
         locale: partner.locale,
-        subscription_plan: partner.subscription_plan
+        subscription_plan: partner.subscription_plan,
+        subdomain: partner.subdomain
       })
       .expect(200)
       .then(async (response) => {
@@ -72,17 +47,19 @@ describe('Create partner', () => {
       .post('/partner')
       .set('accept', 'application/json')
       .type('json')
-      .send({ email: partner.email })
-      .expect(200)
+      .send({
+        email: partner.email,
+        given_name: partner.given_name,
+        family_name: partner.family_name,
+        picture: partner.picture,
+        locale: partner.locale,
+        subscription_plan: partner.subscription_plan,
+        subdomain: partner.subdomain
+      })
+      .expect(400)
       .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        partnerFixtures
-          .getPartnerByEmail(partner.email)
-          .then((partnerConsole: Partner) => {
-            expect(typeof response.body.partner_id).toBe('string');
-            expect(partnerConsole.email).toEqual(partner.email);
-            done();
-          });
+        expect(response.body.errors[0].msg).toEqual('Partner already exists');
+        done();
       });
   });
 
