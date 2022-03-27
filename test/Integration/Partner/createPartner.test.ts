@@ -56,7 +56,7 @@ describe('Create partner', () => {
         subscription_plan: partner.subscription_plan,
         subdomain: partner.subdomain
       })
-      .expect(400)
+      .expect(200)
       .then(async (response) => {
         expect(response.body.errors[0].msg).toEqual('Partner already exists');
         done();

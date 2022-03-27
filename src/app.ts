@@ -69,7 +69,7 @@ app.post(
       const partner_id: Uuid = await createPartner.make(req);
       res.send({ partner_id: partner_id.value });
     } catch (e) {
-      return res.status(400).json({ errors: [{ msg: e.message }] });
+      return res.status(200).json({ errors: [{ msg: e.message }] });
     }
   }
 );
