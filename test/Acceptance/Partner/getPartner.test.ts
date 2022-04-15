@@ -1,8 +1,10 @@
-import { Partner } from './../../../src/Domain/partner';
-import { PartnerFixtures } from './../../Mock/Partner/partnerFixtures';
-import { app } from '../../../src/app';
-import request from 'supertest';
+import { Partner } from '../../../src/Domain/partner';
+import { PartnerFixtures } from '../../Mock/Partner/partnerFixtures';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
+import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Get partner', () => {
   it('Get partner by id', async (done) => {
@@ -10,7 +12,7 @@ describe('Get partner', () => {
     const partner: Partner = makeRandomPartner();
     await partnerFixtures.addPartner(partner);
 
-    request(app)
+    request(application.httpServer)
       .get('/partner/' + partner.partner_id.value)
       .set('accept', 'application/json')
       .type('json')
@@ -30,7 +32,7 @@ describe('Get partner', () => {
     const partner: Partner = makeRandomPartner();
     await partnerFixtures.addPartner(partner);
 
-    request(app)
+    request(application.httpServer)
       .get('/partner/subdomain/' + partner.subdomain)
       .set('accept', 'application/json')
       .type('json')
@@ -46,7 +48,7 @@ describe('Get partner', () => {
   });
 
   it('Get no existen partner', async (done) => {
-    request(app)
+    request(application.httpServer)
       .get('/partner/subdomain/noexists')
       .set('accept', 'application/json')
       .type('json')
@@ -56,4 +58,13 @@ describe('Get partner', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

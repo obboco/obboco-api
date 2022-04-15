@@ -4,18 +4,20 @@ import {
   makeRandomPastEvent,
   makeRandomTodayEvent,
   makeRandomTomorrowEvent
-} from './../../Mock/Event/eventMother';
-import { EventFixtures } from './../../Mock/Event/eventFixtures';
+} from '../../Mock/Event/eventMother';
+import { EventFixtures } from '../../Mock/Event/eventFixtures';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
 import { Uuid } from '../../../src/Domain/Shared/uuid';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { app } from '../../../src/app';
 import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('List events', () => {
   it('List empty events', async (done) => {
-    request(app)
+    request(application.httpServer)
       .get('/event/activity/' + Uuid.create().value)
       .set('accept', 'application/json')
       .type('json')
@@ -35,7 +37,7 @@ describe('List events', () => {
     await eventFixtures.addEvent(makeRandomEvent(activity));
     await eventFixtures.addEvent(makeRandomEvent(activity));
 
-    request(app)
+    request(application.httpServer)
       .get('/event/activity/' + activity.activity_id.value)
       .set('accept', 'application/json')
       .type('json')
@@ -58,7 +60,7 @@ describe('List events', () => {
     await eventFixtures.addEvent(makeRandomPastEvent(activity));
     await eventFixtures.addEvent(makeRandomPastEvent(activity));
 
-    request(app)
+    request(application.httpServer)
       .get('/event/activity/' + activity.activity_id.value + '?time=past')
       .set('accept', 'application/json')
       .type('json')
@@ -82,7 +84,7 @@ describe('List events', () => {
     await eventFixtures.addEvent(makeRandomFutureEvent(activity));
     await eventFixtures.addEvent(makeRandomPastEvent(activity));
 
-    request(app)
+    request(application.httpServer)
       .get('/event/activity/' + activity.activity_id.value + '?time=future')
       .set('accept', 'application/json')
       .type('json')
@@ -97,7 +99,7 @@ describe('List events', () => {
   });
 
   it('List events with wrong activity_id format and throw an error', async (done) => {
-    request(app)
+    request(application.httpServer)
       .get('/event/activity/' + 'wrong_id')
       .set('accept', 'application/json')
       .type('json')
@@ -108,4 +110,13 @@ describe('List events', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

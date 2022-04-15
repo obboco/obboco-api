@@ -1,13 +1,14 @@
-import { BookingSession } from '../../../src/Domain/bookingSession';
 import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { app } from '../../../src/app';
-import request from 'supertest';
 import { Event } from '../../../src/Domain/event';
+import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Initilalize the booking funnel', () => {
   it('Initialize the booking correctly', async (done) => {
@@ -18,7 +19,7 @@ describe('Initilalize the booking funnel', () => {
     const bookingSessionFixtures: BookingSessionFixtures =
       new BookingSessionFixtures();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/init')
       .set('accept', 'application/json')
       .type('json')
@@ -40,7 +41,7 @@ describe('Initilalize the booking funnel', () => {
   });
 
   it('Initialize the booking with empty event_id format and throw an error', async (done) => {
-    request(app)
+    request(application.httpServer)
       .post('/booking/init')
       .set('accept', 'application/json')
       .type('json')
@@ -55,7 +56,7 @@ describe('Initilalize the booking funnel', () => {
   });
 
   it('Initialize the booking with wrong event_id format and throw an error', async (done) => {
-    request(app)
+    request(application.httpServer)
       .post('/booking/init')
       .set('accept', 'application/json')
       .type('json')
@@ -68,4 +69,13 @@ describe('Initilalize the booking funnel', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

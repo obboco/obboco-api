@@ -1,14 +1,16 @@
-import { BookingFixtures } from './../../Mock/Booking/bookingFixtures';
-import { makeNewRandomBookingWithEvent } from './../../Mock/Booking/bookingSessionMother';
-import { Booking } from './../../../src/Domain/booking';
-import { Activity } from './../../../src/Domain/activity';
-import { makeRandomActivity } from './../../Mock/Activity/activityMother';
+import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
+import { makeNewRandomBookingWithEvent } from '../../Mock/Booking/bookingSessionMother';
+import { Booking } from '../../../src/Domain/booking';
+import { Activity } from '../../../src/Domain/activity';
+import { makeRandomActivity } from '../../Mock/Activity/activityMother';
 import { Event } from '../../../src/Domain/event';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
-import { app } from '../../../src/app';
 import request from 'supertest';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Update event', () => {
   it('Update event correctly', async (done) => {
@@ -18,7 +20,7 @@ describe('Update event', () => {
     await eventFixtures.addEvent(event);
 
     const newEvent = makeRandomEvent(activity);
-    request(app)
+    request(application.httpServer)
       .put('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -53,7 +55,7 @@ describe('Update event', () => {
     await bookingFixtures.addBooking(booking);
 
     const newEvent = makeRandomEvent(activity);
-    request(app)
+    request(application.httpServer)
       .put('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -79,7 +81,7 @@ describe('Update event', () => {
     const capacity = faker.datatype.number();
     const randomActivityId = Uuid.create();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -102,7 +104,7 @@ describe('Update event', () => {
     const capacity = faker.datatype.number();
     const randomActivityId = Uuid.create();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -125,7 +127,7 @@ describe('Update event', () => {
     const capacity = faker.datatype.number();
     const randomActivityId = Uuid.create();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -148,7 +150,7 @@ describe('Update event', () => {
     const capacity = '';
     const randomActivityId = Uuid.create();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -171,7 +173,7 @@ describe('Update event', () => {
     const capacity = 'wrong';
     const randomActivityId = Uuid.create();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -193,7 +195,7 @@ describe('Update event', () => {
     const duration = faker.datatype.number();
     const capacity = faker.datatype.number();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -215,7 +217,7 @@ describe('Update event', () => {
     const duration = faker.datatype.number();
     const capacity = faker.datatype.number();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -232,4 +234,13 @@ describe('Update event', () => {
       });
   });
   */
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

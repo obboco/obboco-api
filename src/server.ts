@@ -47,11 +47,6 @@ export class Server {
           } in ${this.express.get('env')} mode`
         );
         this.logger.info('  Press CTRL-C to stop\n');*/
-        console.log(
-          `  BookingApp is running at http://localhost:${
-            this.port
-          } in ${this.express.get('env')} mode`
-        );
         resolve();
       });
     });

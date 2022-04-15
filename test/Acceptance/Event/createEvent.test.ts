@@ -1,9 +1,11 @@
-import { Event } from './../../../src/Domain/event';
-import { EventFixtures } from './../../Mock/Event/eventFixtures';
-import { Uuid } from './../../../src/Domain/Shared/uuid';
-import { app } from '../../../src/app';
+import { Event } from '../../../src/Domain/event';
+import { EventFixtures } from '../../Mock/Event/eventFixtures';
+import { Uuid } from '../../../src/Domain/Shared/uuid';
 import request from 'supertest';
 import faker from 'faker';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Create event', () => {
   it('Create event correctly', async (done) => {
@@ -14,7 +16,7 @@ describe('Create event', () => {
     const duration = faker.datatype.number();
     const capacity = faker.datatype.number();
     const randomActivityId = Uuid.create();
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -42,7 +44,7 @@ describe('Create event', () => {
     const capacity = faker.datatype.number();
     const randomActivityId = Uuid.create();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -65,7 +67,7 @@ describe('Create event', () => {
     const capacity = faker.datatype.number();
     const randomActivityId = Uuid.create();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -88,7 +90,7 @@ describe('Create event', () => {
     const capacity = faker.datatype.number();
     const randomActivityId = Uuid.create();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -111,7 +113,7 @@ describe('Create event', () => {
     const capacity = '';
     const randomActivityId = Uuid.create();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -134,7 +136,7 @@ describe('Create event', () => {
     const capacity = 'wrong';
     const randomActivityId = Uuid.create();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -156,7 +158,7 @@ describe('Create event', () => {
     const duration = faker.datatype.number();
     const capacity = faker.datatype.number();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -178,7 +180,7 @@ describe('Create event', () => {
     const duration = faker.datatype.number();
     const capacity = faker.datatype.number();
 
-    request(app)
+    request(application.httpServer)
       .post('/event')
       .set('accept', 'application/json')
       .type('json')
@@ -194,4 +196,13 @@ describe('Create event', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

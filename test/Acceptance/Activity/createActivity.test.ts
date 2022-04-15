@@ -1,10 +1,12 @@
-import { Uuid } from './../../../src/Domain/Shared/uuid';
-import { Activity } from './../../../src/Domain/activity';
-import { makeRandomPartner } from './../../Mock/Partner/partnerMother';
-import { ActivityFixtures } from './../../Mock/Activity/activityFixtures';
-import { app } from '../../../src/app';
+import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Activity } from '../../../src/Domain/activity';
+import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
+import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
+import { BookingApp } from '../../../src/BookingApp';
 import request from 'supertest';
 import faker from 'faker';
+
+let application: BookingApp;
 
 describe('Create activity', () => {
   it('Create activity correctly', async (done) => {
@@ -13,7 +15,7 @@ describe('Create activity', () => {
     const randomTitle = faker.lorem.word();
     const randomDescription = faker.lorem.sentence();
     const randomPartner = makeRandomPartner();
-    request(app)
+    request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -41,7 +43,7 @@ describe('Create activity', () => {
     const randomDescription = faker.lorem.sentence();
     const randomPartner = makeRandomPartner();
     const randomActivityImageId = Uuid.create().value;
-    request(app)
+    request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -67,7 +69,7 @@ describe('Create activity', () => {
     const randomTitle = '';
     const randomDescription = faker.lorem.sentence();
     const randomPartner = makeRandomPartner();
-    request(app)
+    request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -87,7 +89,7 @@ describe('Create activity', () => {
     const randomTitle = faker.lorem.word();
     const randomDescription = '';
     const randomPartner = makeRandomPartner();
-    request(app)
+    request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -106,7 +108,7 @@ describe('Create activity', () => {
   it('Add activity with empty partner_id and throw an error', async (done) => {
     const randomTitle = faker.lorem.word();
     const randomDescription = faker.lorem.sentence();
-    request(app)
+    request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -125,7 +127,7 @@ describe('Create activity', () => {
   it('Add activity with incorrect partner_id format and throw an error', async (done) => {
     const randomTitle = faker.lorem.word();
     const randomDescription = faker.lorem.sentence();
-    request(app)
+    request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -140,4 +142,13 @@ describe('Create activity', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

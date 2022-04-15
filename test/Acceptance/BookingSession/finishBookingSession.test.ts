@@ -12,15 +12,17 @@ import { makeRandomActivity } from '../../Mock/Activity/activityMother';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { Event } from '../../../src/Domain/event';
-import { app } from '../../../src/app';
 import request from 'supertest';
 import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Finish booking session', () => {
   it('Finish booking session with wrong event_id and throw an error', async (done) => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/finish')
       .set('accept', 'application/json')
       .type('json')
@@ -38,7 +40,7 @@ describe('Finish booking session', () => {
   it('Finish booking session with empty booking_id and throw an error', async (done) => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/finish')
       .set('accept', 'application/json')
       .type('json')
@@ -69,7 +71,7 @@ describe('Finish booking session', () => {
     bookingSessionFixtures.add(bookingSession);
 
     const bookingFixtures: BookingFixtures = new BookingFixtures();
-    request(app)
+    request(application.httpServer)
       .post('/booking/finish')
       .set('accept', 'application/json')
       .type('json')
@@ -110,7 +112,7 @@ describe('Finish booking session', () => {
   it('Finish booking session with empty event_id and throw an error', async (done) => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/finish')
       .set('accept', 'application/json')
       .type('json')
@@ -128,7 +130,7 @@ describe('Finish booking session', () => {
   it('Finish booking session with wrong event_id and throw an error', async (done) => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/finish')
       .set('accept', 'application/json')
       .type('json')
@@ -142,4 +144,13 @@ describe('Finish booking session', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

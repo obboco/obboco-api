@@ -1,15 +1,17 @@
-import { makeRandomActivity } from './../../Mock/Activity/activityMother';
+import { makeRandomActivity } from '../../Mock/Activity/activityMother';
 import { Uuid } from '../../../src/Domain/Shared/uuid';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
-import { app } from '../../../src/app';
 import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('List activities', () => {
   it('List empty activities', async (done) => {
     const activityFixtures = new ActivityFixtures();
 
-    request(app)
+    request(application.httpServer)
       .get('/activity/user/' + Uuid.create().value)
       .set('accept', 'application/json')
       .type('json')
@@ -28,7 +30,7 @@ describe('List activities', () => {
     await activityFixtures.addActivity(makeRandomActivity(partner));
     await activityFixtures.addActivity(makeRandomActivity(partner));
 
-    request(app)
+    request(application.httpServer)
       .get('/activity/user/' + partner.partner_id.value)
       .set('accept', 'application/json')
       .type('json')
@@ -43,7 +45,7 @@ describe('List activities', () => {
   });
 
   it('List activities with incorrect activity_id format and throw an error', async (done) => {
-    request(app)
+    request(application.httpServer)
       .get('/activity/user/' + 'invalid_id')
       .set('accept', 'application/json')
       .type('json')
@@ -54,4 +56,13 @@ describe('List activities', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

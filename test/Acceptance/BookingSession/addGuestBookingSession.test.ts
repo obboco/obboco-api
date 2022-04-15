@@ -1,9 +1,11 @@
-import { GuestFixtures } from './../../Mock/Guest/guestFixtures';
+import { GuestFixtures } from '../../Mock/Guest/guestFixtures';
 import { makeNewRandomBookingSession } from '../../Mock/BookingSession/bookingSessionMother';
 import { BookingSession } from '../../../src/Domain/bookingSession';
 import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
-import { app } from '../../../src/app';
 import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Add guest details into the booking session', () => {
   it('Add guest into the booking session correctly', async (done) => {
@@ -12,7 +14,7 @@ describe('Add guest details into the booking session', () => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     const guestFixtures: GuestFixtures = new GuestFixtures();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -46,7 +48,7 @@ describe('Add guest details into the booking session', () => {
   it('Add guest with empty event_id format and throw an error', async (done) => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -65,7 +67,7 @@ describe('Add guest details into the booking session', () => {
   it('Add guest with incorrect event_id format and throw an error', async (done) => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -84,7 +86,7 @@ describe('Add guest details into the booking session', () => {
   it('Add guest with empty booking_id format and throw an error', async (done) => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -103,7 +105,7 @@ describe('Add guest details into the booking session', () => {
   it('Add guest with incorrect booking_id format and throw an error', async (done) => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -122,7 +124,7 @@ describe('Add guest details into the booking session', () => {
   it('Add guest with empty guest format and throw an error', async (done) => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -142,7 +144,7 @@ describe('Add guest details into the booking session', () => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     bookingSession.guest.first_name = '';
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -162,7 +164,7 @@ describe('Add guest details into the booking session', () => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     bookingSession.guest.last_name = '';
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -182,7 +184,7 @@ describe('Add guest details into the booking session', () => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     bookingSession.guest.email = '';
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -202,7 +204,7 @@ describe('Add guest details into the booking session', () => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     bookingSession.guest.email = 'wrong format';
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -222,7 +224,7 @@ describe('Add guest details into the booking session', () => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     bookingSession.guest.phone = '';
 
-    request(app)
+    request(application.httpServer)
       .post('/booking/guest')
       .set('accept', 'application/json')
       .type('json')
@@ -237,4 +239,13 @@ describe('Add guest details into the booking session', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

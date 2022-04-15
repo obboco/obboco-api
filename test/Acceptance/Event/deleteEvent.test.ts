@@ -1,13 +1,15 @@
-import { BookingFixtures } from './../../Mock/Booking/bookingFixtures';
-import { Booking } from './../../../src/Domain/booking';
-import { makeNewRandomBookingWithEvent } from './../../Mock/Booking/bookingSessionMother';
+import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
+import { Booking } from '../../../src/Domain/booking';
+import { makeNewRandomBookingWithEvent } from '../../Mock/Booking/bookingSessionMother';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { app } from '../../../src/app';
 import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Delete events', () => {
   it('Delete event without bookings correctly', async (done) => {
@@ -17,7 +19,7 @@ describe('Delete events', () => {
     const randomEvent = makeRandomEvent(activity);
     await eventFixtures.addEvent(randomEvent);
 
-    request(app)
+    request(application.httpServer)
       .delete('/event/' + randomEvent.event_id.value)
       .set('accept', 'application/json')
       .type('json')
@@ -43,7 +45,7 @@ describe('Delete events', () => {
     const bookingFixtures = new BookingFixtures();
     await bookingFixtures.addBooking(booking);
 
-    request(app)
+    request(application.httpServer)
       .delete('/event/' + randomEvent.event_id.value)
       .set('accept', 'application/json')
       .type('json')
@@ -58,7 +60,7 @@ describe('Delete events', () => {
   });
 
   it('Delete event with wrong event_id format and throw an error', async (done) => {
-    request(app)
+    request(application.httpServer)
       .delete('/event/wrong_event_id')
       .set('accept', 'application/json')
       .type('json')
@@ -69,4 +71,13 @@ describe('Delete events', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

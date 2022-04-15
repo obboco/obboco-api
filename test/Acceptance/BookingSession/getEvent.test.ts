@@ -1,15 +1,16 @@
-import { makeNewRandomBookingSessionWithEvent } from './../../Mock/BookingSession/bookingSessionMother';
-import { BookingSession } from './../../../src/Domain/bookingSession';
-import { BookingSessionFixtures } from './../../Mock/BookingSession/bookingSessionFixtures';
+import { makeNewRandomBookingSessionWithEvent } from '../../Mock/BookingSession/bookingSessionMother';
+import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { app } from '../../../src/app';
-import request from 'supertest';
 import { Event } from '../../../src/Domain/event';
+import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Get event and activity for the booking page', () => {
   /*
@@ -22,7 +23,7 @@ describe('Get event and activity for the booking page', () => {
     const eventFixtures: EventFixtures = new EventFixtures();
     await eventFixtures.addEvent(event);
 
-    request(app)
+    request(application.httpServer)
       .get('/booking/event/' + event.event_id.value)
       .set('accept', 'application/json')
       .type('json')
@@ -50,7 +51,7 @@ describe('Get event and activity for the booking page', () => {
     bookingSessionFixtures.add(makeNewRandomBookingSessionWithEvent(event));
     bookingSessionFixtures.add(makeNewRandomBookingSessionWithEvent(event));
 
-    request(app)
+    request(application.httpServer)
       .get('/booking/event/' + event.event_id.value)
       .set('accept', 'application/json')
       .type('json')
@@ -63,7 +64,7 @@ describe('Get event and activity for the booking page', () => {
   });
 
   it('Get event and activity with incorrect event_id format and throw an error', async (done) => {
-    request(app)
+    request(application.httpServer)
       .get('/booking/event/' + 'invalid_id')
       .set('accept', 'application/json')
       .type('json')
@@ -74,4 +75,13 @@ describe('Get event and activity for the booking page', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

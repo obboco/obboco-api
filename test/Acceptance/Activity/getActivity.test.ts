@@ -1,13 +1,15 @@
-import { Activity } from './../../../src/Domain/activity';
+import { Activity } from '../../../src/Domain/activity';
 import { makeRandomIsolatedActivity } from '../../Mock/Activity/activityMother';
 import { Uuid } from '../../../src/Domain/Shared/uuid';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
-import { app } from '../../../src/app';
 import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Get activity', () => {
   it('Get empty activty', async (done) => {
-    request(app)
+    request(application.httpServer)
       .get('/activity/' + Uuid.create().value)
       .set('accept', 'application/json')
       .type('json')
@@ -20,7 +22,7 @@ describe('Get activity', () => {
   });
 
   it('Get activty with incorrect activity_id format and throw an error', async (done) => {
-    request(app)
+    request(application.httpServer)
       .get('/activity/' + 'invalid_id')
       .set('accept', 'application/json')
       .type('json')
@@ -37,7 +39,7 @@ describe('Get activity', () => {
     const activity = makeRandomIsolatedActivity();
     await activityFixtures.addActivity(activity);
 
-    request(app)
+    request(application.httpServer)
       .get('/activity/' + activity.activity_id.value)
       .set('accept', 'application/json')
       .type('json')
@@ -50,4 +52,13 @@ describe('Get activity', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

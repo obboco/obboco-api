@@ -1,10 +1,12 @@
-import { Uuid } from './../../../src/Domain/Shared/uuid';
-import { makeRandomIsolatedActivity } from './../../Mock/Activity/activityMother';
+import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { makeRandomIsolatedActivity } from '../../Mock/Activity/activityMother';
 import { Activity } from '../../../src/Domain/activity';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
-import { app } from '../../../src/app';
 import request from 'supertest';
 import faker from 'faker';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Update activity', () => {
   it('Update activity correctly', async (done) => {
@@ -15,7 +17,7 @@ describe('Update activity', () => {
     const randomTitle = faker.lorem.word();
     const randomDescription = faker.lorem.sentence();
 
-    request(app)
+    request(application.httpServer)
       .put('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -46,7 +48,7 @@ describe('Update activity', () => {
     const randomDescription = faker.lorem.sentence();
     const randomActivityImageId = Uuid.create().value;
 
-    request(app)
+    request(application.httpServer)
       .put('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -75,7 +77,7 @@ describe('Update activity', () => {
     const randomTitle = faker.lorem.word();
     const randomDescription = faker.lorem.sentence();
 
-    request(app)
+    request(application.httpServer)
       .put('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -96,7 +98,7 @@ describe('Update activity', () => {
     const randomTitle = '';
     const randomDescription = faker.lorem.sentence();
 
-    request(app)
+    request(application.httpServer)
       .put('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -117,7 +119,7 @@ describe('Update activity', () => {
     const randomTitle = faker.lorem.word();
     const randomDescription = '';
 
-    request(app)
+    request(application.httpServer)
       .put('/activity')
       .set('accept', 'application/json')
       .type('json')
@@ -132,4 +134,13 @@ describe('Update activity', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

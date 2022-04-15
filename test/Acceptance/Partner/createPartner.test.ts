@@ -1,15 +1,17 @@
-import { Partner } from './../../../src/Domain/partner';
-import { PartnerFixtures } from './../../Mock/Partner/partnerFixtures';
-import { app } from '../../../src/app';
-import request from 'supertest';
+import { Partner } from '../../../src/Domain/partner';
+import { PartnerFixtures } from '../../Mock/Partner/partnerFixtures';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
+import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Create partner', () => {
   it('Create partner correctly', async (done) => {
     const partnerFixtures: PartnerFixtures = new PartnerFixtures();
     const partner: Partner = makeRandomPartner();
 
-    request(app)
+    request(application.httpServer)
       .post('/partner')
       .set('accept', 'application/json')
       .type('json')
@@ -43,7 +45,7 @@ describe('Create partner', () => {
     const partner: Partner = makeRandomPartner();
     await partnerFixtures.addPartner(partner);
 
-    request(app)
+    request(application.httpServer)
       .post('/partner')
       .set('accept', 'application/json')
       .type('json')
@@ -65,7 +67,7 @@ describe('Create partner', () => {
 
   it('Create partner with an empty email and throw an error', async (done) => {
     const randomEmail = '';
-    request(app)
+    request(application.httpServer)
       .post('/partner')
       .set('accept', 'application/json')
       .type('json')
@@ -79,7 +81,7 @@ describe('Create partner', () => {
 
   it('Create partner with an wrong email format and throw an error', async (done) => {
     const randomEmail = 'wrong_email';
-    request(app)
+    request(application.httpServer)
       .post('/partner')
       .set('accept', 'application/json')
       .type('json')
@@ -90,4 +92,13 @@ describe('Create partner', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

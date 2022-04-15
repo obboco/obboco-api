@@ -1,11 +1,13 @@
-import { makeRandomEvent } from './../../Mock/Event/eventMother';
-import { makeRandomPartner } from './../../Mock/Partner/partnerMother';
-import { makeRandomActivity } from './../../Mock/Activity/activityMother';
-import { Activity } from './../../../src/Domain/activity';
+import { makeRandomEvent } from '../../Mock/Event/eventMother';
+import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
+import { makeRandomActivity } from '../../Mock/Activity/activityMother';
+import { Activity } from '../../../src/Domain/activity';
 import { Event } from '../../../src/Domain/event';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
-import { app } from '../../../src/app';
 import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Get event', () => {
   it('Get event correctly', async (done) => {
@@ -15,7 +17,7 @@ describe('Get event', () => {
     const event = makeRandomEvent(activity);
     await eventFixtures.addEvent(event);
 
-    request(app)
+    request(application.httpServer)
       .get('/event/' + event.event_id.value)
       .set('accept', 'application/json')
       .type('json')
@@ -34,7 +36,7 @@ describe('Get event', () => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
     const event = makeRandomEvent(activity);
 
-    request(app)
+    request(application.httpServer)
       .get('/event/' + event.event_id.value)
       .set('accept', 'application/json')
       .type('json')
@@ -46,7 +48,7 @@ describe('Get event', () => {
   });
 
   it('Get event with incorrect event_id format and throw an error', async (done) => {
-    request(app)
+    request(application.httpServer)
       .get('/event/wrong_id')
       .set('accept', 'application/json')
       .type('json')
@@ -56,4 +58,13 @@ describe('Get event', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });

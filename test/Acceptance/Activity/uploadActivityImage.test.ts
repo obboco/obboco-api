@@ -1,6 +1,8 @@
-import { Uuid } from './../../../src/Domain/Shared/uuid';
-import { app } from '../../../src/app';
+import { Uuid } from '../../../src/Domain/Shared/uuid';
 import request from 'supertest';
+import { BookingApp } from '../../../src/BookingApp';
+
+let application: BookingApp;
 
 describe('Upload image activitity correctly', () => {
   it('Create activity correctly', async (done) => {
@@ -9,7 +11,7 @@ describe('Upload image activitity correctly', () => {
       __filename,
       '../../../Mock/Activity/Image/yoga.jpeg'
     );
-    request(app)
+    request(application.httpServer)
       .post('/activity/image')
       .set('accept', 'application/json')
       .attach('activity_photo', filePath)
@@ -19,4 +21,13 @@ describe('Upload image activitity correctly', () => {
         done();
       });
   });
+});
+
+beforeAll(async () => {
+  application = new BookingApp();
+  await application.start();
+});
+
+afterAll(async () => {
+  await application.stop();
 });
