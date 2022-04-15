@@ -5,6 +5,26 @@ import request from 'supertest';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 
 describe('Get partner', () => {
+  it('Get partner by id', async (done) => {
+    const partnerFixtures = new PartnerFixtures();
+    const partner: Partner = makeRandomPartner();
+    await partnerFixtures.addPartner(partner);
+
+    request(app)
+      .get('/partner/' + partner.partner_id.value)
+      .set('accept', 'application/json')
+      .type('json')
+      .expect(200)
+      .then(async (response) => {
+        partnerFixtures
+          .getPartnerByEmail(response.body.data.email)
+          .then((partnerResult: Partner) => {
+            expect(partner.partner_id).toEqual(partnerResult.partner_id);
+            done();
+          });
+      });
+  });
+
   it('Get partner by subdomain correctly', async (done) => {
     const partnerFixtures = new PartnerFixtures();
     const partner: Partner = makeRandomPartner();

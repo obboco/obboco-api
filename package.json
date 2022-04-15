@@ -1,11 +1,16 @@
 {
-  "name": "testbooking",
+  "name": "api-booking",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.7.0"
+  },
   "main": "dist/app.js",
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "start": "tsc && node dist/src/server.js",
+    "dev-new": "nodemon src/server.ts",
+    "start": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules  ./src/start.ts",
     "test": "jest --force-exit --detectOpenHandles",
     "test:watch": "jest --watch --detectOpenHandles",
     "test:cov": "jest --coverage --force-exit --detectOpenHandles"
@@ -34,11 +39,18 @@
     "@types/uuid": "^8.3.1",
     "assert": "^2.0.0",
     "aws-sdk": "^2.1061.0",
+    "compress": "^0.99.0",
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "errorhandler": "^1.5.1",
     "express": "^4.17.1",
+    "express-promise-router": "^4.1.1",
     "express-validator": "^6.14.0",
     "faker": "5.5.3",
+    "glob": "^8.0.1",
+    "helmet": "^5.0.2",
+    "http-status": "^1.5.1",
     "ioredis": "^4.27.3",
     "moment": "^2.29.1",
     "momentjs": "^2.0.0",
@@ -47,7 +59,9 @@
     "mysql": "^2.18.1",
     "mysql-migrations": "^1.0.7",
     "mysql2": "^2.3.3",
+    "node-dependency-injection": "^2.7.3",
     "redis": "^4.0.1",
+    "ts-node-dev": "^1.1.8",
     "ulid": "^2.3.0",
     "uuid": "^8.3.2"
   }
