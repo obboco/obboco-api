@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { GetPartner } from '../Application/Partner/getPartner';
+import { getPartnerBySubdomain } from './../Application/Partner/getPartnerBySubdomain';
 import { Partner } from '../Domain/partner';
 import { GuestMysqlRepository } from '../Infrastructure/guestMysqlRepository';
 import { UpdateEvent } from '../Application/Event/updateEvent';
@@ -40,13 +40,6 @@ import { GetEvent } from '../Application/Event/getEvent';
 import container from '../dependency-injection';
 
 export const register = (router: Router) => {
-  /*const coursePutController = container.get(
-    'Apps.mooc.controllers.CoursePutController'
-  );
-  router.put('/courses/:id', (req: Request, res: Response) =>
-    coursePutController.run(req, res)
-  );*/
-
   router.get('/healthcheck', (req: Request, res: Response) => {
     res.send('ok');
   });
@@ -89,7 +82,7 @@ export const register = (router: Router) => {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const getPartner: GetPartner = new GetPartner(
+      const getPartner: getPartnerBySubdomain = new getPartnerBySubdomain(
         new PartnerMysqlRepository()
       );
 

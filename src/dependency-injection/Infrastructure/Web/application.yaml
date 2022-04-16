@@ -1,0 +1,4 @@
+services:
+  Infrastructure.Web.Partner.PartnerGetController:
+    class: ../../../Infrastructure/Web/Partner/PartnerGetController
+    arguments: []

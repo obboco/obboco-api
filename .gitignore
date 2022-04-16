@@ -105,3 +105,6 @@ dist
 
 # LocalStavck
 volumes/s3-storage/.localstack
+
+# Mac
+.DS_Store

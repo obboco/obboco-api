@@ -11,7 +11,7 @@
     "dev": "nodemon src/server.ts",
     "dev-new": "nodemon src/server.ts",
     "start": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules  ./src/start.ts",
-    "test": "jest --force-exit --detectOpenHandles",
+    "test": "NODE_ENV=test jest --force-exit --detectOpenHandles",
     "test:watch": "jest --watch --detectOpenHandles",
     "test:cov": "jest --coverage --force-exit --detectOpenHandles"
   },
@@ -52,7 +52,7 @@
     "helmet": "^5.0.2",
     "http-status": "^1.5.1",
     "ioredis": "^4.27.3",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "momentjs": "^2.0.0",
     "multer": "^1.4.4",
     "multer-s3": "^2.10.0",

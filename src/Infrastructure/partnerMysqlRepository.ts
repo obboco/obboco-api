@@ -2,6 +2,7 @@ import { PartnerFactory } from './../Application/Partner/partnerFactory';
 import { Partner } from '../Domain/partner';
 import { PartnerRepository } from '../Application/Partner/partnerRepository';
 import { mysqlConnection } from './mysqlConnector';
+import { Uuid } from '../Domain/Shared/uuid';
 
 export class PartnerMysqlRepository implements PartnerRepository {
   async add(partner: Partner): Promise<void> {
@@ -19,6 +20,20 @@ export class PartnerMysqlRepository implements PartnerRepository {
         partner.subdomain
       ]
     );
+  }
+
+  async get(partnerId: Uuid): Promise<Partner> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE partner_id = ? LIMIT 1',
+      [partnerId.value]
+    );
+
+    if (result[0] == undefined) {
+      return null;
+    }
+
+    return PartnerFactory.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
   }
 
   async getByEmail(email: string): Promise<Partner> {
