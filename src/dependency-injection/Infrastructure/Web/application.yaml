@@ -34,3 +34,23 @@ services:
   Infrastructure.Web.Activity.ActivityPostImageController:
     class: ../../../Infrastructure/Web/Activity/ActivityPostImageController
     arguments: []
+
+  Infrastructure.Web.Event.EventPostController:
+    class: ../../../Infrastructure/Web/Event/EventPostController
+    arguments: []
+
+  Infrastructure.Web.Event.EventPutController:
+    class: ../../../Infrastructure/Web/Event/EventPutController
+    arguments: []
+
+  Infrastructure.Web.Event.EventGetByActivityController:
+    class: ../../../Infrastructure/Web/Event/EventGetByActivityController
+    arguments: []
+
+  Infrastructure.Web.Event.EventGetController:
+    class: ../../../Infrastructure/Web/Event/EventGetController
+    arguments: []
+
+  Infrastructure.Web.Event.EventDeleteController:
+    class: ../../../Infrastructure/Web/Event/EventDeleteController
+    arguments: []

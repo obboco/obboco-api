@@ -1,7 +1,5 @@
 import { Router } from 'express';
 import { GuestMysqlRepository } from '../Infrastructure/guestMysqlRepository';
-import { UpdateEvent } from '../Application/Event/updateEvent';
-import { DeleteEvent } from '../Application/Event/deleteEvent';
 import { GetBookings } from '../Application/Booking/getBookings';
 import { Booking } from '../Domain/booking';
 import { GetBooking } from '../Application/Booking/getBooking';
@@ -16,173 +14,13 @@ import {
   GetEvent as GetEventForBookingSession,
   BookingEventResponse
 } from '../Application/BookingSession/getEvent';
-import { Event } from '../Domain/event';
-import { ListEvent } from '../Application/Event/listEvent';
 import { EventMysqlRepository } from '../Infrastructure/eventMysqlRepository';
-import { CreateEvent } from '../Application/Event/createEvent';
 import { ActivityMysqlRepository } from '../Infrastructure/activityMysqlRepository';
 import { Uuid } from '../Domain/Shared/uuid';
 import { BookingSessionRedisRepository } from '../Infrastructure/bookingRedisRepository';
 import { body, param, validationResult } from 'express-validator';
-import { GetEvent } from '../Application/Event/getEvent';
 
 export const register = (router: Router) => {
-  // Event
-  router.post(
-    '/event',
-    body('start_date').isString().isLength({ min: 1, max: 255 }),
-    body('duration').isNumeric(),
-    body('capacity').isNumeric(),
-    body('activity_id')
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-    (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const createEvent: CreateEvent = new CreateEvent(
-        new EventMysqlRepository()
-      );
-      const event_id: Uuid = createEvent.make(req);
-      res.send({ event_id: event_id.value });
-    }
-  );
-
-  router.put(
-    '/event',
-    body('event_id')
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-    body('start_date').isString().isLength({ min: 1, max: 255 }),
-    body('duration').isNumeric(),
-    body('capacity').isNumeric(),
-    async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const updateEvent: UpdateEvent = new UpdateEvent(
-        new EventMysqlRepository(),
-        new BookingMysqlRepository()
-      );
-      try {
-        await updateEvent.make(req);
-        res.send({ data: 'ok' });
-      } catch (e) {
-        return res.status(400).json({ errors: [{ msg: e.message }] });
-      }
-    }
-  );
-
-  router.get(
-    '/event/activity/:activity_id',
-    param('activity_id')
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-    async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const listEvent: ListEvent = new ListEvent(new EventMysqlRepository());
-      const events: Event[] = await listEvent.make({
-        activityId: req.params.activity_id,
-        time: req.query.time
-      });
-      res.send({ data: events });
-    }
-  );
-
-  router.get(
-    '/event/:event_id',
-    param('event_id')
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-    async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const getEvent: GetEvent = new GetEvent(new EventMysqlRepository());
-      const event: Event = await getEvent.make(req.params.event_id);
-      if (event === null) {
-        res.send({ data: {} });
-      } else {
-        res.send({ data: event });
-      }
-    }
-  );
-
-  router.delete(
-    '/event/:event_id',
-    param('event_id')
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-    async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const deleteEvent: DeleteEvent = new DeleteEvent(
-        new EventMysqlRepository(),
-        new BookingMysqlRepository()
-      );
-
-      try {
-        await deleteEvent.make(req.params.event_id);
-        return res.send({ data: 'ok' });
-      } catch (e) {
-        return res.status(400).json({ errors: [{ msg: e.message }] });
-      }
-    }
-  );
-
   //Booking Session
   router.get(
     '/booking/event/:event_id',
