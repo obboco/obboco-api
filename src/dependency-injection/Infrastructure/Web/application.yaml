@@ -14,3 +14,23 @@ services:
   Infrastructure.Web.Partner.PartnerGetBySubdomainController:
     class: ../../../Infrastructure/Web/Partner/PartnerGetBySubdomainController
     arguments: []
+
+  Infrastructure.Web.Activity.ActivityPostController:
+    class: ../../../Infrastructure/Web/Activity/ActivityPostController
+    arguments: []
+
+  Infrastructure.Web.Activity.ActivityPutController:
+    class: ../../../Infrastructure/Web/Activity/ActivityPutController
+    arguments: []
+
+  Infrastructure.Web.Activity.ActivityGetByUserController:
+    class: ../../../Infrastructure/Web/Activity/ActivityGetByUserController
+    arguments: []
+
+  Infrastructure.Web.Activity.ActivityGetController:
+    class: ../../../Infrastructure/Web/Activity/ActivityGetController
+    arguments: []
+
+  Infrastructure.Web.Activity.ActivityPostImageController:
+    class: ../../../Infrastructure/Web/Activity/ActivityPostImageController
+    arguments: []

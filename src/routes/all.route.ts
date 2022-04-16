@@ -1,10 +1,7 @@
-import { Router, Request, Response } from 'express';
-import { getPartnerBySubdomain } from './../Application/Partner/getPartnerBySubdomain';
-import { Partner } from '../Domain/partner';
+import { Router } from 'express';
 import { GuestMysqlRepository } from '../Infrastructure/guestMysqlRepository';
 import { UpdateEvent } from '../Application/Event/updateEvent';
 import { DeleteEvent } from '../Application/Event/deleteEvent';
-import { UpdateActivity } from '../Application/Activity/updateActivity';
 import { GetBookings } from '../Application/Booking/getBookings';
 import { Booking } from '../Domain/booking';
 import { GetBooking } from '../Application/Booking/getBooking';
@@ -23,171 +20,13 @@ import { Event } from '../Domain/event';
 import { ListEvent } from '../Application/Event/listEvent';
 import { EventMysqlRepository } from '../Infrastructure/eventMysqlRepository';
 import { CreateEvent } from '../Application/Event/createEvent';
-import { Activity } from '../Domain/activity';
-import { ListActivity } from '../Application/Activity/listActivity';
 import { ActivityMysqlRepository } from '../Infrastructure/activityMysqlRepository';
-import { CreateActivity } from '../Application/Activity/createActivity';
 import { Uuid } from '../Domain/Shared/uuid';
-import { PartnerMysqlRepository } from '../Infrastructure/partnerMysqlRepository';
-import cors from 'cors';
-import { CreatePartner } from '../Application/Partner/createPartner';
 import { BookingSessionRedisRepository } from '../Infrastructure/bookingRedisRepository';
 import { body, param, validationResult } from 'express-validator';
-import { GetActivity } from '../Application/Activity/getActivity';
-import { uploadFiles } from '../Infrastructure/s3';
 import { GetEvent } from '../Application/Event/getEvent';
 
-import container from '../dependency-injection';
-
 export const register = (router: Router) => {
-  // Activity
-  router.post(
-    '/activity',
-    body('title').isString().isLength({ min: 1, max: 255 }),
-    body('description').isString().isLength({ min: 1, max: 255 }),
-    body('partner_id')
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-    body('image_id')
-      .optional()
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-    (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const createActivity: CreateActivity = new CreateActivity(
-        new ActivityMysqlRepository()
-      );
-      const activity_id: Uuid = createActivity.make(req);
-      res.send({ activity_id: activity_id.value });
-    }
-  );
-
-  router.put(
-    '/activity',
-    body('activity_id')
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-    body('title').isString().isLength({ min: 1, max: 255 }),
-    body('description').isString().isLength({ min: 1, max: 255 }),
-    body('image_id')
-      .optional()
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-
-    (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const updateActivity: UpdateActivity = new UpdateActivity(
-        new ActivityMysqlRepository()
-      );
-      updateActivity.make(req);
-      res.send({ data: 'ok' });
-    }
-  );
-
-  router.get(
-    '/activity/user/:user_id',
-    param('user_id')
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-    async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const listActivity: ListActivity = new ListActivity(
-        new ActivityMysqlRepository()
-      );
-      const activities: Activity[] = await listActivity.make(
-        req.params.user_id
-      );
-      res.send({ data: activities });
-    }
-  );
-
-  router.get(
-    '/activity/:activity_id',
-    param('activity_id')
-      .isString()
-      .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Uuid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-    async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const getActivity: GetActivity = new GetActivity(
-        new ActivityMysqlRepository()
-      );
-      const activity: Activity = await getActivity.make(req.params.activity_id);
-      if (activity === null) {
-        res.send({ data: {} });
-      } else {
-        res.send({ data: activity });
-      }
-    }
-  );
-
-  router.post('/activity/image', uploadFiles, (req, res) => {
-    res.send({ data: { activity_image_id: res.locals.activityImageId } });
-  });
-
   // Event
   router.post(
     '/event',

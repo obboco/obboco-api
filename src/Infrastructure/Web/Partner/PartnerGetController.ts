@@ -14,6 +14,7 @@ export class PartnerGetController implements Controller {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
+      return;
     }
     const id: string = req.params.id;
     const getPartner: GetPartner = new GetPartner(new PartnerMysqlRepository());

@@ -13,6 +13,7 @@ export class PartnerGetBySubdomainController implements Controller {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
+      return;
     }
 
     const getPartner: getPartnerBySubdomain = new getPartnerBySubdomain(

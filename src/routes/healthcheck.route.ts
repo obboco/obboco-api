@@ -1,5 +1,4 @@
 import { Router, Request, Response } from 'express';
-import { param } from 'express-validator';
 import container from '../dependency-injection';
 
 export const register = (router: Router) => {
