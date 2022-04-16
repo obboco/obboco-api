@@ -6,3 +6,11 @@ services:
   Infrastructure.Web.Partner.PartnerGetController:
     class: ../../../Infrastructure/Web/Partner/PartnerGetController
     arguments: []
+
+  Infrastructure.Web.Partner.PartnerPostController:
+    class: ../../../Infrastructure/Web/Partner/PartnerPostController
+    arguments: []
+
+  Infrastructure.Web.Partner.PartnerGetBySubdomainController:
+    class: ../../../Infrastructure/Web/Partner/PartnerGetBySubdomainController
+    arguments: []

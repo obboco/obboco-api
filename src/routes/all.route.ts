@@ -40,57 +40,6 @@ import { GetEvent } from '../Application/Event/getEvent';
 import container from '../dependency-injection';
 
 export const register = (router: Router) => {
-  // Partner
-  router.post(
-    '/partner',
-    body('email').isEmail(),
-    body('given_name').isString().isLength({ min: 1, max: 255 }),
-    body('family_name').isString().isLength({ min: 1, max: 255 }),
-    body('picture').isString().isLength({ min: 1, max: 255 }),
-    body('locale').isString().isLength({ min: 1, max: 255 }),
-    body('subscription_plan').isString().isLength({ min: 1, max: 255 }),
-    body('subdomain').isString().isLength({ min: 1, max: 255 }),
-    async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const createPartner: CreatePartner = new CreatePartner(
-        new PartnerMysqlRepository()
-      );
-
-      try {
-        const partner_id: Uuid = await createPartner.make(req);
-        res.send({ partner_id: partner_id.value });
-      } catch (e) {
-        return res.status(200).json({ errors: [{ msg: e.message }] });
-      }
-    }
-  );
-
-  router.get(
-    '/partner/subdomain/:subdomain',
-    param('subdomain').isString().isLength({ min: 1, max: 255 }),
-    async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const getPartner: getPartnerBySubdomain = new getPartnerBySubdomain(
-        new PartnerMysqlRepository()
-      );
-
-      try {
-        const partner: Partner = await getPartner.make(req.params.subdomain);
-        res.send({ data: partner });
-      } catch (e) {
-        return res.status(400).json({ errors: [{ msg: e.message }] });
-      }
-    }
-  );
-
   // Activity
   router.post(
     '/activity',
