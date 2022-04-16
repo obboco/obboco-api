@@ -40,10 +40,6 @@ import { GetEvent } from '../Application/Event/getEvent';
 import container from '../dependency-injection';
 
 export const register = (router: Router) => {
-  router.get('/healthcheck', (req: Request, res: Response) => {
-    res.send('ok');
-  });
-
   // Partner
   router.post(
     '/partner',

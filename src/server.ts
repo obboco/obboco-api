@@ -18,8 +18,11 @@ export class Server {
 
   constructor(port: string) {
     this.port = port;
+    const cors = require('cors');
+
     //this.logger = container.get('Shared.Logger');
     this.express = express();
+    this.express.use(cors());
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: true }));
     this.express.use(helmet.xssFilter());

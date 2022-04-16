@@ -1,4 +1,8 @@
 services:
+  Infrastructure.Web.Healthcheck.HealthCheckController:
+    class: ../../../Infrastructure/Web/Healthcheck/HealthcheckController
+    arguments: []
+
   Infrastructure.Web.Partner.PartnerGetController:
     class: ../../../Infrastructure/Web/Partner/PartnerGetController
     arguments: []
