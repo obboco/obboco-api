@@ -1,9 +1,9 @@
 import { BookingSession } from '../../Domain/bookingSession';
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 import { BookingSessionRepository } from './bookingSessionRepository';
 
 export interface InitBookingSessionResponse {
-  booking_id: Uuid;
+  booking_id: Ulid;
 }
 
 export class InitBookingSession {
@@ -15,7 +15,7 @@ export class InitBookingSession {
 
   async make(eventId: string): Promise<InitBookingSessionResponse> {
     const bookingSession: BookingSession = BookingSession.new({
-      event_id: Uuid.fromPrimitives(eventId)
+      event_id: Ulid.fromPrimitives(eventId)
     });
     this.bookingSessionRepository.add(bookingSession);
     return {

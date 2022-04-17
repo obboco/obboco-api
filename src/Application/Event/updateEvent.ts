@@ -1,6 +1,6 @@
 import { BookingRepository } from './../Booking/bookingRepository';
 import { Event } from '../../Domain/event';
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 import { Request } from 'express';
 import { EventRepository } from './eventRepository';
 
@@ -11,7 +11,7 @@ export class UpdateEvent {
   ) {}
 
   async make(request: Request): Promise<void> {
-    const eventId = Uuid.fromPrimitives(request.body.event_id);
+    const eventId = Ulid.fromPrimitives(request.body.event_id);
 
     await this.bookingRepository.getByEventId(eventId).then((bookings) => {
       if (bookings.length > 0) {

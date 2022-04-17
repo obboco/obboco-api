@@ -1,5 +1,5 @@
 import { Activity } from './../../../src/Domain/activity';
-import { Uuid } from './../../../src/Domain/Shared/uuid';
+import { Ulid } from './../../../src/Domain/Shared/ulid';
 import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
 import { ActivityFactory } from '../../../src/Application/Activity/activityFactory';
 

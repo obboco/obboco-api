@@ -1,4 +1,4 @@
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 import { Partner } from './../../Domain/partner';
 interface PartnerPrimitives {
   partner_id: string;
@@ -14,7 +14,7 @@ interface PartnerPrimitives {
 export class PartnerFactory {
   static fromPrimitives(primitives: PartnerPrimitives): Partner {
     return Partner.create({
-      partner_id: Uuid.fromPrimitives(primitives.partner_id),
+      partner_id: Ulid.fromPrimitives(primitives.partner_id),
       email: primitives.email,
       given_name: primitives.given_name,
       family_name: primitives.family_name,

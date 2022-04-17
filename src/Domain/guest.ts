@@ -1,4 +1,4 @@
-import { Uuid } from './Shared/uuid';
+import { Ulid } from './Shared/ulid';
 
 export interface NewGuestProps {
   first_name: string;
@@ -8,7 +8,7 @@ export interface NewGuestProps {
 }
 
 export interface GuestProps {
-  guest_id: Uuid;
+  guest_id: Ulid;
   first_name: string;
   last_name: string;
   email: string;
@@ -17,7 +17,7 @@ export interface GuestProps {
 
 export class Guest {
   protected constructor(
-    readonly guest_id: Uuid,
+    readonly guest_id: Ulid,
     public first_name: string,
     public last_name: string,
     public email: string,
@@ -36,7 +36,7 @@ export class Guest {
 
   static new(props: NewGuestProps): Guest {
     return new Guest(
-      Uuid.create(),
+      Ulid.create(),
       props.first_name,
       props.last_name,
       props.email,

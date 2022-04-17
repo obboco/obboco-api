@@ -1,4 +1,4 @@
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Ulid } from '../../../src/Domain/Shared/ulid';
 import request from 'supertest';
 import { BookingApp } from '../../../src/BookingApp';
 
@@ -17,7 +17,7 @@ describe('Upload image activitity correctly', () => {
       .attach('activity_photo', filePath)
       .expect(200)
       .then(async (response) => {
-        expect(Uuid.fromPrimitives(response.body.data.activity_image_id));
+        expect(Ulid.fromPrimitives(response.body.data.activity_image_id));
         done();
       });
   });

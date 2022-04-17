@@ -1,4 +1,4 @@
-import { Uuid } from './../../../src/Domain/Shared/uuid';
+import { Ulid } from './../../../src/Domain/Shared/ulid';
 import { Partner } from './../../../src/Domain/partner';
 import { Activity } from './../../../src/Domain/activity';
 import faker from 'faker';
@@ -16,7 +16,7 @@ export const makeRandomIsolatedActivity = (): Activity => {
   return Activity.new({
     title: faker.lorem.word(),
     description: faker.lorem.sentence(),
-    partner_id: Uuid.create(),
+    partner_id: Ulid.create(),
     image_id: null
   });
 };

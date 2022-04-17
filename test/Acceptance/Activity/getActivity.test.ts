@@ -1,6 +1,6 @@
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomIsolatedActivity } from '../../Mock/Activity/activityMother';
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import request from 'supertest';
 import { BookingApp } from '../../../src/BookingApp';
@@ -10,7 +10,7 @@ let application: BookingApp;
 describe('Get activity', () => {
   it('Get empty activty', async (done) => {
     request(application.httpServer)
-      .get('/activity/' + Uuid.create().value)
+      .get('/activity/' + Ulid.create().value)
       .set('accept', 'application/json')
       .type('json')
       .send()

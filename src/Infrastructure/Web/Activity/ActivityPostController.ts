@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
 import { validationResult } from 'express-validator';
-import { Uuid } from '../../../Domain/Shared/uuid';
+import { Ulid } from '../../../Domain/Shared/ulid';
 
 export class ActivityPostController implements Controller {
   constructor() {}
@@ -20,7 +20,7 @@ export class ActivityPostController implements Controller {
     const createActivity: CreateActivity = new CreateActivity(
       new ActivityMysqlRepository()
     );
-    const activity_id: Uuid = createActivity.make(req);
+    const activity_id: Ulid = createActivity.make(req);
     res.status(httpStatus.OK).send({ activity_id: activity_id.value });
   }
 }

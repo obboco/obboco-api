@@ -1,4 +1,4 @@
-import { Uuid } from './../../Domain/Shared/uuid';
+import { Ulid } from './../../Domain/Shared/ulid';
 import { Activity } from './../../Domain/activity';
 import { Request } from 'express';
 import { ActivityRepository } from './activityRepository';
@@ -10,13 +10,13 @@ export class CreateActivity {
     this.activityRepository = activityRepository;
   }
 
-  make(request: Request): Uuid {
+  make(request: Request): Ulid {
     const activity: Activity = Activity.new({
       title: request.body.title,
       description: request.body.description,
-      partner_id: Uuid.fromPrimitives(request.body.partner_id),
+      partner_id: Ulid.fromPrimitives(request.body.partner_id),
       image_id: request.body.image_id
-        ? Uuid.fromPrimitives(request.body.image_id)
+        ? Ulid.fromPrimitives(request.body.image_id)
         : null
     });
     this.activityRepository.add(activity);

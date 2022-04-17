@@ -1,4 +1,4 @@
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
@@ -42,7 +42,7 @@ describe('Create activity', () => {
     const randomTitle = faker.lorem.word();
     const randomDescription = faker.lorem.sentence();
     const randomPartner = makeRandomPartner();
-    const randomActivityImageId = Uuid.create().value;
+    const randomActivityImageId = Ulid.create().value;
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')

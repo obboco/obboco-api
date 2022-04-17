@@ -2,7 +2,7 @@ import { Event } from '../../../src/Domain/event';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { makeNewRandomBookingWithEvent } from '../../Mock/Booking/bookingSessionMother';
 import request from 'supertest';
 import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
@@ -13,7 +13,7 @@ let application: BookingApp;
 describe('List booking', () => {
   it('List empty events', async (done) => {
     request(application.httpServer)
-      .get('/bookings/event/' + Uuid.create().value)
+      .get('/bookings/event/' + Ulid.create().value)
       .set('accept', 'application/json')
       .type('json')
       .send()
@@ -50,7 +50,7 @@ describe('List booking', () => {
 
   it('List events with incorrect event_id format and throw an error', async (done) => {
     request(application.httpServer)
-      .get('/bookings/event/' + 'invalid_uuid')
+      .get('/bookings/event/' + 'invalid_ulid')
       .set('accept', 'application/json')
       .type('json')
       .send()

@@ -1,5 +1,5 @@
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import request from 'supertest';
@@ -12,7 +12,7 @@ describe('List activities', () => {
     const activityFixtures = new ActivityFixtures();
 
     request(application.httpServer)
-      .get('/activity/user/' + Uuid.create().value)
+      .get('/activity/user/' + Ulid.create().value)
       .set('accept', 'application/json')
       .type('json')
       .send()

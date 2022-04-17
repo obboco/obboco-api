@@ -3,7 +3,7 @@ import { GuestRepository } from './../Guest/guestRepository';
 import { BookingSessionProps } from '../../Domain/bookingSession';
 import { Request } from 'express';
 import { BookingSession } from '../../Domain/bookingSession';
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 import { BookingSessionRepository } from './bookingSessionRepository';
 
 export class AddGuestBookingSession {
@@ -17,8 +17,8 @@ export class AddGuestBookingSession {
     this.guestRepository.add(guest);
 
     const bookingSessionProps: BookingSessionProps = {
-      booking_id: Uuid.fromPrimitives(request.body.booking_id),
-      event_id: Uuid.fromPrimitives(request.body.event_id),
+      booking_id: Ulid.fromPrimitives(request.body.booking_id),
+      event_id: Ulid.fromPrimitives(request.body.event_id),
       status: 'guest',
       guest: guest
     };

@@ -2,7 +2,7 @@ import { PartnerFactory } from './../Application/Partner/partnerFactory';
 import { Partner } from '../Domain/partner';
 import { PartnerRepository } from '../Application/Partner/partnerRepository';
 import { mysqlConnection } from './mysqlConnector';
-import { Uuid } from '../Domain/Shared/uuid';
+import { Ulid } from '../Domain/Shared/ulid';
 
 export class PartnerMysqlRepository implements PartnerRepository {
   async add(partner: Partner): Promise<void> {
@@ -22,7 +22,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
     );
   }
 
-  async get(partnerId: Uuid): Promise<Partner> {
+  async get(partnerId: Ulid): Promise<Partner> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
       'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE partner_id = ? LIMIT 1',

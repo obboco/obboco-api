@@ -1,4 +1,4 @@
-import { Uuid } from './../Domain/Shared/uuid';
+import { Ulid } from './../Domain/Shared/ulid';
 const AWS = require('aws-sdk');
 var multer = require('multer');
 var multerS3 = require('multer-s3');
@@ -32,7 +32,7 @@ const s3client = new AWS.S3({
 
 // upload to S3 storage
 export const uploadFiles = (req, res, next) => {
-  const activityImageId = Uuid.create();
+  const activityImageId = Ulid.create();
   const upload = multer({
     limits: { files: 1 },
     storage: multerS3({

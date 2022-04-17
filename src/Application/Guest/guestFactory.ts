@@ -1,5 +1,5 @@
 import { Guest } from './../../Domain/guest';
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 interface GuestPrimitives {
   guest_id: string;
   first_name: string;
@@ -12,7 +12,7 @@ export class GuestFactory {
   static fromPrimitives(primitives: GuestPrimitives): Guest {
     return Guest.create({
       ...primitives,
-      guest_id: Uuid.fromPrimitives(primitives.guest_id)
+      guest_id: Ulid.fromPrimitives(primitives.guest_id)
     });
   }
 }

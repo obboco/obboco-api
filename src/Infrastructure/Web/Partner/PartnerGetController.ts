@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
 import { validationResult } from 'express-validator';
-import { Uuid } from '../../../Domain/Shared/uuid';
+import { Ulid } from '../../../Domain/Shared/ulid';
 
 export class PartnerGetController implements Controller {
   constructor() {}
@@ -20,7 +20,7 @@ export class PartnerGetController implements Controller {
     const getPartner: GetPartner = new GetPartner(new PartnerMysqlRepository());
 
     try {
-      const partner: Partner = await getPartner.make(Uuid.fromPrimitives(id));
+      const partner: Partner = await getPartner.make(Ulid.fromPrimitives(id));
       res.status(httpStatus.OK).send({ data: partner });
     } catch (e) {
       res.status(httpStatus.BAD_REQUEST).json({ errors: [{ msg: e.message }] });

@@ -1,26 +1,26 @@
-import { Uuid } from './Shared/uuid';
+import { Ulid } from './Shared/ulid';
 
 export interface ActivityProps {
-  activity_id: Uuid;
+  activity_id: Ulid;
   title: string;
   description: string;
-  partner_id: Uuid;
-  image_id: Uuid | null;
+  partner_id: Ulid;
+  image_id: Ulid | null;
 }
 
 export interface NewActivityProps {
   title: string;
   description: string;
-  partner_id: Uuid;
-  image_id: Uuid | null;
+  partner_id: Ulid;
+  image_id: Ulid | null;
 }
 
 export class Activity {
-  readonly activity_id: Uuid;
+  readonly activity_id: Ulid;
   readonly title: string;
   readonly description: string;
-  readonly partner_id: Uuid;
-  readonly image_id: Uuid | null;
+  readonly partner_id: Ulid;
+  readonly image_id: Ulid | null;
 
   protected constructor(props: ActivityProps) {
     this.activity_id = props.activity_id;
@@ -32,7 +32,7 @@ export class Activity {
 
   static new(props: NewActivityProps): Activity {
     return new Activity({
-      activity_id: Uuid.create(),
+      activity_id: Ulid.create(),
       title: props.title,
       description: props.description,
       partner_id: props.partner_id,

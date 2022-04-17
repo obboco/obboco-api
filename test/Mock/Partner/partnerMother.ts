@@ -1,10 +1,10 @@
 import { Partner } from './../../../src/Domain/partner';
 import faker from 'faker';
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Ulid } from '../../../src/Domain/Shared/ulid';
 
 export const makeRandomPartner = (): Partner => {
   return Partner.create({
-    partner_id: Uuid.create(),
+    partner_id: Ulid.create(),
     email: faker.internet.email(),
     given_name: faker.name.firstName(),
     family_name: faker.name.lastName(),

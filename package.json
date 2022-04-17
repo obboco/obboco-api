@@ -36,7 +36,6 @@
   "dependencies": {
     "@types/faker": "^5.5.9",
     "@types/multer": "^1.4.7",
-    "@types/uuid": "^8.3.1",
     "assert": "^2.0.0",
     "aws-sdk": "^2.1061.0",
     "compress": "^0.99.0",
@@ -62,7 +61,6 @@
     "node-dependency-injection": "^2.7.3",
     "redis": "^4.0.1",
     "ts-node-dev": "^1.1.8",
-    "ulid": "^2.3.0",
-    "uuid": "^8.3.2"
+    "ulid": "^2.3.0"
   }
 }

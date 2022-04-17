@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { Partner } from './../../Domain/partner';
-import { Uuid } from './../../Domain/Shared/uuid';
+import { Ulid } from './../../Domain/Shared/ulid';
 import { PartnerRepository } from './partnerRepository';
 
 export class CreatePartner {
@@ -8,7 +8,7 @@ export class CreatePartner {
     this.partnerRepository = partnerRepository;
   }
 
-  async make(request: Request): Promise<Uuid> {
+  async make(request: Request): Promise<Ulid> {
     let partner: Partner = await this.partnerRepository.getByEmail(
       request.body.email
     );

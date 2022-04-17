@@ -2,7 +2,7 @@ import {
   BookingFactory,
   BookingPrimitives
 } from './../Application/Booking/bookingFactory';
-import { Uuid } from './../Domain/Shared/uuid';
+import { Ulid } from './../Domain/Shared/ulid';
 import { BookingRepository } from './../Application/Booking/bookingRepository';
 import { Booking } from './../Domain/booking';
 import { mysqlConnection } from './mysqlConnector';
@@ -31,7 +31,7 @@ export class BookingMysqlRepository implements BookingRepository {
     );
   }
 
-  async get(bookingId: Uuid): Promise<Booking> {
+  async get(bookingId: Ulid): Promise<Booking> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
       'SELECT booking_id, event_id, status, title, start_date, duration, guest FROM booking WHERE booking_id = ? LIMIT 1',
@@ -50,7 +50,7 @@ export class BookingMysqlRepository implements BookingRepository {
     return BookingFactory.fromPrimitives(bookingPrimitives);
   }
 
-  async getByEventId(eventId: Uuid): Promise<Booking[]> {
+  async getByEventId(eventId: Ulid): Promise<Booking[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
       'SELECT booking_id, event_id, status, title, start_date, duration, guest FROM booking WHERE event_id = ? ORDER BY created_at ASC',

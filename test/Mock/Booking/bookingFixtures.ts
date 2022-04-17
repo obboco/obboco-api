@@ -1,10 +1,10 @@
 import { Booking } from '../../../src/Domain/booking';
 import { BookingFactory } from '../../../src/Application/Booking/bookingFactory';
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
 
 export class BookingFixtures {
-  async get(bookingId: Uuid): Promise<Booking> {
+  async get(bookingId: Ulid): Promise<Booking> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
       'SELECT booking_id, event_id, status, title, start_date, duration, guest FROM booking WHERE booking_id = ?',

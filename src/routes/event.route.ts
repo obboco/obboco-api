@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { param, body } from 'express-validator';
 import container from '../dependency-injection';
-import { Uuid } from '../Domain/Shared/uuid';
+import { Ulid } from '../Domain/Shared/ulid';
 
 export const register = (router: Router) => {
   const eventPostController = container.get(
@@ -17,7 +17,7 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom((value) => {
         try {
-          Uuid.fromPrimitives(value);
+          Ulid.fromPrimitives(value);
           return true;
         } catch (e) {
           return false;
@@ -36,7 +36,7 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom((value) => {
         try {
-          Uuid.fromPrimitives(value);
+          Ulid.fromPrimitives(value);
           return true;
         } catch (e) {
           return false;
@@ -58,7 +58,7 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom((value) => {
         try {
-          Uuid.fromPrimitives(value);
+          Ulid.fromPrimitives(value);
           return true;
         } catch (e) {
           return false;
@@ -78,7 +78,7 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom((value) => {
         try {
-          Uuid.fromPrimitives(value);
+          Ulid.fromPrimitives(value);
           return true;
         } catch (e) {
           return false;
@@ -98,7 +98,7 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom((value) => {
         try {
-          Uuid.fromPrimitives(value);
+          Ulid.fromPrimitives(value);
           return true;
         } catch (e) {
           return false;

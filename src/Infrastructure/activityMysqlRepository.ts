@@ -2,7 +2,7 @@ import { ActivityFactory } from '../Application/Activity/activityFactory';
 import { Activity } from '../Domain/activity';
 import { ActivityRepository } from '../Application/Activity/activityRepository';
 import { mysqlConnection } from './mysqlConnector';
-import { Uuid } from '../Domain/Shared/uuid';
+import { Ulid } from '../Domain/Shared/ulid';
 
 export class ActivityMysqlRepository implements ActivityRepository {
   async add(activity: Activity): Promise<void> {
@@ -32,7 +32,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
     );
   }
 
-  async get(activityId: Uuid): Promise<Activity> {
+  async get(activityId: Ulid): Promise<Activity> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
       'SELECT activity_id, title, description, partner_id, image_id FROM activity WHERE activity_id = ?',
@@ -48,7 +48,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
     );
   }
 
-  async getByPartnerId(partner_id: Uuid): Promise<Activity[]> {
+  async getByPartnerId(partner_id: Ulid): Promise<Activity[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
       'SELECT activity_id, title, description, partner_id, image_id FROM activity WHERE partner_id = ? ORDER BY created_at ASC',

@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
 import { validationResult } from 'express-validator';
-import { Uuid } from '../../../Domain/Shared/uuid';
+import { Ulid } from '../../../Domain/Shared/ulid';
 
 export class EventPostController implements Controller {
   constructor() {}
@@ -19,7 +19,7 @@ export class EventPostController implements Controller {
       const createEvent: CreateEvent = new CreateEvent(
         new EventMysqlRepository()
       );
-      const event_id: Uuid = createEvent.make(req);
+      const event_id: Ulid = createEvent.make(req);
       res.status(httpStatus.OK).send({ event_id: event_id.value });
     }
   }

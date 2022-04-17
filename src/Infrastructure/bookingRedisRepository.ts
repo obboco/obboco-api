@@ -1,4 +1,4 @@
-import { Uuid } from './../Domain/Shared/uuid';
+import { Ulid } from './../Domain/Shared/ulid';
 import { BookingSession } from './../Domain/bookingSession';
 import { redisConnection } from './redisConnector';
 import { BookingSessionRepository } from '../Application/BookingSession/bookingSessionRepository';
@@ -13,13 +13,13 @@ export class BookingSessionRedisRepository implements BookingSessionRepository {
     });
   }
 
-  async get(eventId: Uuid, bookingId: Uuid): Promise<BookingSession> {
+  async get(eventId: Ulid, bookingId: Ulid): Promise<BookingSession> {
     const connection = await redisConnection();
     const key: string = eventId.value + ':' + bookingId.value;
     return JSON.parse(await connection.get(key));
   }
 
-  async count(eventId: Uuid): Promise<number> {
+  async count(eventId: Ulid): Promise<number> {
     const connection = await redisConnection();
     const key: string = eventId.value + ':*';
     const eventIds: string[] = await connection.keys(key);

@@ -1,6 +1,6 @@
 import { BookingRepository } from './../Booking/bookingRepository';
 import { EventRepository } from './eventRepository';
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 
 export class DeleteEvent {
   constructor(
@@ -9,7 +9,7 @@ export class DeleteEvent {
   ) {}
 
   async make(requestEventId: string): Promise<void> {
-    const eventId: Uuid = Uuid.fromPrimitives(requestEventId);
+    const eventId: Ulid = Ulid.fromPrimitives(requestEventId);
 
     await this.bookingRepository.getByEventId(eventId).then((bookings) => {
       if (bookings.length > 0) {

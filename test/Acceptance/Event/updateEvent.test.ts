@@ -79,7 +79,7 @@ describe('Update event', () => {
     const start_date = '';
     const duration = faker.datatype.number();
     const capacity = faker.datatype.number();
-    const randomActivityId = Uuid.create();
+    const randomActivityId = Ulid.create();
 
     request(application.httpServer)
       .post('/event')
@@ -102,7 +102,7 @@ describe('Update event', () => {
     const start_date = '2022-05-15 06:39:09';
     const duration = '';
     const capacity = faker.datatype.number();
-    const randomActivityId = Uuid.create();
+    const randomActivityId = Ulid.create();
 
     request(application.httpServer)
       .post('/event')
@@ -125,7 +125,7 @@ describe('Update event', () => {
     const start_date = '2022-05-15 06:39:09';
     const duration = 'wrong';
     const capacity = faker.datatype.number();
-    const randomActivityId = Uuid.create();
+    const randomActivityId = Ulid.create();
 
     request(application.httpServer)
       .post('/event')
@@ -148,7 +148,7 @@ describe('Update event', () => {
     const start_date = '2022-05-15 06:39:09';
     const duration = faker.datatype.number();
     const capacity = '';
-    const randomActivityId = Uuid.create();
+    const randomActivityId = Ulid.create();
 
     request(application.httpServer)
       .post('/event')
@@ -171,7 +171,7 @@ describe('Update event', () => {
     const start_date = '2022-05-15 06:39:09';
     const duration = faker.datatype.number();
     const capacity = 'wrong';
-    const randomActivityId = Uuid.create();
+    const randomActivityId = Ulid.create();
 
     request(application.httpServer)
       .post('/event')

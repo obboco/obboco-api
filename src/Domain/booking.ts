@@ -1,9 +1,9 @@
 import { Guest } from './guest';
-import { Uuid } from './Shared/uuid';
+import { Ulid } from './Shared/ulid';
 
 export interface BookingProps {
-  booking_id: Uuid;
-  event_id: Uuid;
+  booking_id: Ulid;
+  event_id: Ulid;
   status: string;
   title: string;
   start_date: Date;
@@ -13,8 +13,8 @@ export interface BookingProps {
 
 export class Booking {
   protected constructor(
-    readonly booking_id: Uuid,
-    readonly event_id: Uuid,
+    readonly booking_id: Ulid,
+    readonly event_id: Ulid,
     readonly status: string,
     readonly title: string,
     readonly start_date: Date,

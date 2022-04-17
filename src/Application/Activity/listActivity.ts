@@ -1,4 +1,4 @@
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 import { Activity } from '../../Domain/activity';
 import { Request } from 'express';
 import { ActivityRepository } from './activityRepository';
@@ -11,7 +11,7 @@ export class ListActivity {
   }
 
   async make(userId: string): Promise<Array<Activity>> {
-    const user_id = Uuid.fromPrimitives(userId);
+    const user_id = Ulid.fromPrimitives(userId);
     return this.activityRepository.getByPartnerId(user_id);
   }
 }

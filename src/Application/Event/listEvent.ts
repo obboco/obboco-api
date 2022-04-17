@@ -1,6 +1,6 @@
 import { Event } from './../../Domain/event';
 import { EventRepository } from './eventRepository';
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 
 interface EventListProps {
   activityId: string;
@@ -14,7 +14,7 @@ export class ListEvent {
   }
 
   async make(eventListProps: EventListProps): Promise<Event[]> {
-    const activityId: Uuid = Uuid.fromPrimitives(eventListProps.activityId);
+    const activityId: Ulid = Ulid.fromPrimitives(eventListProps.activityId);
     return eventListProps.time === undefined
       ? this.eventRepository.getByActivityId(activityId)
       : this.eventRepository.getByFilter({

@@ -1,15 +1,15 @@
-import { Uuid } from './../../Domain/Shared/uuid';
+import { Ulid } from './../../Domain/Shared/ulid';
 import { Event } from './../../Domain/event';
 
 export interface EventRepostitoryFilter {
-  activityId: Uuid;
+  activityId: Ulid;
   time: 'past' | 'future';
 }
 export interface EventRepository {
   add(event: Event): Promise<void>;
-  get(eventId: Uuid): Promise<Event>;
-  getByActivityId(activityId: Uuid): Promise<Event[]>;
+  get(eventId: Ulid): Promise<Event>;
+  getByActivityId(activityId: Ulid): Promise<Event[]>;
   getByFilter(filters: EventRepostitoryFilter): Promise<Event[]>;
   update(event: Event): Promise<void>;
-  delete(eventId: Uuid): Promise<void>;
+  delete(eventId: Ulid): Promise<void>;
 }

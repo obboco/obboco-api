@@ -3,7 +3,7 @@ import { BookingSessionRedisRepository } from './../../Infrastructure/bookingRed
 import { ActivityRepository } from '../Activity/activityRepository';
 import { Event } from '../../Domain/event';
 import { EventRepository } from '../Event/eventRepository';
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 import { Activity } from '../../Domain/activity';
 
 export interface BookingEventResponse {
@@ -27,7 +27,7 @@ export class GetEvent {
   }
 
   async make(eventId: string): Promise<BookingEventResponse> {
-    const event_id: Uuid = Uuid.fromPrimitives(eventId);
+    const event_id: Ulid = Ulid.fromPrimitives(eventId);
     const event: Event = await this.eventRepository.get(event_id);
     const activity: Activity = await this.activityRepository.get(
       event.activity_id

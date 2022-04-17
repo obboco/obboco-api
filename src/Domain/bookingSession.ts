@@ -1,28 +1,28 @@
 import { Guest } from './guest';
-import { Uuid } from './Shared/uuid';
+import { Ulid } from './Shared/ulid';
 
 export interface BookingSessionProps {
-  booking_id: Uuid;
-  event_id: Uuid;
+  booking_id: Ulid;
+  event_id: Ulid;
   status: string;
   guest: Guest;
 }
 
 export interface NewBookingSessionProps {
-  event_id: Uuid;
+  event_id: Ulid;
 }
 
 export class BookingSession {
   protected constructor(
-    readonly booking_id: Uuid,
-    readonly event_id: Uuid,
+    readonly booking_id: Ulid,
+    readonly event_id: Ulid,
     readonly status: string,
     readonly guest: Guest
   ) {}
 
   static new(props: NewBookingSessionProps): BookingSession {
-    return new BookingSession(Uuid.create(), props.event_id, 'init', {
-      guest_id: Uuid.create(),
+    return new BookingSession(Ulid.create(), props.event_id, 'init', {
+      guest_id: Ulid.create(),
       first_name: '',
       last_name: '',
       email: '',

@@ -1,6 +1,6 @@
-import { Uuid } from './Shared/uuid';
+import { Ulid } from './Shared/ulid';
 export interface PartnerProps {
-  partner_id: Uuid;
+  partner_id: Ulid;
   email: string;
   given_name: string;
   family_name: string;
@@ -11,7 +11,7 @@ export interface PartnerProps {
 }
 export class Partner {
   protected constructor(
-    readonly partner_id: Uuid,
+    readonly partner_id: Ulid,
     readonly email: string,
     readonly given_name: string,
     readonly family_name: string,
@@ -31,7 +31,7 @@ export class Partner {
     subdomain: string
   ): Partner {
     return new Partner(
-      Uuid.create(),
+      Ulid.create(),
       email,
       given_name,
       family_name,

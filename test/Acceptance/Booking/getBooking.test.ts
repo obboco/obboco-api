@@ -22,7 +22,7 @@ describe('Get booking', () => {
         expect(booking.booking_id.value).toEqual(
           response.body.data.booking_id.value
         );
-        expect(booking.guest).toEqual(response.body.data.guest);
+        expect(booking.guest.email).toEqual(response.body.data.guest.email);
         done();
       });
   });

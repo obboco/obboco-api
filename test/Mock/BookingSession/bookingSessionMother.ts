@@ -1,4 +1,4 @@
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Ulid } from '../../../src/Domain/Shared/ulid';
 import {
   BookingSession,
   BookingSessionProps
@@ -8,11 +8,11 @@ import { Event } from '../../../src/Domain/event';
 
 export const makeNewRandomBookingSession = (): BookingSession => {
   const bookingSessionProps: BookingSessionProps = {
-    booking_id: Uuid.create(),
-    event_id: Uuid.create(),
+    booking_id: Ulid.create(),
+    event_id: Ulid.create(),
     status: 'init',
     guest: {
-      guest_id: Uuid.create(),
+      guest_id: Ulid.create(),
       first_name: faker.name.firstName(),
       last_name: faker.name.lastName(),
       email: faker.internet.email(),
@@ -26,11 +26,11 @@ export const makeNewRandomBookingSessionWithEvent = (
   event: Event
 ): BookingSession => {
   const bookingSessionProps: BookingSessionProps = {
-    booking_id: Uuid.create(),
+    booking_id: Ulid.create(),
     event_id: event.event_id,
     status: 'init',
     guest: {
-      guest_id: Uuid.create(),
+      guest_id: Ulid.create(),
       first_name: faker.name.firstName(),
       last_name: faker.name.lastName(),
       email: faker.internet.email(),

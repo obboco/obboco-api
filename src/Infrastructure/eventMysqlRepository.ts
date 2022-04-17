@@ -4,11 +4,11 @@ import {
   EventRepostitoryFilter
 } from './../Application/Event/eventRepository';
 import { mysqlConnection } from './mysqlConnector';
-import { Uuid } from '../Domain/Shared/uuid';
+import { Ulid } from '../Domain/Shared/ulid';
 import { EventFactory } from '../Application/Event/eventFactory';
 
 export class EventMysqlRepository implements EventRepository {
-  async getByActivityId(activityId: Uuid): Promise<Event[]> {
+  async getByActivityId(activityId: Ulid): Promise<Event[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
       'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? ORDER BY start_date DESC',
@@ -50,7 +50,7 @@ export class EventMysqlRepository implements EventRepository {
     );
   }
 
-  async get(eventId: Uuid): Promise<Event> {
+  async get(eventId: Ulid): Promise<Event> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
       'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE event_id = ? LIMIT 1',
@@ -92,7 +92,7 @@ export class EventMysqlRepository implements EventRepository {
     );
   }
 
-  async delete(eventId: Uuid): Promise<void> {
+  async delete(eventId: Ulid): Promise<void> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
       'DELETE FROM event WHERE event_id = ? LIMIT 1',

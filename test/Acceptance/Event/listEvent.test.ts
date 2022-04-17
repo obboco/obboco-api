@@ -7,7 +7,7 @@ import {
 } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import request from 'supertest';
@@ -18,7 +18,7 @@ let application: BookingApp;
 describe('List events', () => {
   it('List empty events', async (done) => {
     request(application.httpServer)
-      .get('/event/activity/' + Uuid.create().value)
+      .get('/event/activity/' + Ulid.create().value)
       .set('accept', 'application/json')
       .type('json')
       .send()

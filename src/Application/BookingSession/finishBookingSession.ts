@@ -5,7 +5,7 @@ import { ActivityRepository } from '../Activity/activityRepository';
 import { Booking } from '../../Domain/booking';
 import { Request } from 'express';
 import { BookingSession } from '../../Domain/bookingSession';
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 import { BookingSessionRepository } from './bookingSessionRepository';
 import { BookingRepository } from '../Booking/bookingRepository';
 
@@ -30,12 +30,12 @@ export class FinishBookingSession {
   async make(request: Request): Promise<void> {
     const bookingSession: BookingSession =
       await this.bookingSessionRepository.get(
-        Uuid.fromPrimitives(request.body.event_id),
-        Uuid.fromPrimitives(request.body.booking_id)
+        Ulid.fromPrimitives(request.body.event_id),
+        Ulid.fromPrimitives(request.body.booking_id)
       );
 
     const event: Event = await this.eventRepository.get(
-      Uuid.fromPrimitives(request.body.event_id)
+      Ulid.fromPrimitives(request.body.event_id)
     );
 
     const activity: Activity = await this.activityRepository.get(

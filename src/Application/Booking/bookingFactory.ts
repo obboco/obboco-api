@@ -1,6 +1,6 @@
 import { GuestFactory } from './../Guest/guestFactory';
 import { Booking } from '../../Domain/booking';
-import { Uuid } from '../../Domain/Shared/uuid';
+import { Ulid } from '../../Domain/Shared/ulid';
 export interface BookingPrimitives {
   booking_id: string;
   event_id: string;
@@ -20,8 +20,8 @@ export interface BookingPrimitives {
 export class BookingFactory {
   static fromPrimitives(primitives: BookingPrimitives): Booking {
     return Booking.create({
-      booking_id: Uuid.fromPrimitives(primitives.booking_id),
-      event_id: Uuid.fromPrimitives(primitives.event_id),
+      booking_id: Ulid.fromPrimitives(primitives.booking_id),
+      event_id: Ulid.fromPrimitives(primitives.event_id),
       status: primitives.status,
       title: primitives.title,
       start_date: new Date(primitives.start_date),

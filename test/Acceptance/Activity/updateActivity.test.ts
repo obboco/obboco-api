@@ -1,4 +1,4 @@
-import { Uuid } from '../../../src/Domain/Shared/uuid';
+import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { makeRandomIsolatedActivity } from '../../Mock/Activity/activityMother';
 import { Activity } from '../../../src/Domain/activity';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
@@ -46,7 +46,7 @@ describe('Update activity', () => {
 
     const randomTitle = faker.lorem.word();
     const randomDescription = faker.lorem.sentence();
-    const randomActivityImageId = Uuid.create().value;
+    const randomActivityImageId = Ulid.create().value;
 
     request(application.httpServer)
       .put('/activity')
@@ -73,7 +73,7 @@ describe('Update activity', () => {
   });
 
   it('Update activity with empty activity_id and throw an error', async (done) => {
-    const randomUuid = '';
+    const randomUlid = '';
     const randomTitle = faker.lorem.word();
     const randomDescription = faker.lorem.sentence();
 
@@ -82,7 +82,7 @@ describe('Update activity', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
-        activity_id: randomUuid,
+        activity_id: randomUlid,
         title: randomTitle,
         description: randomDescription
       })
@@ -94,7 +94,7 @@ describe('Update activity', () => {
   });
 
   it('Update activity with empty title and throw an error', async (done) => {
-    const randomUuid = Uuid.create().value;
+    const randomUlid = Ulid.create().value;
     const randomTitle = '';
     const randomDescription = faker.lorem.sentence();
 
@@ -103,7 +103,7 @@ describe('Update activity', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
-        activity_id: randomUuid,
+        activity_id: randomUlid,
         title: randomTitle,
         description: randomDescription
       })
@@ -115,7 +115,7 @@ describe('Update activity', () => {
   });
 
   it('Update activity with empty description and throw an error', async (done) => {
-    const randomUuid = Uuid.create().value;
+    const randomUlid = Ulid.create().value;
     const randomTitle = faker.lorem.word();
     const randomDescription = '';
 
@@ -124,7 +124,7 @@ describe('Update activity', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
-        activity_id: randomUuid,
+        activity_id: randomUlid,
         title: randomTitle,
         description: randomDescription
       })
