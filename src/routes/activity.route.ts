@@ -71,12 +71,12 @@ export const register = (router: Router) => {
     (req: Request, res: Response) => activityPutController.run(req, res)
   );
 
-  const activityGetByUserController = container.get(
-    'Infrastructure.Web.Activity.ActivityGetByUserController'
+  const activityGetByPartnerController = container.get(
+    'Infrastructure.Web.Activity.ActivityGetByPartnerController'
   );
   router.get(
-    '/activity/user/:user_id',
-    param('user_id')
+    '/activity/partner/:partner_id',
+    param('partner_id')
       .isString()
       .isLength({ min: 1, max: 255 })
       .custom((value) => {
@@ -87,7 +87,8 @@ export const register = (router: Router) => {
           return false;
         }
       }),
-    (req: Request, res: Response) => activityGetByUserController.run(req, res)
+    (req: Request, res: Response) =>
+      activityGetByPartnerController.run(req, res)
   );
 
   const activityGetController = container.get(

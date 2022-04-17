@@ -27,8 +27,8 @@ services:
     class: ../../../Infrastructure/Web/Activity/ActivityPutController
     arguments: []
 
-  Infrastructure.Web.Activity.ActivityGetByUserController:
-    class: ../../../Infrastructure/Web/Activity/ActivityGetByUserController
+  Infrastructure.Web.Activity.ActivityGetByPartnerController:
+    class: ../../../Infrastructure/Web/Activity/ActivityGetByPartnerController
     arguments: []
 
   Infrastructure.Web.Activity.ActivityGetController:

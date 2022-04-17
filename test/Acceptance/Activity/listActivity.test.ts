@@ -12,7 +12,7 @@ describe('List activities', () => {
     const activityFixtures = new ActivityFixtures();
 
     request(application.httpServer)
-      .get('/activity/user/' + Ulid.create().value)
+      .get('/activity/partner/' + Ulid.create().value)
       .set('accept', 'application/json')
       .type('json')
       .send()
@@ -31,7 +31,7 @@ describe('List activities', () => {
     await activityFixtures.addActivity(makeRandomActivity(partner));
 
     request(application.httpServer)
-      .get('/activity/user/' + partner.partner_id.value)
+      .get('/activity/partner/' + partner.partner_id.value)
       .set('accept', 'application/json')
       .type('json')
       .send()
@@ -46,7 +46,7 @@ describe('List activities', () => {
 
   it('List activities with incorrect activity_id format and throw an error', async (done) => {
     request(application.httpServer)
-      .get('/activity/user/' + 'invalid_id')
+      .get('/activity/partner/' + 'invalid_id')
       .set('accept', 'application/json')
       .type('json')
       .send()
