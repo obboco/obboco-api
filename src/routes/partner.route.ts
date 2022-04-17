@@ -27,6 +27,15 @@ export const register = (router: Router) => {
     (req: Request, res: Response) => partnerPostController.run(req, res)
   );
 
+  const partnerGetByEmailController = container.get(
+    'Infrastructure.Web.Partner.PartnerGetByEmailController'
+  );
+  router.get(
+    '/partner/email/:email',
+    param('email').isEmail(),
+    (req: Request, res: Response) => partnerGetByEmailController.run(req, res)
+  );
+
   const partnerGetBySubdomainController = container.get(
     'Infrastructure.Web.Partner.PartnerGetBySubdomainController'
   );

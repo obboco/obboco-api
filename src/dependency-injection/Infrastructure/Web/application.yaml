@@ -15,6 +15,10 @@ services:
     class: ../../../Infrastructure/Web/Partner/PartnerGetBySubdomainController
     arguments: []
 
+  Infrastructure.Web.Partner.PartnerGetByEmailController:
+    class: ../../../Infrastructure/Web/Partner/PartnerGetByEmailController
+    arguments: []
+
   Infrastructure.Web.Activity.ActivityPostController:
     class: ../../../Infrastructure/Web/Activity/ActivityPostController
     arguments: []
