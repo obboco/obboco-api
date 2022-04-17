@@ -54,3 +54,27 @@ services:
   Infrastructure.Web.Event.EventDeleteController:
     class: ../../../Infrastructure/Web/Event/EventDeleteController
     arguments: []
+
+  Infrastructure.Web.Booking.BookingGetByEventController:
+    class: ../../../Infrastructure/Web/Booking/BookingGetByEventController
+    arguments: []
+
+  Infrastructure.Web.Booking.BookingInitPostController:
+    class: ../../../Infrastructure/Web/Booking/BookingInitPostController
+    arguments: []
+
+  Infrastructure.Web.Booking.BookingGuestPostController:
+    class: ../../../Infrastructure/Web/Booking/BookingGuestPostController
+    arguments: []
+
+  Infrastructure.Web.Booking.BookingFinishPostController:
+    class: ../../../Infrastructure/Web/Booking/BookingFinishPostController
+    arguments: []
+
+  Infrastructure.Web.Booking.BookingGetController:
+    class: ../../../Infrastructure/Web/Booking/BookingGetController
+    arguments: []
+
+  Infrastructure.Web.Booking.BookingListByEventController:
+    class: ../../../Infrastructure/Web/Booking/BookingListByEventController
+    arguments: []
