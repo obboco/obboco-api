@@ -19,7 +19,7 @@ export class EventGetByActivityController implements Controller {
     const listEvent: ListEvent = new ListEvent(new EventMysqlRepository());
     const events: Event[] = await listEvent.make({
       activityId: req.params.activity_id,
-      time: req.query.time
+      time: req.query.time as 'past' | 'future'
     });
     res.status(httpStatus.OK).send({ data: events });
   }

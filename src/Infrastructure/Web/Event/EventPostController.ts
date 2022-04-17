@@ -11,16 +11,15 @@ export class EventPostController implements Controller {
 
   async run(req: Request, res: Response) {
     const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
-        return
-      }
-
-      const createEvent: CreateEvent = new CreateEvent(
-        new EventMysqlRepository()
-      );
-      const event_id: Ulid = createEvent.make(req);
-      res.status(httpStatus.OK).send({ event_id: event_id.value });
+    if (!errors.isEmpty()) {
+      res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
+      return;
     }
+
+    const createEvent: CreateEvent = new CreateEvent(
+      new EventMysqlRepository()
+    );
+    const event_id: Ulid = createEvent.make(req);
+    res.status(httpStatus.OK).send({ event_id: event_id.value });
   }
 }
