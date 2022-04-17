@@ -17,15 +17,16 @@ export class CreatePartner {
       throw new Error('Partner already exists');
     }
 
-    partner = Partner.new(
-      request.body.email,
-      request.body.given_name,
-      request.body.family_name,
-      request.body.picture,
-      request.body.locale,
-      request.body.subscription_plan,
-      request.body.subdomain
-    );
+    partner = Partner.create({
+      partner_id: request.body.partner_id,
+      email: request.body.email,
+      given_name: request.body.given_name,
+      family_name: request.body.family_name,
+      picture: request.body.picture,
+      locale: request.body.locale,
+      subscription_plan: request.body.subscription_plan,
+      subdomain: request.body.subdomain
+    });
     this.partnerRepository.add(partner);
     return partner.partner_id;
   }

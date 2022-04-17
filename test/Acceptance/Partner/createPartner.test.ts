@@ -16,6 +16,7 @@ describe('Create partner', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
+        partner_id: partner.partner_id,
         email: partner.email,
         given_name: partner.given_name,
         family_name: partner.family_name,
@@ -30,7 +31,9 @@ describe('Create partner', () => {
         partnerFixtures
           .getPartnerByEmail(partner.email)
           .then((partnerConsole: Partner) => {
-            expect(typeof response.body.partner_id).toBe('string');
+            expect(partnerConsole.partner_id.value).toEqual(
+              partner.partner_id.value
+            );
             expect(partnerConsole.locale).toEqual(partner.locale);
             expect(partnerConsole.subscription_plan).toEqual(
               partner.subscription_plan
