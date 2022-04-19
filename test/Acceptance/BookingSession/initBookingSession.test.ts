@@ -1,3 +1,5 @@
+import { BookingSession } from './../../../src/Domain/bookingSession';
+import { makeInitilizedRandomBookingSessionWithEvent } from './../../Mock/BookingSession/bookingSessionMother';
 import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
@@ -14,6 +16,8 @@ describe('Initilalize the booking funnel', () => {
   it('Initialize the booking correctly', async (done) => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
     const event: Event = makeRandomEvent(activity);
+    const randomBookingSession: BookingSession =
+      makeInitilizedRandomBookingSessionWithEvent(event);
     const eventFixtures: EventFixtures = new EventFixtures();
     await eventFixtures.addEvent(event);
     const bookingSessionFixtures: BookingSessionFixtures =
@@ -24,16 +28,20 @@ describe('Initilalize the booking funnel', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
-        event_id: event.event_id.value
+        booking_id: randomBookingSession.booking_id.value,
+        event_id: randomBookingSession.event_id.value
       })
       .expect(200)
       .then(async (response) => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         bookingSessionFixtures
-          .get(event.event_id, response.body.data.booking_id)
+          .get(randomBookingSession.event_id, randomBookingSession.booking_id)
           .then((bookingSession: string) => {
-            expect(event.event_id.value).toEqual(
-              JSON.parse(bookingSession).event_id.value
+            expect(JSON.parse(bookingSession).status).toEqual(
+              randomBookingSession.status
+            );
+            expect(JSON.parse(bookingSession).guest).toEqual(
+              randomBookingSession.guest
             );
             done();
           });
@@ -46,6 +54,7 @@ describe('Initilalize the booking funnel', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
+        booking_id: '',
         event_id: ''
       })
       .expect(400)
@@ -61,6 +70,7 @@ describe('Initilalize the booking funnel', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
+        booking_id: 'wrong_id',
         event_id: 'wrong_id'
       })
       .expect(400)

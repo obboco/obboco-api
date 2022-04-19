@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
 import { validationResult } from 'express-validator';
+import { Ulid } from '../../../Domain/Shared/ulid';
 
 export class BookingInitPostController implements Controller {
   constructor() {}
@@ -21,10 +22,15 @@ export class BookingInitPostController implements Controller {
     const initBooking: InitBookingSession = new InitBookingSession(
       new BookingSessionRedisRepository()
     );
-    const result: InitBookingSessionResponse = await initBooking.make(
-      req.body.event_id
-    );
-    res.status(httpStatus.OK).send({ data: result });
+    try {
+      const result: InitBookingSessionResponse = await initBooking.make(
+        Ulid.fromPrimitives(req.body.booking_id),
+        Ulid.fromPrimitives(req.body.event_id)
+      );
+      res.status(httpStatus.OK).send({ data: result });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   private toResponse(result: InitBookingSessionResponse): any {

@@ -13,9 +13,13 @@ export class InitBookingSession {
     this.bookingSessionRepository = bookingSessionRepository;
   }
 
-  async make(eventId: string): Promise<InitBookingSessionResponse> {
+  async make(
+    bookingId: Ulid,
+    eventId: Ulid
+  ): Promise<InitBookingSessionResponse> {
     const bookingSession: BookingSession = BookingSession.new({
-      event_id: Ulid.fromPrimitives(eventId)
+      booking_id: bookingId,
+      event_id: eventId
     });
     this.bookingSessionRepository.add(bookingSession);
     return {

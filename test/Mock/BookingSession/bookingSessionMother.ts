@@ -39,3 +39,15 @@ export const makeNewRandomBookingSessionWithEvent = (
   };
   return BookingSession.create(bookingSessionProps);
 };
+
+export const makeInitilizedRandomBookingSessionWithEvent = (
+  event: Event
+): BookingSession => {
+  const bookingSessionProps: BookingSessionProps = {
+    booking_id: Ulid.create(),
+    event_id: event.event_id,
+    status: 'init',
+    guest: null
+  };
+  return BookingSession.create(bookingSessionProps);
+};

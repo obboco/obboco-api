@@ -9,6 +9,7 @@ export interface BookingSessionProps {
 }
 
 export interface NewBookingSessionProps {
+  booking_id: Ulid;
   event_id: Ulid;
 }
 
@@ -17,17 +18,11 @@ export class BookingSession {
     readonly booking_id: Ulid,
     readonly event_id: Ulid,
     readonly status: string,
-    readonly guest: Guest
+    readonly guest: Guest | null
   ) {}
 
   static new(props: NewBookingSessionProps): BookingSession {
-    return new BookingSession(Ulid.create(), props.event_id, 'init', {
-      guest_id: Ulid.create(),
-      first_name: '',
-      last_name: '',
-      email: '',
-      phone: ''
-    });
+    return new BookingSession(props.booking_id, props.event_id, 'init', null);
   }
 
   static create(props: BookingSessionProps): BookingSession {

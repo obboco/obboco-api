@@ -7,6 +7,7 @@ export const register = (router: Router) => {
   const bookingGetByEventController = container.get(
     'Infrastructure.Web.Booking.BookingGetByEventController'
   );
+
   router.get(
     '/booking/event/:event_id',
     param('event_id')
@@ -28,6 +29,17 @@ export const register = (router: Router) => {
   );
   router.post(
     '/booking/init',
+    body('booking_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
     body('event_id')
       .isString()
       .isLength({ min: 1, max: 255 })
