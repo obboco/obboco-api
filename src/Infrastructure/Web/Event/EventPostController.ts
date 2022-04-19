@@ -20,6 +20,12 @@ export class EventPostController implements Controller {
       new EventMysqlRepository()
     );
     const event_id: Ulid = createEvent.make(req);
-    res.status(httpStatus.OK).send({ event_id: event_id.value });
+    res.status(httpStatus.OK).send(this.toResponse(event_id));
+  }
+
+  private toResponse(eventId: Ulid): any {
+    return {
+      event_id: eventId.value
+    };
   }
 }

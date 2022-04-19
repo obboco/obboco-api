@@ -5,6 +5,10 @@ import { Controller } from '../Controller';
 export class HealthcheckController implements Controller {
   constructor() {}
   async run(req: Request, res: Response) {
-    res.status(httpStatus.OK).send('ok');
+    res.status(httpStatus.OK).send(this.toResponse());
+  }
+
+  private toResponse(): any {
+    return 'ok';
   }
 }

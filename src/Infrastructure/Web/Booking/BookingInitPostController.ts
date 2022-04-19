@@ -26,4 +26,10 @@ export class BookingInitPostController implements Controller {
     );
     res.status(httpStatus.OK).send({ data: result });
   }
+
+  private toResponse(result: InitBookingSessionResponse): any {
+    return {
+      data: result
+    };
+  }
 }

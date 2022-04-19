@@ -1,4 +1,3 @@
-import { Activity } from '../../../src/Domain/activity';
 import { makeRandomIsolatedActivity } from '../../Mock/Activity/activityMother';
 import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';

@@ -13,7 +13,7 @@ export class PartnerGetController implements Controller {
   async run(req: Request, res: Response) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
+      res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
       return;
     }
     const id: string = req.params.id;
@@ -21,9 +21,15 @@ export class PartnerGetController implements Controller {
 
     try {
       const partner: Partner = await getPartner.make(Ulid.fromPrimitives(id));
-      res.status(httpStatus.OK).send({ data: partner });
+      res.status(httpStatus.OK).send(this.toResponse(partner));
     } catch (e) {
       res.status(httpStatus.BAD_REQUEST).json({ errors: [{ msg: e.message }] });
     }
+  }
+
+  private toResponse(partner: Partner): any {
+    return {
+      data: partner
+    };
   }
 }

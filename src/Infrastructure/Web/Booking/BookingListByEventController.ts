@@ -19,6 +19,12 @@ export class BookingListByEventController implements Controller {
       new BookingMysqlRepository()
     );
     const bookings: Booking[] = await getBookings.make(req.params.event_id);
-    res.status(httpStatus.OK).send({ data: bookings });
+    res.status(httpStatus.OK).send(this.toResponse(bookings));
+  }
+
+  private toResponse(bookings: Booking[]): any {
+    return {
+      data: bookings
+    };
   }
 }

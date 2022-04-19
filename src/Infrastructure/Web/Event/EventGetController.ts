@@ -18,10 +18,12 @@ export class EventGetController implements Controller {
 
     const getEvent: GetEvent = new GetEvent(new EventMysqlRepository());
     const event: Event = await getEvent.make(req.params.event_id);
-    if (event === null) {
-      res.status(httpStatus.OK).send({ data: {} });
-      return;
-    }
-    res.status(httpStatus.OK).send({ data: event });
+    res.status(httpStatus.OK).send(this.toResponse(event));
+  }
+
+  private toResponse(event: Event): any {
+    return {
+      data: event === null ? {} : event
+    };
   }
 }

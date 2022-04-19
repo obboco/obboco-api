@@ -24,6 +24,12 @@ export class ActivityGetController implements Controller {
       res.status(httpStatus.OK).send({ data: {} });
       return;
     }
-    res.status(httpStatus.OK).send({ data: activity });
+    res.status(httpStatus.OK).send(this.toResponse(activity));
+  }
+
+  private toResponse(activity: Activity): any {
+    return {
+      data: activity
+    };
   }
 }

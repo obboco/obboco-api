@@ -1,3 +1,4 @@
+import { makeRandomActivity } from './../../Mock/Activity/activityMother';
 import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
@@ -12,16 +13,15 @@ describe('Create activity', () => {
   it('Create activity correctly', async (done) => {
     const activityFixtures = new ActivityFixtures();
 
-    const randomTitle = faker.lorem.word();
-    const randomDescription = faker.lorem.sentence();
     const randomPartner = makeRandomPartner();
+    const randomActivity = makeRandomActivity(randomPartner);
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
       .send({
-        title: randomTitle,
-        description: randomDescription,
+        title: randomActivity.title,
+        description: randomActivity.description,
         partner_id: randomPartner.partner_id.value
       })
       .expect(200)
@@ -30,7 +30,7 @@ describe('Create activity', () => {
         activityFixtures
           .getActivity(response.body.activity_id)
           .then((activity: Activity) => {
-            expect(activity.title).toEqual(randomTitle);
+            expect(activity.title).toEqual(randomActivity.title);
             done();
           });
       });
@@ -39,17 +39,16 @@ describe('Create activity', () => {
   it('Create activity with image correctly', async (done) => {
     const activityFixtures = new ActivityFixtures();
 
-    const randomTitle = faker.lorem.word();
-    const randomDescription = faker.lorem.sentence();
     const randomPartner = makeRandomPartner();
+    const randomActivity = makeRandomActivity(randomPartner);
     const randomActivityImageId = Ulid.create().value;
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
       .send({
-        title: randomTitle,
-        description: randomDescription,
+        title: randomActivity.title,
+        description: randomActivity.description,
         partner_id: randomPartner.partner_id.value,
         image_id: randomActivityImageId
       })

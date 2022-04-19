@@ -23,6 +23,12 @@ export class ActivityGetByPartnerController implements Controller {
     const activities: Activity[] = await listActivity.make(
       req.params.partner_id
     );
-    res.status(httpStatus.OK).send({ data: activities });
+    res.status(httpStatus.OK).send(this.toResponse(activities));
+  }
+
+  private toResponse(activities: Activity[]): any {
+    return {
+      data: activities
+    };
   }
 }

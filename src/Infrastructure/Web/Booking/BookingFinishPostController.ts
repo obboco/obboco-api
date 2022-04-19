@@ -25,6 +25,12 @@ export class BookingFinishPostController implements Controller {
       new EventMysqlRepository()
     );
     finishBookingSession.make(req);
-    res.status(httpStatus.OK).send({ data: 'ok' });
+    res.status(httpStatus.OK).send(this.toResponse());
+  }
+
+  private toResponse(): any {
+    return {
+      data: 'ok'
+    };
   }
 }

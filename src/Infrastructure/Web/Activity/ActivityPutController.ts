@@ -19,6 +19,12 @@ export class ActivityPutController implements Controller {
       new ActivityMysqlRepository()
     );
     updateActivity.make(req);
-    res.status(httpStatus.OK).send({ data: 'ok' });
+    res.status(httpStatus.OK).send(this.toResponse());
+  }
+
+  private toResponse(): any {
+    return {
+      data: 'ok'
+    };
   }
 }

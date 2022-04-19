@@ -12,7 +12,7 @@ export class PartnerPostController implements Controller {
   async run(req: Request, res: Response) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
+      res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
       return;
     }
 
@@ -22,9 +22,15 @@ export class PartnerPostController implements Controller {
 
     try {
       const partner_id: Ulid = await createPartner.make(req);
-      res.send({ partner_id: partner_id.value });
+      res.send(this.toResponse(partner_id));
     } catch (e) {
       res.status(httpStatus.OK).json({ errors: [{ msg: e.message }] });
     }
+  }
+
+  private toResponse(partnerId: Ulid): any {
+    return {
+      partner_id: partnerId.value
+    };
   }
 }

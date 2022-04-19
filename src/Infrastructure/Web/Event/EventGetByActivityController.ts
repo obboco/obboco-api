@@ -21,6 +21,12 @@ export class EventGetByActivityController implements Controller {
       activityId: req.params.activity_id,
       time: req.query.time as 'past' | 'future'
     });
-    res.status(httpStatus.OK).send({ data: events });
+    res.status(httpStatus.OK).send(this.toResponse(events));
+  }
+
+  private toResponse(events: Event[]): any {
+    return {
+      data: events
+    };
   }
 }

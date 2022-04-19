@@ -18,6 +18,12 @@ export class BookingGetController implements Controller {
 
     const getBooking: GetBooking = new GetBooking(new BookingMysqlRepository());
     const booking: Booking = await getBooking.make(req.params.booking_id);
-    res.status(httpStatus.OK).send({ data: booking });
+    res.status(httpStatus.OK).send(this.toResponse(booking));
+  }
+
+  private toResponse(booking: Booking): any {
+    return {
+      data: booking
+    };
   }
 }

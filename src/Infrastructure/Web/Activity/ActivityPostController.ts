@@ -1,6 +1,5 @@
 import { ActivityMysqlRepository } from './../../activityMysqlRepository';
 import { CreateActivity } from './../../../Application/Activity/createActivity';
-import { PartnerMysqlRepository } from '../../partnerMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
@@ -21,6 +20,12 @@ export class ActivityPostController implements Controller {
       new ActivityMysqlRepository()
     );
     const activity_id: Ulid = createActivity.make(req);
-    res.status(httpStatus.OK).send({ activity_id: activity_id.value });
+    res.status(httpStatus.OK).send(this.toResponse(activity_id));
+  }
+
+  private toResponse(activityId: Ulid): any {
+    return {
+      activity_id: activityId.value
+    };
   }
 }

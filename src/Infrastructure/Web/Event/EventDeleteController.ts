@@ -23,9 +23,15 @@ export class EventDeleteController implements Controller {
 
     try {
       await deleteEvent.make(req.params.event_id);
-      res.status(httpStatus.OK).send({ data: 'ok' });
+      res.status(httpStatus.OK).send(this.toResponse());
     } catch (e) {
       res.status(httpStatus.BAD_REQUEST).json({ errors: [{ msg: e.message }] });
     }
+  }
+
+  private toResponse(): any {
+    return {
+      data: 'ok'
+    };
   }
 }

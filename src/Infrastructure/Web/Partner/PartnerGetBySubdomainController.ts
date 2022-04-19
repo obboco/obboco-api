@@ -1,5 +1,5 @@
+import { Partner } from './../../../Domain/partner';
 import { getPartnerBySubdomain } from './../../../Application/Partner/getPartnerBySubdomain';
-import { Partner } from '../../../Domain/partner';
 import { PartnerMysqlRepository } from '../../partnerMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
@@ -22,9 +22,15 @@ export class PartnerGetBySubdomainController implements Controller {
 
     try {
       const partner: Partner = await getPartner.make(req.params.subdomain);
-      res.status(httpStatus.OK).send({ data: partner });
+      res.status(httpStatus.OK).send(this.toResponse(partner));
     } catch (e) {
       res.status(httpStatus.BAD_REQUEST).json({ errors: [{ msg: e.message }] });
     }
+  }
+
+  private toResponse(partner: Partner): any {
+    return {
+      data: partner
+    };
   }
 }

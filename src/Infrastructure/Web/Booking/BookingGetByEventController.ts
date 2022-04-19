@@ -28,6 +28,12 @@ export class BookingGetByEventController implements Controller {
     const result: BookingEventResponse = await getEvent.make(
       req.params.event_id
     );
-    res.status(httpStatus.OK).send({ data: result });
+    res.status(httpStatus.OK).send(this.toResponse(result));
+  }
+
+  private toResponse(result: BookingEventResponse): any {
+    return {
+      data: result
+    };
   }
 }
