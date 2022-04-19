@@ -20,6 +20,7 @@ describe('Create activity', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
+        activity_id: randomActivity.activity_id.value,
         title: randomActivity.title,
         description: randomActivity.description,
         partner_id: randomPartner.partner_id.value
@@ -30,7 +31,7 @@ describe('Create activity', () => {
         activityFixtures
           .getActivity(response.body.activity_id)
           .then((activity: Activity) => {
-            expect(activity.title).toEqual(randomActivity.title);
+            expect(activity).toEqual(randomActivity);
             done();
           });
       });
@@ -40,17 +41,18 @@ describe('Create activity', () => {
     const activityFixtures = new ActivityFixtures();
 
     const randomPartner = makeRandomPartner();
-    const randomActivity = makeRandomActivity(randomPartner);
-    const randomActivityImageId = Ulid.create().value;
+    let randomActivity = makeRandomActivity(randomPartner);
+    randomActivity.image_id = Ulid.create();
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
       .send({
+        activity_id: randomActivity.activity_id.value,
         title: randomActivity.title,
         description: randomActivity.description,
         partner_id: randomPartner.partner_id.value,
-        image_id: randomActivityImageId
+        image_id: randomActivity.image_id.value
       })
       .expect(200)
       .then(async (response) => {
@@ -58,7 +60,7 @@ describe('Create activity', () => {
         activityFixtures
           .getActivity(response.body.activity_id)
           .then((activity: Activity) => {
-            expect(activity.image_id.value).toEqual(randomActivityImageId);
+            expect(activity).toEqual(randomActivity);
             done();
           });
       });

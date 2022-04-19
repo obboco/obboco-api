@@ -20,7 +20,7 @@ export class Activity {
   readonly title: string;
   readonly description: string;
   readonly partner_id: Ulid;
-  readonly image_id: Ulid | null;
+  image_id: Ulid | null;
 
   protected constructor(props: ActivityProps) {
     this.activity_id = props.activity_id;

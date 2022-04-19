@@ -11,7 +11,8 @@ export class CreateActivity {
   }
 
   make(request: Request): Ulid {
-    const activity: Activity = Activity.new({
+    const activity: Activity = Activity.create({
+      activity_id: Ulid.fromPrimitives(request.body.activity_id),
       title: request.body.title,
       description: request.body.description,
       partner_id: Ulid.fromPrimitives(request.body.partner_id),

@@ -10,6 +10,17 @@ export const register = (router: Router) => {
   );
   router.post(
     '/activity',
+    body('activity_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
     body('title').isString().isLength({ min: 1, max: 255 }),
     body('description').isString().isLength({ min: 1, max: 255 }),
     body('partner_id')
