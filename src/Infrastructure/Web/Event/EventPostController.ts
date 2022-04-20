@@ -1,4 +1,4 @@
-import { EventMysqlRepository } from './../../eventMysqlRepository';
+import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
 import { CreateEvent } from './../../../Application/Event/createEvent';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';

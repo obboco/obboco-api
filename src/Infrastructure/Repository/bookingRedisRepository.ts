@@ -1,7 +1,7 @@
-import { Ulid } from './../Domain/Shared/ulid';
-import { BookingSession } from './../Domain/bookingSession';
-import { redisConnection } from './redisConnector';
-import { BookingSessionRepository } from '../Application/BookingSession/bookingSessionRepository';
+import { Ulid } from './../../Domain/Shared/ulid';
+import { BookingSession } from './../../Domain/bookingSession';
+import { redisConnection } from './../Redis/redisConnector';
+import { BookingSessionRepository } from '../../Application/BookingSession/bookingSessionRepository';
 
 export class BookingSessionRedisRepository implements BookingSessionRepository {
   async add(bookingSession: BookingSession): Promise<void> {

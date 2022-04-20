@@ -1,4 +1,4 @@
-import { PartnerMysqlRepository } from '../../partnerMysqlRepository';
+import { PartnerMysqlRepository } from './../../Repository/partnerMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

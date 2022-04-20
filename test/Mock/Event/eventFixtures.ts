@@ -1,5 +1,5 @@
 import { Event } from './../../../src/Domain/event';
-import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
+import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class EventFixtures {
   async addEvent(event: Event) {

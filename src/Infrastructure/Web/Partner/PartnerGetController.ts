@@ -1,5 +1,5 @@
+import { PartnerMysqlRepository } from './../../Repository/partnerMysqlRepository';
 import { Partner } from '../../../Domain/partner';
-import { PartnerMysqlRepository } from '../../partnerMysqlRepository';
 import { GetPartner } from '../../../Application/Partner/getPartner';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';

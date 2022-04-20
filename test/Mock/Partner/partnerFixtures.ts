@@ -1,4 +1,4 @@
-import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
+import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 import { Partner } from './../../../src/Domain/partner';
 
 export class PartnerFixtures {

@@ -1,4 +1,4 @@
-import { BookingSessionRedisRepository } from './../../bookingRedisRepository';
+import { BookingSessionRedisRepository } from './../../Repository/bookingRedisRepository';
 import {
   InitBookingSession,
   InitBookingSessionResponse

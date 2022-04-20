@@ -1,6 +1,6 @@
 import { Activity } from './../../../src/Domain/activity';
 import { Ulid } from './../../../src/Domain/Shared/ulid';
-import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
+import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class ActivityFixtures {
   async addActivity(activity: Activity) {

@@ -1,4 +1,4 @@
-import { Ulid } from './../Domain/Shared/ulid';
+import { Ulid } from './../../Domain/Shared/ulid';
 const AWS = require('aws-sdk');
 var multer = require('multer');
 var multerS3 = require('multer-s3');

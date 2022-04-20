@@ -1,6 +1,6 @@
-import { ActivityMysqlRepository } from './../../activityMysqlRepository';
-import { BookingSessionRedisRepository } from './../../bookingRedisRepository';
-import { EventMysqlRepository } from './../../eventMysqlRepository';
+import { BookingSessionRedisRepository } from './../../Repository/bookingRedisRepository';
+import { ActivityMysqlRepository } from '../../Repository/activityMysqlRepository';
+import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

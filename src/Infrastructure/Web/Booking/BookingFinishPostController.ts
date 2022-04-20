@@ -1,8 +1,8 @@
-import { ActivityMysqlRepository } from './../../activityMysqlRepository';
-import { EventMysqlRepository } from './../../eventMysqlRepository';
-import { BookingMysqlRepository } from './../../bookingMysqlRepository';
-import { BookingSessionRedisRepository } from './../../bookingRedisRepository';
+import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
+import { BookingMysqlRepository } from './../../Repository/bookingMysqlRepository';
+import { BookingSessionRedisRepository } from './../../Repository/bookingRedisRepository';
 import { FinishBookingSession } from './../../../Application/BookingSession/finishBookingSession';
+import { ActivityMysqlRepository } from '../../Repository/activityMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

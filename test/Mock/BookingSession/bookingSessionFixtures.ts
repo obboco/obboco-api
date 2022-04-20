@@ -1,6 +1,6 @@
+import { redisConnection } from './../../../src/Infrastructure/Redis/redisConnector';
 import { BookingSession } from '../../../src/Domain/bookingSession';
 import { Ulid } from '../../../src/Domain/Shared/ulid';
-import { redisConnection } from '../../../src/Infrastructure/redisConnector';
 
 export class BookingSessionFixtures {
   async get(eventId: Ulid, bookingId: Ulid): Promise<BookingSession> {

@@ -1,10 +1,10 @@
-import { Event } from './../Domain/event';
+import { Event } from './../../Domain/event';
 import {
   EventRepository,
   EventRepostitoryFilter
-} from './../Application/Event/eventRepository';
-import { mysqlConnection } from './mysqlConnector';
-import { Ulid } from '../Domain/Shared/ulid';
+} from './../../Application/Event/eventRepository';
+import { mysqlConnection } from './../Mysql/mysqlConnector';
+import { Ulid } from '../../Domain/Shared/ulid';
 
 export class EventMysqlRepository implements EventRepository {
   async getByActivityId(activityId: Ulid): Promise<Event[]> {

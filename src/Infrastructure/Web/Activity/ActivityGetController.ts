@@ -1,5 +1,5 @@
 import { Activity } from './../../../Domain/activity';
-import { ActivityMysqlRepository } from './../../activityMysqlRepository';
+import { ActivityMysqlRepository } from '../../Repository/activityMysqlRepository';
 import { GetActivity } from './../../../Application/Activity/getActivity';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';

@@ -1,5 +1,5 @@
 import { Guest } from './../../../src/Domain/guest';
-import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
+import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class GuestFixtures {
   async getByEmail(email: string): Promise<Guest> {

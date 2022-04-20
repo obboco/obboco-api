@@ -1,6 +1,6 @@
-import { Guest } from './../Domain/guest';
-import { GuestRepository } from './../Application/Guest/guestRepository';
-import { mysqlConnection } from './mysqlConnector';
+import { Guest } from './../../Domain/guest';
+import { GuestRepository } from './../../Application/Guest/guestRepository';
+import { mysqlConnection } from './../Mysql/mysqlConnector';
 
 export class GuestMysqlRepository implements GuestRepository {
   async add(guest: Guest): Promise<void> {

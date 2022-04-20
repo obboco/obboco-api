@@ -1,5 +1,5 @@
 import { Booking } from './../../../Domain/booking';
-import { BookingMysqlRepository } from './../../bookingMysqlRepository';
+import { BookingMysqlRepository } from './../../Repository/bookingMysqlRepository';
 import { GetBookings } from './../../../Application/Booking/getBookings';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';

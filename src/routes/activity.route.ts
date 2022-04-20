@@ -1,7 +1,7 @@
+import { uploadFiles } from './../Infrastructure/S3/s3';
 import { Ulid } from './../Domain/Shared/ulid';
 import { Router, Request, Response } from 'express';
 import { param, body } from 'express-validator';
-import { uploadFiles } from '../Infrastructure/s3';
 import container from '../dependency-injection';
 
 export const register = (router: Router) => {

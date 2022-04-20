@@ -1,4 +1,4 @@
-import { ActivityMysqlRepository } from './../../activityMysqlRepository';
+import { ActivityMysqlRepository } from '../../Repository/activityMysqlRepository';
 import { CreateActivity } from './../../../Application/Activity/createActivity';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';

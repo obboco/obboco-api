@@ -1,5 +1,5 @@
-import { BookingMysqlRepository } from './../../bookingMysqlRepository';
-import { EventMysqlRepository } from './../../eventMysqlRepository';
+import { BookingMysqlRepository } from './../../Repository/bookingMysqlRepository';
+import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
 import { UpdateEvent } from './../../../Application/Event/updateEvent';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';

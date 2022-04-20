@@ -1,5 +1,5 @@
 import { Event } from './../../../Domain/event';
-import { EventMysqlRepository } from './../../eventMysqlRepository';
+import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
 import { GetEvent } from './../../../Application/Event/getEvent';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';

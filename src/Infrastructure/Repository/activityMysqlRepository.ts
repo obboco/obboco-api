@@ -1,7 +1,7 @@
-import { Activity } from '../Domain/activity';
-import { ActivityRepository } from '../Application/Activity/activityRepository';
-import { mysqlConnection } from './mysqlConnector';
-import { Ulid } from '../Domain/Shared/ulid';
+import { Activity } from '../../Domain/activity';
+import { ActivityRepository } from '../../Application/Activity/activityRepository';
+import { mysqlConnection } from '../Mysql/MysqlConnector';
+import { Ulid } from '../../Domain/Shared/ulid';
 
 export class ActivityMysqlRepository implements ActivityRepository {
   async add(activity: Activity): Promise<void> {

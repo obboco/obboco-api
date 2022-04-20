@@ -1,7 +1,7 @@
-import { Ulid } from './../Domain/Shared/ulid';
-import { BookingRepository } from './../Application/Booking/bookingRepository';
-import { Booking, BookingPrimitives } from './../Domain/booking';
-import { mysqlConnection } from './mysqlConnector';
+import { Ulid } from './../../Domain/Shared/ulid';
+import { BookingRepository } from './../../Application/Booking/bookingRepository';
+import { Booking, BookingPrimitives } from './../../Domain/booking';
+import { mysqlConnection } from './../Mysql/mysqlConnector';
 
 export class BookingMysqlRepository implements BookingRepository {
   async add(booking: Booking): Promise<void> {

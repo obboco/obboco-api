@@ -1,6 +1,6 @@
 import { Booking } from '../../../src/Domain/booking';
 import { Ulid } from '../../../src/Domain/Shared/ulid';
-import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
+import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class BookingFixtures {
   async get(bookingId: Ulid): Promise<Booking> {

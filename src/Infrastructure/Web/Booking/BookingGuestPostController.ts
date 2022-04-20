@@ -1,5 +1,5 @@
-import { GuestMysqlRepository } from './../../guestMysqlRepository';
-import { BookingSessionRedisRepository } from './../../bookingRedisRepository';
+import { GuestMysqlRepository } from './../../Repository/guestMysqlRepository';
+import { BookingSessionRedisRepository } from './../../Repository/bookingRedisRepository';
 import { AddGuestBookingSession } from './../../../Application/BookingSession/addGuesBookingSession';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
