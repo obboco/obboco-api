@@ -1,3 +1,4 @@
+import { Guest } from './../../../src/Domain/guest';
 import { GuestFixtures } from '../../Mock/Guest/guestFixtures';
 import { makeNewRandomBookingSession } from '../../Mock/BookingSession/bookingSessionMother';
 import { BookingSession } from '../../../src/Domain/bookingSession';
@@ -21,18 +22,16 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest
+        guest: bookingSession.guest.toPrimitives()
       })
       .expect(200)
       .then(async () => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         bookingSessionFixtures
           .get(bookingSession.event_id, bookingSession.booking_id)
-          .then((bookingSessionResult: string) => {
-            expect(bookingSession.guest.first_name).toEqual(
-              JSON.parse(bookingSessionResult).guest.first_name
-            );
-            expect('guest').toEqual(JSON.parse(bookingSessionResult).status);
+          .then((bookingSessionResult: BookingSession) => {
+            expect('guest').toEqual(bookingSessionResult.status);
+            expect(bookingSession.guest).toEqual(bookingSessionResult.guest);
           });
       })
       .then(async () => {
@@ -55,7 +54,7 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: '',
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest
+        guest: bookingSession.guest.toPrimitives()
       })
       .expect(400)
       .then(async (response) => {
@@ -74,7 +73,7 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: 'invalid_id',
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest
+        guest: bookingSession.guest.toPrimitives()
       })
       .expect(400)
       .then(async (response) => {
@@ -93,7 +92,7 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: '',
-        guest: bookingSession.guest
+        guest: bookingSession.guest.toPrimitives()
       })
       .expect(400)
       .then(async (response) => {
@@ -112,7 +111,7 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: 'invalid_id',
-        guest: bookingSession.guest
+        guest: bookingSession.guest.toPrimitives()
       })
       .expect(400)
       .then(async (response) => {
@@ -151,7 +150,7 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest
+        guest: bookingSession.guest.toPrimitives()
       })
       .expect(400)
       .then(async (response) => {
@@ -171,7 +170,7 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest
+        guest: bookingSession.guest.toPrimitives()
       })
       .expect(400)
       .then(async (response) => {
@@ -191,7 +190,7 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest
+        guest: bookingSession.guest.toPrimitives()
       })
       .expect(400)
       .then(async (response) => {
@@ -211,7 +210,7 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest
+        guest: bookingSession.guest.toPrimitives()
       })
       .expect(400)
       .then(async (response) => {
@@ -231,7 +230,7 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest
+        guest: bookingSession.guest.toPrimitives()
       })
       .expect(400)
       .then(async (response) => {

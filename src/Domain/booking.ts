@@ -1,14 +1,14 @@
-import { Guest } from './guest';
+import { Guest, GuestPrimitives } from './guest';
 import { Ulid } from './Shared/ulid';
 
-export interface BookingProps {
-  booking_id: Ulid;
-  event_id: Ulid;
+export interface BookingPrimitives {
+  booking_id: string;
+  event_id: string;
   status: string;
   title: string;
-  start_date: Date;
+  start_date: string;
   duration: number;
-  guest: Guest;
+  guest: GuestPrimitives;
 }
 
 export class Booking {
@@ -22,15 +22,27 @@ export class Booking {
     readonly guest: Guest
   ) {}
 
-  static create(props: BookingProps): Booking {
+  static fromPrimitives(primitives: BookingPrimitives): Booking {
     return new Booking(
-      props.booking_id,
-      props.event_id,
-      props.status,
-      props.title,
-      props.start_date,
-      props.duration,
-      props.guest
+      Ulid.fromPrimitives(primitives.booking_id),
+      Ulid.fromPrimitives(primitives.event_id),
+      primitives.status,
+      primitives.title,
+      new Date(primitives.start_date),
+      primitives.duration,
+      Guest.fromPrimitives(primitives.guest)
     );
+  }
+
+  toPrimitives(): BookingPrimitives {
+    return {
+      booking_id: this.booking_id.value,
+      event_id: this.event_id.value,
+      status: this.status,
+      title: this.title,
+      start_date: this.start_date.toISOString(),
+      duration: this.duration,
+      guest: this.guest.toPrimitives()
+    };
   }
 }

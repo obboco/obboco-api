@@ -42,14 +42,14 @@ export class FinishBookingSession {
       event.activity_id
     );
 
-    const booking: Booking = Booking.create({
-      booking_id: bookingSession.booking_id,
-      event_id: bookingSession.event_id,
+    const booking: Booking = Booking.fromPrimitives({
+      booking_id: bookingSession.booking_id.value,
+      event_id: bookingSession.event_id.value,
       status: 'paid',
       title: activity.title,
-      start_date: event.start_date,
+      start_date: event.start_date.toISOString(),
       duration: event.duration,
-      guest: bookingSession.guest
+      guest: bookingSession.guest.toPrimitives()
     });
 
     this.bookingSessionRepository.delete(bookingSession);

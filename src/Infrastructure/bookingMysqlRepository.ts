@@ -1,10 +1,6 @@
-import {
-  BookingFactory,
-  BookingPrimitives
-} from './../Application/Booking/bookingFactory';
 import { Ulid } from './../Domain/Shared/ulid';
 import { BookingRepository } from './../Application/Booking/bookingRepository';
-import { Booking } from './../Domain/booking';
+import { Booking, BookingPrimitives } from './../Domain/booking';
 import { mysqlConnection } from './mysqlConnector';
 
 export class BookingMysqlRepository implements BookingRepository {
@@ -47,7 +43,7 @@ export class BookingMysqlRepository implements BookingRepository {
       duration: result[0].duration,
       guest: JSON.parse(result[0].guest)
     };
-    return BookingFactory.fromPrimitives(bookingPrimitives);
+    return Booking.fromPrimitives(bookingPrimitives);
   }
 
   async getByEventId(eventId: Ulid): Promise<Booking[]> {
@@ -68,7 +64,7 @@ export class BookingMysqlRepository implements BookingRepository {
           duration: event.duration,
           guest: JSON.parse(event.guest)
         };
-        return BookingFactory.fromPrimitives(bookingPrimitives);
+        return Booking.fromPrimitives(bookingPrimitives);
       }
     );
   }

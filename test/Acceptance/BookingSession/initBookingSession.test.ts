@@ -36,13 +36,9 @@ describe('Initilalize the booking funnel', () => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         bookingSessionFixtures
           .get(randomBookingSession.event_id, randomBookingSession.booking_id)
-          .then((bookingSession: string) => {
-            expect(JSON.parse(bookingSession).status).toEqual(
-              randomBookingSession.status
-            );
-            expect(JSON.parse(bookingSession).guest).toEqual(
-              randomBookingSession.guest
-            );
+          .then((bookingSession: BookingSession) => {
+            expect(bookingSession.status).toEqual(randomBookingSession.status);
+            expect(bookingSession.guest).toEqual(randomBookingSession.guest);
             done();
           });
       });

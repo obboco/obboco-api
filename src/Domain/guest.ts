@@ -1,14 +1,17 @@
 import { Ulid } from './Shared/ulid';
 
-export interface NewGuestProps {
+/*
+export interface GuestProps {
+  guest_id: Ulid;
   first_name: string;
   last_name: string;
   email: string;
   phone: string;
 }
+*/
 
-export interface GuestProps {
-  guest_id: Ulid;
+export interface GuestPrimitives {
+  guest_id: string;
   first_name: string;
   last_name: string;
   email: string;
@@ -23,8 +26,8 @@ export class Guest {
     public email: string,
     public phone: string
   ) {}
-
-  static create(props: GuestProps): Guest {
+  /*
+  private static create(props: GuestProps): Guest {
     return new Guest(
       props.guest_id,
       props.first_name,
@@ -33,14 +36,25 @@ export class Guest {
       props.phone
     );
   }
+  */
 
-  static new(props: NewGuestProps): Guest {
+  static fromPrimitives(props: GuestPrimitives): Guest {
     return new Guest(
-      Ulid.create(),
+      Ulid.fromPrimitives(props.guest_id),
       props.first_name,
       props.last_name,
       props.email,
       props.phone
     );
+  }
+
+  public toPrimitives(): GuestPrimitives {
+    return {
+      guest_id: this.guest_id.value,
+      first_name: this.first_name,
+      last_name: this.last_name,
+      email: this.email,
+      phone: this.phone
+    };
   }
 }

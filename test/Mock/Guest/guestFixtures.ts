@@ -1,5 +1,4 @@
 import { Guest } from './../../../src/Domain/guest';
-import { GuestFactory } from './../../../src/Application/Guest/guestFactory';
 import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
 
 export class GuestFixtures {
@@ -14,6 +13,6 @@ export class GuestFixtures {
       return null;
     }
 
-    return GuestFactory.fromPrimitives(result[0]);
+    return Guest.fromPrimitives(result[0]);
   }
 }

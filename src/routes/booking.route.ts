@@ -81,6 +81,17 @@ export const register = (router: Router) => {
           return false;
         }
       }),
+    body('guest.guest_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
     body('guest.first_name').isString().isLength({ min: 1, max: 255 }),
     body('guest.last_name').isString().isLength({ min: 1, max: 255 }),
     body('guest.email').isString().isLength({ min: 1, max: 255 }).isEmail(),

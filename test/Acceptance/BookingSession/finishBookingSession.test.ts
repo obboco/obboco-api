@@ -86,7 +86,7 @@ describe('Finish booking session', () => {
       .then(async () => {
         bookingSessionFixtures
           .get(bookingSession.event_id, bookingSession.booking_id)
-          .then((bookingSessionResult: string) => {
+          .then((bookingSessionResult: BookingSession) => {
             expect(bookingSessionResult).toBeNull();
           });
       })

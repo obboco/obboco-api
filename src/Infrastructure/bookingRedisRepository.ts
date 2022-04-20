@@ -8,7 +8,7 @@ export class BookingSessionRedisRepository implements BookingSessionRepository {
     const connection = await redisConnection();
     const key: string =
       bookingSession.event_id.value + ':' + bookingSession.booking_id.value;
-    connection.set(key, JSON.stringify(bookingSession), {
+    connection.set(key, JSON.stringify(bookingSession.toPrimitives()), {
       EX: 900
     });
   }
@@ -16,7 +16,11 @@ export class BookingSessionRedisRepository implements BookingSessionRepository {
   async get(eventId: Ulid, bookingId: Ulid): Promise<BookingSession> {
     const connection = await redisConnection();
     const key: string = eventId.value + ':' + bookingId.value;
-    return JSON.parse(await connection.get(key));
+    const result = await connection.get(key);
+    if (result === null) {
+      return null;
+    }
+    return BookingSession.fromPrimitives(JSON.parse(result));
   }
 
   async count(eventId: Ulid): Promise<number> {

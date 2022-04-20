@@ -13,7 +13,7 @@ export class AddGuestBookingSession {
   ) {}
 
   async make(request: Request): Promise<void> {
-    const guest: Guest = Guest.new(request.body.guest);
+    const guest: Guest = Guest.fromPrimitives(request.body.guest);
     this.guestRepository.add(guest);
 
     const bookingSessionProps: BookingSessionProps = {
