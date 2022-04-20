@@ -9,6 +9,11 @@ import { Ulid } from '../../Domain/Shared/ulid';
 import { BookingSessionRepository } from './bookingSessionRepository';
 import { BookingRepository } from '../Booking/bookingRepository';
 
+interface FinnishBookingSessionCommand {
+  booking_id: string;
+  event_id: string;
+}
+
 export class FinishBookingSession {
   bookingSessionRepository: BookingSessionRepository;
   bookingRepository: BookingRepository;
@@ -27,15 +32,15 @@ export class FinishBookingSession {
     this.eventRepository = eventRepository;
   }
 
-  async make(request: Request): Promise<void> {
+  async make(command: FinnishBookingSessionCommand): Promise<void> {
     const bookingSession: BookingSession =
       await this.bookingSessionRepository.get(
-        Ulid.fromPrimitives(request.body.event_id),
-        Ulid.fromPrimitives(request.body.booking_id)
+        Ulid.fromPrimitives(command.event_id),
+        Ulid.fromPrimitives(command.booking_id)
       );
 
     const event: Event = await this.eventRepository.get(
-      Ulid.fromPrimitives(request.body.event_id)
+      Ulid.fromPrimitives(command.event_id)
     );
 
     const activity: Activity = await this.activityRepository.get(

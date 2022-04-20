@@ -21,7 +21,11 @@ export class BookingGuestPostController implements Controller {
         new BookingSessionRedisRepository(),
         new GuestMysqlRepository()
       );
-    addGuestBookingSession.make(req);
+    addGuestBookingSession.make({
+      booking_id: req.body.booking_id,
+      event_id: req.body.event_id,
+      guest: req.body.guest
+    });
     res.status(httpStatus.OK).send(this.toResponse());
   }
 

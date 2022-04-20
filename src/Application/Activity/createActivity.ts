@@ -3,6 +3,14 @@ import { Activity } from './../../Domain/activity';
 import { Request } from 'express';
 import { ActivityRepository } from './activityRepository';
 
+interface CreateActivityCommand {
+  activity_id: string;
+  title: string;
+  description: string;
+  partner_id: string;
+  image_id: string | null;
+}
+
 export class CreateActivity {
   activityRepository: ActivityRepository;
 
@@ -10,13 +18,13 @@ export class CreateActivity {
     this.activityRepository = activityRepository;
   }
 
-  make(request: Request): Ulid {
+  make(command: CreateActivityCommand): Ulid {
     const activity: Activity = Activity.fromPrimitives({
-      activity_id: request.body.activity_id,
-      title: request.body.title,
-      description: request.body.description,
-      partner_id: request.body.partner_id,
-      image_id: request.body.image_id ? request.body.image_id : null
+      activity_id: command.activity_id,
+      title: command.title,
+      description: command.description,
+      partner_id: command.partner_id,
+      image_id: command.image_id
     });
     this.activityRepository.add(activity);
     return activity.activity_id;

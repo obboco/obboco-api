@@ -3,19 +3,27 @@ import { Activity } from '../../Domain/activity';
 import { Request } from 'express';
 import { ActivityRepository } from './activityRepository';
 
+interface UpdateActivityCommand {
+  activity_id: string;
+  title: string;
+  description: string;
+  partner_id: string;
+  image_id: string | null;
+}
+
 export class UpdateActivity {
   constructor(private activityRepository: ActivityRepository) {}
 
-  async make(request: Request): Promise<void> {
+  async make(command: UpdateActivityCommand): Promise<void> {
     const activity: Activity = await this.activityRepository.get(
-      Ulid.fromPrimitives(request.body.activity_id)
+      Ulid.fromPrimitives(command.activity_id)
     );
     const UpdateActivity: Activity = Activity.fromPrimitives({
       activity_id: activity.activity_id.value,
-      title: request.body.title,
-      description: request.body.description,
+      title: command.title,
+      description: command.description,
       partner_id: activity.partner_id.value,
-      image_id: request.body.image_id ? request.body.image_id : null
+      image_id: command.image_id
     });
     this.activityRepository.update(UpdateActivity);
   }

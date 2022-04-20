@@ -3,17 +3,25 @@ import { Ulid } from '../../Domain/Shared/ulid';
 import { Request } from 'express';
 import { EventRepository } from './eventRepository';
 
+interface EventListCommand {
+  event_id: string;
+  start_date: string;
+  duration: number;
+  capacity: number;
+  activity_id: string;
+}
+
 export class CreateEvent {
   constructor(private eventRepository: EventRepository) {}
 
-  make(request: Request): Ulid {
+  make(command: EventListCommand): Ulid {
     const event: Event = Event.fromPrimitives({
-      event_id: request.body.event_id,
-      start_date: request.body.start_date,
-      duration: request.body.duration,
-      capacity: request.body.capacity,
+      event_id: command.event_id,
+      start_date: command.start_date,
+      duration: command.duration,
+      capacity: command.capacity,
       current_capacity: 0,
-      activity_id: request.body.activity_id
+      activity_id: command.activity_id
     });
     this.eventRepository.add(event);
     return event.event_id;

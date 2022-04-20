@@ -16,11 +16,13 @@ export class PartnerGetController implements Controller {
       res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
       return;
     }
-    const id: string = req.params.id;
+    const partnerId: string = req.params.partner_id;
     const getPartner: GetPartner = new GetPartner(new PartnerMysqlRepository());
 
     try {
-      const partner: Partner = await getPartner.make(Ulid.fromPrimitives(id));
+      const partner: Partner = await getPartner.make(
+        Ulid.fromPrimitives(partnerId)
+      );
       res.status(httpStatus.OK).send(this.toResponse(partner));
     } catch (e) {
       res.status(httpStatus.BAD_REQUEST).json({ errors: [{ msg: e.message }] });

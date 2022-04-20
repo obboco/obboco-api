@@ -1,10 +1,14 @@
 import { BookingSessionPrimitives } from './../../Domain/bookingSession';
-import { Guest } from './../../Domain/guest';
+import { Guest, GuestPrimitives } from './../../Domain/guest';
 import { GuestRepository } from './../Guest/guestRepository';
-import { Request } from 'express';
 import { BookingSession } from '../../Domain/bookingSession';
-import { Ulid } from '../../Domain/Shared/ulid';
 import { BookingSessionRepository } from './bookingSessionRepository';
+
+interface AddGuessBokingSessionCommand {
+  booking_id: string;
+  event_id: string;
+  guest: GuestPrimitives;
+}
 
 export class AddGuestBookingSession {
   constructor(
@@ -12,19 +16,20 @@ export class AddGuestBookingSession {
     private guestRepository: GuestRepository
   ) {}
 
-  async make(request: Request): Promise<void> {
-    const guest: Guest = Guest.fromPrimitives(request.body.guest);
+  async make(command: AddGuessBokingSessionCommand): Promise<void> {
+    const guest: Guest = Guest.fromPrimitives(command.guest);
     this.guestRepository.add(guest);
 
-    const bookingSessionProps: BookingSessionPrimitives = {
-      booking_id: request.body.booking_id,
-      event_id: request.body.event_id,
+    const bookingSessionPrimitives: BookingSessionPrimitives = {
+      booking_id: command.booking_id,
+      event_id: command.event_id,
       status: 'guest',
-      guest: request.body.guest
+      guest: command.guest
     };
 
-    const bookingSession: BookingSession =
-      BookingSession.fromPrimitives(bookingSessionProps);
+    const bookingSession: BookingSession = BookingSession.fromPrimitives(
+      bookingSessionPrimitives
+    );
     this.bookingSessionRepository.add(bookingSession);
   }
 }

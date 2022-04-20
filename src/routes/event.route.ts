@@ -56,6 +56,17 @@ export const register = (router: Router) => {
     body('start_date').isString().isLength({ min: 1, max: 255 }),
     body('duration').isNumeric(),
     body('capacity').isNumeric(),
+    body('activity_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
     (req: Request, res: Response) => eventPutController.run(req, res)
   );
 

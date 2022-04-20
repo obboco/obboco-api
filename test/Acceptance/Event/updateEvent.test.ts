@@ -28,10 +28,11 @@ describe('Update event', () => {
         event_id: event.event_id.value,
         start_date: newEvent.start_date,
         duration: newEvent.duration,
-        capacity: newEvent.capacity
+        capacity: newEvent.capacity,
+        activity_id: event.activity_id.value
       })
       .expect(200)
-      .then(async () => {
+      .then(async (response) => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         eventFixtures
           .getEvent(event.event_id.value)
@@ -43,7 +44,7 @@ describe('Update event', () => {
       });
   });
 
-  it('Cannot delete event with bookings', async (done) => {
+  it('Cannot update event with bookings', async (done) => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
 
     const randomEvent = makeRandomEvent(activity);
@@ -63,7 +64,8 @@ describe('Update event', () => {
         event_id: randomEvent.event_id.value,
         start_date: newEvent.start_date,
         duration: newEvent.duration,
-        capacity: newEvent.capacity
+        capacity: newEvent.capacity,
+        activity_id: randomEvent.activity_id.value
       })
       .expect(400)
       .then(async (response) => {

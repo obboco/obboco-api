@@ -2,7 +2,7 @@ import { Event } from './../../Domain/event';
 import { EventRepository } from './eventRepository';
 import { Ulid } from '../../Domain/Shared/ulid';
 
-interface EventListProps {
+interface EventListCommand {
   activityId: string;
   time: 'past' | 'future';
 }
@@ -13,13 +13,13 @@ export class ListEvent {
     this.eventRepository = eventRepository;
   }
 
-  async make(eventListProps: EventListProps): Promise<Event[]> {
-    const activityId: Ulid = Ulid.fromPrimitives(eventListProps.activityId);
-    return eventListProps.time === undefined
+  async make(command: EventListCommand): Promise<Event[]> {
+    const activityId: Ulid = Ulid.fromPrimitives(command.activityId);
+    return command.time === undefined
       ? this.eventRepository.getByActivityId(activityId)
       : this.eventRepository.getByFilter({
           activityId: activityId,
-          time: eventListProps.time
+          time: command.time
         });
   }
 }

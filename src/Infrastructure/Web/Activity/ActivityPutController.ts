@@ -18,7 +18,13 @@ export class ActivityPutController implements Controller {
     const updateActivity: UpdateActivity = new UpdateActivity(
       new ActivityMysqlRepository()
     );
-    updateActivity.make(req);
+    updateActivity.make({
+      activity_id: req.body.activity_id,
+      title: req.body.title,
+      description: req.body.description,
+      partner_id: req.body.partner_id,
+      image_id: req.body.image_id ? req.body.image_id : null
+    });
     res.status(httpStatus.OK).send(this.toResponse());
   }
 

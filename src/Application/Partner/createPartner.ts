@@ -3,30 +3,32 @@ import { Partner } from './../../Domain/partner';
 import { Ulid } from './../../Domain/Shared/ulid';
 import { PartnerRepository } from './partnerRepository';
 
+interface createPartnerCommand {
+  partner_id: string;
+  email: string;
+  given_name: string;
+  family_name: string;
+  picture: string;
+  locale: string;
+  subscription_plan: string;
+  subdomain: string;
+}
+
 export class CreatePartner {
   constructor(readonly partnerRepository: PartnerRepository) {
     this.partnerRepository = partnerRepository;
   }
 
-  async make(request: Request): Promise<Ulid> {
+  async make(command: createPartnerCommand): Promise<Ulid> {
     let partner: Partner = await this.partnerRepository.getByEmail(
-      request.body.email
+      command.email
     );
 
     if (partner) {
       throw new Error('Partner already exists');
     }
 
-    partner = Partner.fromPrimitives({
-      partner_id: request.body.partner_id,
-      email: request.body.email,
-      given_name: request.body.given_name,
-      family_name: request.body.family_name,
-      picture: request.body.picture,
-      locale: request.body.locale,
-      subscription_plan: request.body.subscription_plan,
-      subdomain: request.body.subdomain
-    });
+    partner = Partner.fromPrimitives(command);
     this.partnerRepository.add(partner);
     return partner.partner_id;
   }

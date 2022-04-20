@@ -4,14 +4,22 @@ import { Ulid } from '../../Domain/Shared/ulid';
 import { Request } from 'express';
 import { EventRepository } from './eventRepository';
 
+interface EventListCommand {
+  event_id: string;
+  start_date: string;
+  duration: number;
+  capacity: number;
+  activity_id: string;
+}
+
 export class UpdateEvent {
   constructor(
     private eventRepository: EventRepository,
     private bookingRepository: BookingRepository
   ) {}
 
-  async make(request: Request): Promise<void> {
-    const eventId = Ulid.fromPrimitives(request.body.event_id);
+  async make(command: EventListCommand): Promise<void> {
+    const eventId = Ulid.fromPrimitives(command.event_id);
 
     await this.bookingRepository.getByEventId(eventId).then((bookings) => {
       if (bookings.length > 0) {
@@ -23,10 +31,10 @@ export class UpdateEvent {
 
     const updateEvent: Event = Event.fromPrimitives({
       event_id: event.event_id.value,
-      start_date: request.body.start_date,
-      duration: request.body.duration,
+      start_date: command.start_date,
+      duration: command.duration,
       current_capacity: event.current_capacity,
-      capacity: request.body.capacity,
+      capacity: command.capacity,
       activity_id: event.activity_id.value
     });
     await this.eventRepository.update(updateEvent);

@@ -8,8 +8,8 @@ export const register = (router: Router) => {
     'Infrastructure.Web.Partner.PartnerGetController'
   );
   router.get(
-    '/partner/:id',
-    param('id').isString().isLength({ min: 1, max: 255 }),
+    '/partner/:partner_id',
+    param('partner_id').isString().isLength({ min: 1, max: 255 }),
     (req: Request, res: Response) => partnerGetController.run(req, res)
   );
 

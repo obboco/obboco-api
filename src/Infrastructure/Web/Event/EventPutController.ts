@@ -21,7 +21,13 @@ export class EventPutController implements Controller {
       new BookingMysqlRepository()
     );
     try {
-      await updateEvent.make(req);
+      await updateEvent.make({
+        event_id: req.body.event_id,
+        start_date: req.body.start_date,
+        duration: req.body.duration,
+        capacity: req.body.capacity,
+        activity_id: req.body.activity_id
+      });
       res.status(httpStatus.OK).send(this.toResponse());
     } catch (e) {
       res.status(httpStatus.BAD_REQUEST).json({ errors: [{ msg: e.message }] });
