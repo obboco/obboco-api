@@ -19,10 +19,7 @@ describe('Get booking', () => {
       .send()
       .expect(200)
       .then(async (response) => {
-        expect(booking.booking_id.value).toEqual(
-          response.body.data.booking_id.value
-        );
-        expect(booking.guest.email).toEqual(response.body.data.guest.email);
+        expect(booking.toPrimitives()).toEqual(response.body.data);
         done();
       });
   });

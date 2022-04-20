@@ -45,9 +45,7 @@ describe('Get activity', () => {
       .send()
       .expect(200)
       .then(async (response) => {
-        expect(response.body.data.activity_id.value).toEqual(
-          activity.activity_id.value
-        );
+        expect(response.body.data).toEqual(activity.toPrimitives());
         done();
       });
   });

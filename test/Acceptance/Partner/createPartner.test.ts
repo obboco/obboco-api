@@ -26,7 +26,7 @@ describe('Create partner', () => {
         subdomain: partner.subdomain
       })
       .expect(200)
-      .then(async (response) => {
+      .then(async () => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         partnerFixtures
           .getPartnerByEmail(partner.email)

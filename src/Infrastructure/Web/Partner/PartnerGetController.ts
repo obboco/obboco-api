@@ -31,7 +31,7 @@ export class PartnerGetController implements Controller {
 
   private toResponse(partner: Partner): any {
     return {
-      data: partner
+      data: partner.toPrimitives()
     };
   }
 }

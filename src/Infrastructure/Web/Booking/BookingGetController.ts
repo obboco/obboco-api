@@ -23,7 +23,7 @@ export class BookingGetController implements Controller {
 
   private toResponse(booking: Booking): any {
     return {
-      data: booking
+      data: booking.toPrimitives()
     };
   }
 }

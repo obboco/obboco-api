@@ -26,7 +26,7 @@ export class EventGetByActivityController implements Controller {
 
   private toResponse(events: Event[]): any {
     return {
-      data: events
+      data: events.map((event) => event.toPrimitives())
     };
   }
 }

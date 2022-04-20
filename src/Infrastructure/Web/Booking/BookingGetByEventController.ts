@@ -33,7 +33,10 @@ export class BookingGetByEventController implements Controller {
 
   private toResponse(result: BookingEventResponse): any {
     return {
-      data: result
+      data: {
+        event: result.event.toPrimitives(),
+        activity: result.activity.toPrimitives()
+      }
     };
   }
 }

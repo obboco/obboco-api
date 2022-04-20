@@ -13,7 +13,6 @@ import { BookingApp } from '../../../src/BookingApp';
 let application: BookingApp;
 
 describe('Get event and activity for the booking page', () => {
-  /*
   it('Get event correctly', async (done) => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
     const activityFixtures: ActivityFixtures = new ActivityFixtures();
@@ -30,12 +29,11 @@ describe('Get event and activity for the booking page', () => {
       .send()
       .expect(200)
       .then(async (response) => {
-        expect(response.body.data.event.event_id.value).toEqual(
-          event.event_id.value
-        );
+        expect(activity.toPrimitives()).toEqual(response.body.data.activity);
+        expect(event.toPrimitives()).toEqual(response.body.data.event);
         done();
       });
-  });*/
+  });
 
   it('Get event correctly with booking sessions in progress', async (done) => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());

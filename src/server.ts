@@ -22,7 +22,7 @@ export class Server {
 
     //this.logger = container.get('Shared.Logger');
     this.express = express();
-    this.express.use(cors());
+    this.express.use(cors({ credentials: true, origin: true }));
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: true }));
     this.express.use(helmet.xssFilter());

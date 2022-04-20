@@ -22,15 +22,11 @@ export class BookingInitPostController implements Controller {
     const initBooking: InitBookingSession = new InitBookingSession(
       new BookingSessionRedisRepository()
     );
-    try {
-      const result: InitBookingSessionResponse = await initBooking.make(
-        req.body.booking_id,
-        req.body.event_id
-      );
-      res.status(httpStatus.OK).send({ data: result });
-    } catch (e) {
-      console.log(e);
-    }
+    const result: InitBookingSessionResponse = await initBooking.make(
+      req.body.booking_id,
+      req.body.event_id
+    );
+    res.status(httpStatus.OK).send({ data: result });
   }
 
   private toResponse(result: InitBookingSessionResponse): any {

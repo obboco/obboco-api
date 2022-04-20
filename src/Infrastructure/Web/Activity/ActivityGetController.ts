@@ -29,7 +29,7 @@ export class ActivityGetController implements Controller {
 
   private toResponse(activity: Activity): any {
     return {
-      data: activity
+      data: activity.toPrimitives()
     };
   }
 }

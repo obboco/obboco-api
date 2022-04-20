@@ -25,7 +25,7 @@ describe('Delete events', () => {
       .type('json')
       .send()
       .expect(200)
-      .then(async (response) => {
+      .then(async () => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         expect(
           await eventFixtures.getEvent(randomEvent.event_id.value)

@@ -23,7 +23,7 @@ export class EventGetController implements Controller {
 
   private toResponse(event: Event): any {
     return {
-      data: event === null ? {} : event
+      data: event === null ? {} : event.toPrimitives()
     };
   }
 }

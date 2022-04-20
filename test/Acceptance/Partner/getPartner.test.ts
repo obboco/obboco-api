@@ -18,12 +18,8 @@ describe('Get partner', () => {
       .type('json')
       .expect(200)
       .then(async (response) => {
-        partnerFixtures
-          .getPartnerByEmail(response.body.data.email)
-          .then((partnerResult: Partner) => {
-            expect(partner.partner_id).toEqual(partnerResult.partner_id);
-            done();
-          });
+        expect(partner.toPrimitives()).toEqual(response.body.data);
+        done();
       });
   });
 
@@ -38,12 +34,8 @@ describe('Get partner', () => {
       .type('json')
       .expect(200)
       .then(async (response) => {
-        partnerFixtures
-          .getPartnerByEmail(response.body.data.email)
-          .then((partnerResult: Partner) => {
-            expect(partner.partner_id).toEqual(partnerResult.partner_id);
-            done();
-          });
+        expect(partner.toPrimitives()).toEqual(response.body.data);
+        done();
       });
   });
 
@@ -58,12 +50,8 @@ describe('Get partner', () => {
       .type('json')
       .expect(200)
       .then(async (response) => {
-        partnerFixtures
-          .getPartnerByEmail(response.body.data.email)
-          .then((partnerResult: Partner) => {
-            expect(partner.partner_id).toEqual(partnerResult.partner_id);
-            done();
-          });
+        expect(partner.toPrimitives()).toEqual(response.body.data);
+        done();
       });
   });
 

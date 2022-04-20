@@ -32,7 +32,7 @@ describe('Initilalize the booking funnel', () => {
         event_id: randomBookingSession.event_id.value
       })
       .expect(200)
-      .then(async (response) => {
+      .then(async () => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         bookingSessionFixtures
           .get(randomBookingSession.event_id, randomBookingSession.booking_id)

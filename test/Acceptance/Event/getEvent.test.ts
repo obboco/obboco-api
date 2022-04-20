@@ -24,9 +24,9 @@ describe('Get event', () => {
       .expect(200)
       .then(async (response) => {
         eventFixtures
-          .getEvent(response.body.data.event_id.value)
+          .getEvent(response.body.data.event_id)
           .then((eventResult: Event) => {
-            expect(eventResult.event_id).toEqual(event.event_id);
+            expect(eventResult.toPrimitives()).toEqual(response.body.data);
             done();
           });
       });

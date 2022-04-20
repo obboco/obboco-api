@@ -11,7 +11,7 @@ export const makeNewRandomBooking = (): Booking => {
     status: 'init',
     title: faker.lorem.word(),
     start_date: new Date('2022-05-15 06:39:09').toISOString(),
-    duration: faker.datatype.number(),
+    duration: faker.datatype.number(2000),
     guest: makeRandomGuest().toPrimitives()
   };
   return Booking.fromPrimitives(bookingPrimitives);

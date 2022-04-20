@@ -24,7 +24,7 @@ export class BookingListByEventController implements Controller {
 
   private toResponse(bookings: Booking[]): any {
     return {
-      data: bookings
+      data: bookings.map((booking) => booking.toPrimitives())
     };
   }
 }

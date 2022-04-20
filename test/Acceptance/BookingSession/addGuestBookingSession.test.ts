@@ -38,7 +38,7 @@ describe('Add guest details into the booking session', () => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         guestFixtures.getByEmail(bookingSession.guest.email).then((guest) => {
           expect(guest).not.toBeNull();
-          expect(bookingSession.guest.first_name).toEqual(guest.first_name);
+          expect(bookingSession.guest).toEqual(guest);
           done();
         });
       });

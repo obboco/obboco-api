@@ -38,8 +38,8 @@ describe('Create event', () => {
 
   it('Create event with empty start_date format and throw an error', async (done) => {
     const start_date = '';
-    const duration = faker.datatype.number();
-    const capacity = faker.datatype.number();
+    const duration = faker.datatype.number(2000);
+    const capacity = faker.datatype.number(2000);
     const randomActivityId = Ulid.create();
 
     request(application.httpServer)
@@ -62,7 +62,7 @@ describe('Create event', () => {
   it('Create event with empty duration format and throw an error', async (done) => {
     const start_date = '2022-05-15 06:39:09';
     const duration = '';
-    const capacity = faker.datatype.number();
+    const capacity = faker.datatype.number(2000);
     const randomActivityId = Ulid.create();
 
     request(application.httpServer)
@@ -85,7 +85,7 @@ describe('Create event', () => {
   it('Create event with wrong duration format and throw an error', async (done) => {
     const start_date = '2022-05-15 06:39:09';
     const duration = 'wrong';
-    const capacity = faker.datatype.number();
+    const capacity = faker.datatype.number(2000);
     const randomActivityId = Ulid.create();
 
     request(application.httpServer)
@@ -107,7 +107,7 @@ describe('Create event', () => {
 
   it('Create event with empty capacity format and throw an error', async (done) => {
     const start_date = '2022-05-15 06:39:09';
-    const duration = faker.datatype.number();
+    const duration = faker.datatype.number(2000);
     const capacity = '';
     const randomActivityId = Ulid.create();
 
@@ -130,7 +130,7 @@ describe('Create event', () => {
 
   it('Create event with empty capacity format and throw an error', async (done) => {
     const start_date = '2022-05-15 06:39:09';
-    const duration = faker.datatype.number();
+    const duration = faker.datatype.number(2000);
     const capacity = 'wrong';
     const randomActivityId = Ulid.create();
 
@@ -153,8 +153,8 @@ describe('Create event', () => {
 
   it('Create event with empty activity_id format and throw an error', async (done) => {
     const start_date = '2022-05-15 06:39:09';
-    const duration = faker.datatype.number();
-    const capacity = faker.datatype.number();
+    const duration = faker.datatype.number(2000);
+    const capacity = faker.datatype.number(2000);
 
     request(application.httpServer)
       .post('/event')
@@ -175,8 +175,8 @@ describe('Create event', () => {
 
   it('Create event with wrong activity_id format and throw an error', async (done) => {
     const start_date = '2022-05-15 06:39:09';
-    const duration = faker.datatype.number();
-    const capacity = faker.datatype.number();
+    const duration = faker.datatype.number(2000);
+    const capacity = faker.datatype.number(2000);
 
     request(application.httpServer)
       .post('/event')

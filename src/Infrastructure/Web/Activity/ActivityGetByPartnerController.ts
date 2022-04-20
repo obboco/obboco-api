@@ -28,7 +28,9 @@ export class ActivityGetByPartnerController implements Controller {
 
   private toResponse(activities: Activity[]): any {
     return {
-      data: activities
+      data: activities.map((activity: Activity) => {
+        return activity.toPrimitives();
+      })
     };
   }
 }
