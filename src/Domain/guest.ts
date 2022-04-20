@@ -1,15 +1,5 @@
 import { Ulid } from './Shared/ulid';
 
-/*
-export interface GuestProps {
-  guest_id: Ulid;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-}
-*/
-
 export interface GuestPrimitives {
   guest_id: string;
   first_name: string;
@@ -26,17 +16,6 @@ export class Guest {
     public email: string,
     public phone: string
   ) {}
-  /*
-  private static create(props: GuestProps): Guest {
-    return new Guest(
-      props.guest_id,
-      props.first_name,
-      props.last_name,
-      props.email,
-      props.phone
-    );
-  }
-  */
 
   static fromPrimitives(props: GuestPrimitives): Guest {
     return new Guest(
