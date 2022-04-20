@@ -10,7 +10,6 @@ export class DeleteEvent {
 
   async make(requestEventId: string): Promise<void> {
     const eventId: Ulid = Ulid.fromPrimitives(requestEventId);
-
     await this.bookingRepository.getByEventId(eventId).then((bookings) => {
       if (bookings.length > 0) {
         throw new Error('Cannot delete an event with bookings');

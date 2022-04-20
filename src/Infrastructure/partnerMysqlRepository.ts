@@ -1,4 +1,3 @@
-import { PartnerFactory } from './../Application/Partner/partnerFactory';
 import { Partner } from '../Domain/partner';
 import { PartnerRepository } from '../Application/Partner/partnerRepository';
 import { mysqlConnection } from './mysqlConnector';
@@ -33,7 +32,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
       return null;
     }
 
-    return PartnerFactory.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
+    return Partner.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
   }
 
   async getByEmail(email: string): Promise<Partner> {
@@ -47,7 +46,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
       return null;
     }
 
-    return PartnerFactory.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
+    return Partner.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
   }
 
   async getBySubdomain(subdomain: string): Promise<Partner> {
@@ -61,6 +60,6 @@ export class PartnerMysqlRepository implements PartnerRepository {
       return null;
     }
 
-    return PartnerFactory.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
+    return Partner.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
   }
 }

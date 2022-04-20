@@ -1,6 +1,6 @@
 import { Ulid } from './Shared/ulid';
-export interface PartnerProps {
-  partner_id: Ulid;
+export interface PartnerPrimitives {
+  partner_id: string;
   email: string;
   given_name: string;
   family_name: string;
@@ -21,30 +21,9 @@ export class Partner {
     readonly subdomain: string
   ) {}
 
-  static new(
-    email: string,
-    given_name: string,
-    family_name: string,
-    picture: string,
-    locale: string,
-    subscription_plan: string,
-    subdomain: string
-  ): Partner {
+  static fromPrimitives(props: PartnerPrimitives): Partner {
     return new Partner(
-      Ulid.create(),
-      email,
-      given_name,
-      family_name,
-      picture,
-      locale ? locale : 'en-GB',
-      subscription_plan ? subscription_plan : 'BETA',
-      subdomain
-    );
-  }
-
-  static create(props: PartnerProps): Partner {
-    return new Partner(
-      props.partner_id,
+      Ulid.fromPrimitives(props.partner_id),
       props.email,
       props.given_name,
       props.family_name,
@@ -53,5 +32,18 @@ export class Partner {
       props.subscription_plan,
       props.subdomain
     );
+  }
+
+  public toPrimitives(): PartnerPrimitives {
+    return {
+      partner_id: this.partner_id.value,
+      email: this.email,
+      given_name: this.given_name,
+      family_name: this.family_name,
+      picture: this.picture,
+      locale: this.locale,
+      subscription_plan: this.subscription_plan,
+      subdomain: this.subdomain
+    };
   }
 }

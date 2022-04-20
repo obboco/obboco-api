@@ -14,12 +14,14 @@ export class InitBookingSession {
   }
 
   async make(
-    bookingId: Ulid,
-    eventId: Ulid
+    bookingId: string,
+    eventId: string
   ): Promise<InitBookingSessionResponse> {
-    const bookingSession: BookingSession = BookingSession.new({
+    const bookingSession: BookingSession = BookingSession.fromPrimitives({
       booking_id: bookingId,
-      event_id: eventId
+      event_id: eventId,
+      status: 'init',
+      guest: null
     });
     this.bookingSessionRepository.add(bookingSession);
     return {

@@ -1,3 +1,4 @@
+import { Ulid } from './../Domain/Shared/ulid';
 import { Router, Request, Response } from 'express';
 import { param, body } from 'express-validator';
 import container from '../dependency-injection';
@@ -17,6 +18,17 @@ export const register = (router: Router) => {
   );
   router.post(
     '/partner',
+    body('partner_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
     body('email').isEmail(),
     body('given_name').isString().isLength({ min: 1, max: 255 }),
     body('family_name').isString().isLength({ min: 1, max: 255 }),

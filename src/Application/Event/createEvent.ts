@@ -7,13 +7,13 @@ export class CreateEvent {
   constructor(private eventRepository: EventRepository) {}
 
   make(request: Request): Ulid {
-    const event: Event = Event.create({
-      event_id: Ulid.fromPrimitives(request.body.event_id),
-      start_date: new Date(request.body.start_date),
+    const event: Event = Event.fromPrimitives({
+      event_id: request.body.event_id,
+      start_date: request.body.start_date,
       duration: request.body.duration,
       capacity: request.body.capacity,
       current_capacity: 0,
-      activity_id: Ulid.fromPrimitives(request.body.activity_id)
+      activity_id: request.body.activity_id
     });
     this.eventRepository.add(event);
     return event.event_id;

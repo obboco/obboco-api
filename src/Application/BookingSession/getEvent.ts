@@ -1,4 +1,3 @@
-import { BookingSession } from './../../Domain/bookingSession';
 import { BookingSessionRedisRepository } from './../../Infrastructure/bookingRedisRepository';
 import { ActivityRepository } from '../Activity/activityRepository';
 import { Event } from '../../Domain/event';

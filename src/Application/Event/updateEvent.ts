@@ -21,13 +21,13 @@ export class UpdateEvent {
 
     const event: Event = await this.eventRepository.get(eventId);
 
-    const updateEvent: Event = Event.create({
-      event_id: event.event_id,
+    const updateEvent: Event = Event.fromPrimitives({
+      event_id: event.event_id.value,
       start_date: request.body.start_date,
       duration: request.body.duration,
       current_capacity: event.current_capacity,
       capacity: request.body.capacity,
-      activity_id: event.activity_id
+      activity_id: event.activity_id.value
     });
     await this.eventRepository.update(updateEvent);
   }

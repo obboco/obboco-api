@@ -9,8 +9,6 @@ let application: BookingApp;
 
 describe('List activities', () => {
   it('List empty activities', async (done) => {
-    const activityFixtures = new ActivityFixtures();
-
     request(application.httpServer)
       .get('/activity/partner/' + Ulid.create().value)
       .set('accept', 'application/json')

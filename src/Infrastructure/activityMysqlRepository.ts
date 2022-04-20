@@ -1,4 +1,3 @@
-import { ActivityFactory } from '../Application/Activity/activityFactory';
 import { Activity } from '../Domain/activity';
 import { ActivityRepository } from '../Application/Activity/activityRepository';
 import { mysqlConnection } from './mysqlConnector';
@@ -43,9 +42,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
       return null;
     }
 
-    return ActivityFactory.fromPrimitives(
-      JSON.parse(JSON.stringify(result[0]))
-    );
+    return Activity.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
   }
 
   async getByPartnerId(partner_id: Ulid): Promise<Activity[]> {
@@ -56,7 +53,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
     );
 
     return Object.values(JSON.parse(JSON.stringify(result))).map(
-      (activity: any) => ActivityFactory.fromPrimitives(activity)
+      (activity: any) => Activity.fromPrimitives(activity)
     );
   }
 }

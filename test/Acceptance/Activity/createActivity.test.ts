@@ -1,4 +1,7 @@
-import { makeRandomActivity } from './../../Mock/Activity/activityMother';
+import {
+  makeRandomActivity,
+  makeRandomActivityWhithoutImage
+} from './../../Mock/Activity/activityMother';
 import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
@@ -14,7 +17,7 @@ describe('Create activity', () => {
     const activityFixtures = new ActivityFixtures();
 
     const randomPartner = makeRandomPartner();
-    const randomActivity = makeRandomActivity(randomPartner);
+    const randomActivity = makeRandomActivityWhithoutImage(randomPartner);
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
@@ -42,7 +45,6 @@ describe('Create activity', () => {
 
     const randomPartner = makeRandomPartner();
     let randomActivity = makeRandomActivity(randomPartner);
-    randomActivity.image_id = Ulid.create();
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')

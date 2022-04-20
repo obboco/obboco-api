@@ -1,4 +1,3 @@
-import { EventFactory } from './../../../src/Application/Event/eventFactory';
 import { Event } from './../../../src/Domain/event';
 import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
 
@@ -27,6 +26,6 @@ export class EventFixtures {
     if (result[0] == undefined) {
       return null;
     }
-    return EventFactory.fromPrimitives(result[0]);
+    return Event.fromPrimitives(result[0]);
   }
 }

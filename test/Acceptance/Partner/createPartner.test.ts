@@ -16,7 +16,7 @@ describe('Create partner', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
-        partner_id: partner.partner_id,
+        partner_id: partner.partner_id.value,
         email: partner.email,
         given_name: partner.given_name,
         family_name: partner.family_name,
@@ -53,6 +53,7 @@ describe('Create partner', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
+        partner_id: partner.partner_id.value,
         email: partner.email,
         given_name: partner.given_name,
         family_name: partner.family_name,

@@ -1,19 +1,12 @@
 import { Ulid } from './Shared/ulid';
 
-export interface EventProps {
-  event_id: Ulid;
-  start_date: Date;
+export interface EventPrimitives {
+  event_id: string;
+  start_date: string;
   duration: number;
   capacity: number;
   current_capacity: number;
-  activity_id: Ulid;
-}
-
-export interface NewEventProps {
-  start_date: Date;
-  duration: number;
-  capacity: number;
-  activity_id: Ulid;
+  activity_id: string;
 }
 
 export class Event {
@@ -26,26 +19,26 @@ export class Event {
     readonly activity_id: Ulid
   ) {}
 
-  static new(props: NewEventProps): Event {
+  static fromPrimitives(primitives: EventPrimitives): Event {
     return new Event(
-      Ulid.create(),
-      props.start_date,
-      props.duration,
-      props.capacity,
-      0,
-      props.activity_id
+      Ulid.fromPrimitives(primitives.event_id),
+      new Date(primitives.start_date),
+      primitives.duration,
+      primitives.capacity,
+      primitives.current_capacity,
+      Ulid.fromPrimitives(primitives.activity_id)
     );
   }
 
-  static create(props: EventProps): Event {
-    return new Event(
-      props.event_id,
-      props.start_date,
-      props.duration,
-      props.capacity,
-      props.current_capacity,
-      props.activity_id
-    );
+  toPrimitives(): EventPrimitives {
+    return {
+      event_id: this.event_id.value,
+      start_date: this.start_date.toISOString(),
+      duration: this.duration,
+      capacity: this.capacity,
+      current_capacity: this.current_capacity,
+      activity_id: this.activity_id.value
+    };
   }
 
   incrementCapacity(): void {

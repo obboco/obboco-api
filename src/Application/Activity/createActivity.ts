@@ -11,14 +11,12 @@ export class CreateActivity {
   }
 
   make(request: Request): Ulid {
-    const activity: Activity = Activity.create({
-      activity_id: Ulid.fromPrimitives(request.body.activity_id),
+    const activity: Activity = Activity.fromPrimitives({
+      activity_id: request.body.activity_id,
       title: request.body.title,
       description: request.body.description,
-      partner_id: Ulid.fromPrimitives(request.body.partner_id),
-      image_id: request.body.image_id
-        ? Ulid.fromPrimitives(request.body.image_id)
-        : null
+      partner_id: request.body.partner_id,
+      image_id: request.body.image_id ? request.body.image_id : null
     });
     this.activityRepository.add(activity);
     return activity.activity_id;

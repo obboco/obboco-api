@@ -17,7 +17,7 @@ export class CreatePartner {
       throw new Error('Partner already exists');
     }
 
-    partner = Partner.create({
+    partner = Partner.fromPrimitives({
       partner_id: request.body.partner_id,
       email: request.body.email,
       given_name: request.body.given_name,

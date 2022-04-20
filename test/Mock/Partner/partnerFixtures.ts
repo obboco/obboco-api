@@ -1,5 +1,4 @@
 import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
-import { PartnerFactory } from './../../../src/Application/Partner/partnerFactory';
 import { Partner } from './../../../src/Domain/partner';
 
 export class PartnerFixtures {
@@ -26,6 +25,7 @@ export class PartnerFixtures {
       'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE email = ?',
       [email]
     );
-    return PartnerFactory.fromPrimitives(result[0]);
+
+    return Partner.fromPrimitives(result[0]);
   }
 }

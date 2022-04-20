@@ -24,8 +24,8 @@ export class BookingInitPostController implements Controller {
     );
     try {
       const result: InitBookingSessionResponse = await initBooking.make(
-        Ulid.fromPrimitives(req.body.booking_id),
-        Ulid.fromPrimitives(req.body.event_id)
+        req.body.booking_id,
+        req.body.event_id
       );
       res.status(httpStatus.OK).send({ data: result });
     } catch (e) {

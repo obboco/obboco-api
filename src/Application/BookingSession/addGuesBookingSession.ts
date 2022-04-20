@@ -1,6 +1,6 @@
+import { BookingSessionPrimitives } from './../../Domain/bookingSession';
 import { Guest } from './../../Domain/guest';
 import { GuestRepository } from './../Guest/guestRepository';
-import { BookingSessionProps } from '../../Domain/bookingSession';
 import { Request } from 'express';
 import { BookingSession } from '../../Domain/bookingSession';
 import { Ulid } from '../../Domain/Shared/ulid';
@@ -16,15 +16,15 @@ export class AddGuestBookingSession {
     const guest: Guest = Guest.fromPrimitives(request.body.guest);
     this.guestRepository.add(guest);
 
-    const bookingSessionProps: BookingSessionProps = {
-      booking_id: Ulid.fromPrimitives(request.body.booking_id),
-      event_id: Ulid.fromPrimitives(request.body.event_id),
+    const bookingSessionProps: BookingSessionPrimitives = {
+      booking_id: request.body.booking_id,
+      event_id: request.body.event_id,
       status: 'guest',
-      guest: guest
+      guest: request.body.guest
     };
 
     const bookingSession: BookingSession =
-      BookingSession.create(bookingSessionProps);
+      BookingSession.fromPrimitives(bookingSessionProps);
     this.bookingSessionRepository.add(bookingSession);
   }
 }

@@ -5,7 +5,6 @@ import {
 } from './../Application/Event/eventRepository';
 import { mysqlConnection } from './mysqlConnector';
 import { Ulid } from '../Domain/Shared/ulid';
-import { EventFactory } from '../Application/Event/eventFactory';
 
 export class EventMysqlRepository implements EventRepository {
   async getByActivityId(activityId: Ulid): Promise<Event[]> {
@@ -16,7 +15,7 @@ export class EventMysqlRepository implements EventRepository {
     );
 
     return Object.values(JSON.parse(JSON.stringify(result))).map((event: any) =>
-      EventFactory.fromPrimitives(event)
+      Event.fromPrimitives(event)
     );
   }
 
@@ -61,7 +60,7 @@ export class EventMysqlRepository implements EventRepository {
       return null;
     }
 
-    return EventFactory.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
+    return Event.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
   }
 
   async getByFilter(filters: EventRepostitoryFilter): Promise<Event[]> {
@@ -88,7 +87,7 @@ export class EventMysqlRepository implements EventRepository {
     );
 
     return Object.values(JSON.parse(JSON.stringify(result))).map((event: any) =>
-      EventFactory.fromPrimitives(event)
+      Event.fromPrimitives(event)
     );
   }
 

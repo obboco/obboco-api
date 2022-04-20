@@ -1,7 +1,6 @@
 import { Activity } from './../../../src/Domain/activity';
 import { Ulid } from './../../../src/Domain/Shared/ulid';
 import { mysqlConnection } from '../../../src/Infrastructure/mysqlConnector';
-import { ActivityFactory } from '../../../src/Application/Activity/activityFactory';
 
 export class ActivityFixtures {
   async addActivity(activity: Activity) {
@@ -23,6 +22,6 @@ export class ActivityFixtures {
       'SELECT activity_id, title, description, partner_id, image_id FROM activity WHERE activity_id = ?',
       [activity_id]
     );
-    return ActivityFactory.fromPrimitives(result[0]);
+    return Activity.fromPrimitives(result[0]);
   }
 }
