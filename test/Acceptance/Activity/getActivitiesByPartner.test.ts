@@ -9,8 +9,9 @@ let application: BookingApp;
 
 describe('List activities', () => {
   it('List empty activities', async (done) => {
+    const partner = makeRandomPartner();
     request(application.httpServer)
-      .get('/activity/partner/' + Ulid.create().value)
+      .get('/activity/partner/' + partner.partner_id.value)
       .set('accept', 'application/json')
       .type('json')
       .send()
