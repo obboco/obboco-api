@@ -1,8 +1,8 @@
 import {
   makeRandomActivity,
-  makeRandomActivityWhithoutImage
+  makeRandomActivityWhithoutImage,
+  makeRandomIsolatedActivity
 } from './../../Mock/Activity/activityMother';
-import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { Activity } from '../../../src/Domain/activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
@@ -26,6 +26,8 @@ describe('Create activity', () => {
         activity_id: randomActivity.activity_id.value,
         title: randomActivity.title,
         description: randomActivity.description,
+        price: randomActivity.price,
+        currency: randomActivity.currency,
         partner_id: randomPartner.partner_id.value
       })
       .expect(200)
@@ -34,7 +36,9 @@ describe('Create activity', () => {
         activityFixtures
           .getActivity(response.body.activity_id)
           .then((activity: Activity) => {
-            expect(activity).toEqual(randomActivity);
+            expect(activity.toPrimitives()).toEqual(
+              randomActivity.toPrimitives()
+            );
             done();
           });
       });
@@ -44,7 +48,7 @@ describe('Create activity', () => {
     const activityFixtures = new ActivityFixtures();
 
     const randomPartner = makeRandomPartner();
-    let randomActivity = makeRandomActivity(randomPartner);
+    const randomActivity = makeRandomActivity(randomPartner);
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
@@ -53,6 +57,8 @@ describe('Create activity', () => {
         activity_id: randomActivity.activity_id.value,
         title: randomActivity.title,
         description: randomActivity.description,
+        price: randomActivity.price,
+        currency: randomActivity.currency,
         partner_id: randomPartner.partner_id.value,
         image_id: randomActivity.image_id.value
       })
@@ -69,16 +75,17 @@ describe('Create activity', () => {
   });
 
   it('Add activity with empty title and throw an error', async (done) => {
-    const randomTitle = '';
-    const randomDescription = faker.lorem.sentence();
     const randomPartner = makeRandomPartner();
+    const randomActivity = makeRandomActivity(randomPartner);
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
       .send({
-        title: randomTitle,
-        description: randomDescription,
+        title: '',
+        description: randomActivity.description,
+        price: randomActivity.price,
+        currency: randomActivity.currency,
         partner_id: randomPartner.partner_id.value
       })
       .expect(400)
@@ -89,16 +96,17 @@ describe('Create activity', () => {
   });
 
   it('Add activity with empty description and throw an error', async (done) => {
-    const randomTitle = faker.lorem.word();
-    const randomDescription = '';
-    const randomPartner = makeRandomPartner();
+    let randomPartner = makeRandomPartner();
+    const randomActivity = makeRandomActivity(randomPartner);
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
       .send({
-        title: randomTitle,
-        description: randomDescription,
+        title: randomActivity.title,
+        description: '',
+        price: randomActivity.price,
+        currency: randomActivity.currency,
         partner_id: randomPartner.partner_id.value
       })
       .expect(400)
@@ -109,15 +117,16 @@ describe('Create activity', () => {
   });
 
   it('Add activity with empty partner_id and throw an error', async (done) => {
-    const randomTitle = faker.lorem.word();
-    const randomDescription = faker.lorem.sentence();
+    const randomActivity = makeRandomIsolatedActivity();
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
       .send({
-        title: randomTitle,
-        description: randomDescription,
+        title: randomActivity.title,
+        description: randomActivity.description,
+        price: randomActivity.price,
+        currency: randomActivity.currency,
         partner_id: ''
       })
       .expect(400)
@@ -128,15 +137,16 @@ describe('Create activity', () => {
   });
 
   it('Add activity with incorrect partner_id format and throw an error', async (done) => {
-    const randomTitle = faker.lorem.word();
-    const randomDescription = faker.lorem.sentence();
+    const randomActivity = makeRandomIsolatedActivity();
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
       .type('json')
       .send({
-        title: randomTitle,
-        description: randomDescription,
+        title: randomActivity.title,
+        description: randomActivity.description,
+        price: randomActivity.price,
+        currency: randomActivity.currency,
         partner_id: 'incorrect_id'
       })
       .expect(400)

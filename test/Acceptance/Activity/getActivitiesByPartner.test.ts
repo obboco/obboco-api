@@ -22,6 +22,24 @@ describe('List activities', () => {
       });
   });
 
+  it('List 1 activity', async (done) => {
+    const partner = makeRandomPartner();
+    const activityFixtures = new ActivityFixtures();
+    const randomActivity = makeRandomActivity(partner);
+    await activityFixtures.addActivity(randomActivity);
+
+    request(application.httpServer)
+      .get('/activity/partner/' + partner.partner_id.value)
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(200)
+      .then(async (response) => {
+        expect(response.body.data).toEqual([randomActivity.toPrimitives()]);
+        done();
+      });
+  });
+
   it('List some activities', async (done) => {
     const partner = makeRandomPartner();
     const activityFixtures = new ActivityFixtures();

@@ -7,6 +7,8 @@ interface CreateActivityCommand {
   activity_id: string;
   title: string;
   description: string;
+  price: number;
+  currency: string;
   partner_id: string;
   image_id: string | null;
 }
@@ -23,6 +25,8 @@ export class CreateActivity {
       activity_id: command.activity_id,
       title: command.title,
       description: command.description,
+      price: command.price,
+      currency: command.currency,
       partner_id: command.partner_id,
       image_id: command.image_id
     });
