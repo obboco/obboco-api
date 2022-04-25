@@ -7,7 +7,6 @@ export class BookingSessionFixtures {
     const connection = await redisConnection();
     const key: string = eventId.value + ':' + bookingId.value;
     const result = await connection.get(key);
-
     if (result === null) {
       return null;
     }

@@ -19,42 +19,6 @@ import { BookingApp } from '../../../src/BookingApp';
 let application: BookingApp;
 
 describe('Finish booking session', () => {
-  it('Finish booking session with wrong event_id and throw an error', async (done) => {
-    const bookingSession: BookingSession = makeNewRandomBookingSession();
-
-    request(application.httpServer)
-      .post('/booking/finish')
-      .set('accept', 'application/json')
-      .type('json')
-      .send({
-        event_id: bookingSession.event_id.value,
-        booking_id: 'wrong_booking_id'
-      })
-      .expect(400)
-      .then(async (response) => {
-        expect(response.body.errors[0].msg).toEqual('Invalid value');
-        done();
-      });
-  });
-
-  it('Finish booking session with empty booking_id and throw an error', async (done) => {
-    const bookingSession: BookingSession = makeNewRandomBookingSession();
-
-    request(application.httpServer)
-      .post('/booking/finish')
-      .set('accept', 'application/json')
-      .type('json')
-      .send({
-        event_id: bookingSession.event_id.value,
-        booking_id: ''
-      })
-      .expect(400)
-      .then(async (response) => {
-        expect(response.body.errors[0].msg).toEqual('Invalid value');
-        done();
-      });
-  });
-
   it('Finish booking session correctly', async (done) => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
     const activityFixtures: ActivityFixtures = new ActivityFixtures();
@@ -91,13 +55,15 @@ describe('Finish booking session', () => {
           });
       })
       .then(async () => {
-        bookingFixtures
-          .get(bookingSession.booking_id)
-          .then((bookingResult: Booking) => {
-            expect(bookingSession.booking_id).toEqual(bookingResult.booking_id);
-            expect(activity.title).toEqual(bookingResult.title);
-            expect(event.start_date).toEqual(bookingResult.start_date);
-          });
+        const bookingResult: Booking = await bookingFixtures.get(
+          bookingSession.booking_id
+        );
+        expect(bookingSession.booking_id).toEqual(bookingResult.booking_id);
+        expect(activity.title).toEqual(bookingResult.title);
+        expect(activity.price).toEqual(bookingResult.price);
+        expect(activity.currency).toEqual(bookingResult.currency);
+        expect(event.start_date).toEqual(bookingResult.start_date);
+        expect('booked').toEqual(bookingResult.status);
       })
       .then(async () => {
         eventFixtures
@@ -105,6 +71,42 @@ describe('Finish booking session', () => {
           .then((eventResult: Event) => {
             expect(1).toEqual(eventResult.current_capacity);
           });
+        done();
+      });
+  });
+
+  it('Finish booking session with wrong event_id and throw an error', async (done) => {
+    const bookingSession: BookingSession = makeNewRandomBookingSession();
+
+    request(application.httpServer)
+      .post('/booking/finish')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({
+        event_id: bookingSession.event_id.value,
+        booking_id: 'wrong_booking_id'
+      })
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual('Invalid value');
+        done();
+      });
+  });
+
+  it('Finish booking session with empty booking_id and throw an error', async (done) => {
+    const bookingSession: BookingSession = makeNewRandomBookingSession();
+
+    request(application.httpServer)
+      .post('/booking/finish')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({
+        event_id: bookingSession.event_id.value,
+        booking_id: ''
+      })
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });

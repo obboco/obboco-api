@@ -8,6 +8,8 @@ export interface BookingPrimitives {
   title: string;
   start_date: string;
   duration: number;
+  price: number;
+  currency: string;
   guest: GuestPrimitives;
 }
 
@@ -19,6 +21,8 @@ export class Booking {
     readonly title: string,
     readonly start_date: Date,
     readonly duration: number,
+    readonly price: number,
+    readonly currency: string,
     readonly guest: Guest
   ) {}
 
@@ -30,6 +34,8 @@ export class Booking {
       primitives.title,
       new Date(primitives.start_date),
       primitives.duration,
+      primitives.price,
+      primitives.currency,
       Guest.fromPrimitives(primitives.guest)
     );
   }
@@ -42,6 +48,8 @@ export class Booking {
       title: this.title,
       start_date: this.start_date.toISOString(),
       duration: this.duration,
+      price: this.price,
+      currency: this.currency,
       guest: this.guest.toPrimitives()
     };
   }

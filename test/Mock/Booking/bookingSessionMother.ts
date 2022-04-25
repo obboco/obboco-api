@@ -12,6 +12,8 @@ export const makeNewRandomBooking = (): Booking => {
     title: faker.lorem.word(),
     start_date: new Date('2022-05-15 06:39:09').toISOString(),
     duration: faker.datatype.number(2000),
+    price: faker.datatype.number(2000),
+    currency: faker.finance.currencyCode(),
     guest: makeRandomGuest().toPrimitives()
   };
   return Booking.fromPrimitives(bookingPrimitives);
@@ -25,6 +27,8 @@ export const makeNewRandomBookingWithEvent = (event: Event): Booking => {
     title: faker.lorem.word(),
     start_date: event.start_date.toISOString(),
     duration: event.duration,
+    price: faker.datatype.number(2000),
+    currency: faker.finance.currencyCode(),
     guest: makeRandomGuest().toPrimitives()
   };
   return Booking.fromPrimitives(bookingPrimitives);
