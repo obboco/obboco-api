@@ -16,6 +16,8 @@ describe('Update activity', () => {
 
     const randomTitle = faker.lorem.word();
     const randomDescription = faker.lorem.sentence();
+    const randomPrice = faker.datatype.number(2000);
+    const randomCurrency = faker.finance.currencyCode();
 
     request(application.httpServer)
       .put('/activity')
@@ -24,7 +26,9 @@ describe('Update activity', () => {
       .send({
         activity_id: activity.activity_id.value,
         title: randomTitle,
-        description: randomDescription
+        description: randomDescription,
+        price: randomPrice,
+        currency: randomCurrency
       })
       .expect(200)
       .then(async () => {
@@ -34,6 +38,8 @@ describe('Update activity', () => {
           .then((activityResult: Activity) => {
             expect(randomTitle).toEqual(activityResult.title);
             expect(randomDescription).toEqual(activityResult.description);
+            expect(randomPrice).toEqual(activityResult.price);
+            expect(randomCurrency).toEqual(activityResult.currency);
             done();
           });
       });
@@ -46,6 +52,8 @@ describe('Update activity', () => {
 
     const randomTitle = faker.lorem.word();
     const randomDescription = faker.lorem.sentence();
+    const randomPrice = faker.datatype.number(2000);
+    const randomCurrency = faker.finance.currencyCode();
     const randomActivityImageId = Ulid.create().value;
 
     request(application.httpServer)
@@ -56,6 +64,8 @@ describe('Update activity', () => {
         activity_id: activity.activity_id.value,
         title: randomTitle,
         description: randomDescription,
+        price: randomPrice,
+        currency: randomCurrency,
         image_id: randomActivityImageId
       })
       .expect(200)
@@ -74,8 +84,7 @@ describe('Update activity', () => {
 
   it('Update activity with empty activity_id and throw an error', async (done) => {
     const randomUlid = '';
-    const randomTitle = faker.lorem.word();
-    const randomDescription = faker.lorem.sentence();
+    const activity: Activity = makeRandomIsolatedActivity();
 
     request(application.httpServer)
       .put('/activity')
@@ -83,8 +92,10 @@ describe('Update activity', () => {
       .type('json')
       .send({
         activity_id: randomUlid,
-        title: randomTitle,
-        description: randomDescription
+        title: activity.title,
+        description: activity.description,
+        price: activity.price,
+        currency: activity.currency
       })
       .expect(400)
       .then(async (response) => {
@@ -94,18 +105,17 @@ describe('Update activity', () => {
   });
 
   it('Update activity with empty title and throw an error', async (done) => {
-    const randomUlid = Ulid.create().value;
-    const randomTitle = '';
-    const randomDescription = faker.lorem.sentence();
+    const emptyTitle = '';
+    const activity: Activity = makeRandomIsolatedActivity();
 
     request(application.httpServer)
       .put('/activity')
       .set('accept', 'application/json')
       .type('json')
       .send({
-        activity_id: randomUlid,
-        title: randomTitle,
-        description: randomDescription
+        activity_id: activity.activity_id.value,
+        title: emptyTitle,
+        description: activity.description
       })
       .expect(400)
       .then(async (response) => {
@@ -115,8 +125,7 @@ describe('Update activity', () => {
   });
 
   it('Update activity with empty description and throw an error', async (done) => {
-    const randomUlid = Ulid.create().value;
-    const randomTitle = faker.lorem.word();
+    const activity: Activity = makeRandomIsolatedActivity();
     const randomDescription = '';
 
     request(application.httpServer)
@@ -124,8 +133,8 @@ describe('Update activity', () => {
       .set('accept', 'application/json')
       .type('json')
       .send({
-        activity_id: randomUlid,
-        title: randomTitle,
+        activity_id: activity.activity_id.value,
+        title: activity.title,
         description: randomDescription
       })
       .expect(400)

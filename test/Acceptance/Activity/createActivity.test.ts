@@ -8,7 +8,6 @@ import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import { BookingApp } from '../../../src/BookingApp';
 import request from 'supertest';
-import faker from 'faker';
 
 let application: BookingApp;
 

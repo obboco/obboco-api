@@ -7,6 +7,8 @@ interface UpdateActivityCommand {
   activity_id: string;
   title: string;
   description: string;
+  price: number;
+  currency: string;
   partner_id: string;
   image_id: string | null;
 }
@@ -22,6 +24,8 @@ export class UpdateActivity {
       activity_id: activity.activity_id.value,
       title: command.title,
       description: command.description,
+      price: command.price,
+      currency: command.currency,
       partner_id: activity.partner_id.value,
       image_id: command.image_id
     });
