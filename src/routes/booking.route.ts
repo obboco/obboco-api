@@ -148,6 +148,26 @@ export const register = (router: Router) => {
     (req: Request, res: Response) => bookingGetController.run(req, res)
   );
 
+  const bookingPutController = container.get(
+    'Infrastructure.Web.Booking.BookingPutController'
+  );
+  router.put(
+    '/booking',
+    body('booking_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
+    body('status').isString().isLength({ min: 1, max: 255 }),
+    (req: Request, res: Response) => bookingPutController.run(req, res)
+  );
+
   const bookingListByEventController = container.get(
     'Infrastructure.Web.Booking.BookingListByEventController'
   );

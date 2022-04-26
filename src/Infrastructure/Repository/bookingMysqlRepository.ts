@@ -31,6 +31,14 @@ export class BookingMysqlRepository implements BookingRepository {
     );
   }
 
+  async update(booking: Booking): Promise<void> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'UPDATE booking SET status = ? WHERE booking_id = ? LIMIT 1',
+      [booking.status, booking.booking_id.value]
+    );
+  }
+
   async get(bookingId: Ulid): Promise<Booking> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(

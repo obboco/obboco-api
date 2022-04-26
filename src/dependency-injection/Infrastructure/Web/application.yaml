@@ -79,6 +79,10 @@ services:
     class: ../../../Infrastructure/Web/Booking/BookingGetController
     arguments: []
 
+  Infrastructure.Web.Booking.BookingPutController:
+    class: ../../../Infrastructure/Web/Booking/BookingPutController
+    arguments: []
+
   Infrastructure.Web.Booking.BookingListByEventController:
     class: ../../../Infrastructure/Web/Booking/BookingListByEventController
     arguments: []
