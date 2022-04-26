@@ -8,6 +8,8 @@ export const makeNewRandomBooking = (): Booking => {
   const bookingPrimitives: BookingPrimitives = {
     booking_id: Ulid.create().value,
     event_id: Ulid.create().value,
+    activity_id: Ulid.create().value,
+    partner_id: Ulid.create().value,
     status: 'init',
     title: faker.lorem.word(),
     start_date: new Date('2022-05-15 06:39:09').toISOString(),
@@ -23,6 +25,8 @@ export const makeNewRandomBookingWithEvent = (event: Event): Booking => {
   const bookingPrimitives: BookingPrimitives = {
     booking_id: Ulid.create().value,
     event_id: event.event_id.value,
+    activity_id: Ulid.create().value,
+    partner_id: Ulid.create().value,
     status: 'init',
     title: faker.lorem.word(),
     start_date: event.start_date.toISOString(),

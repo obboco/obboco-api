@@ -50,6 +50,8 @@ export class FinishBookingSession {
     const booking: Booking = Booking.fromPrimitives({
       booking_id: bookingSession.booking_id.value,
       event_id: bookingSession.event_id.value,
+      activity_id: activity.activity_id.value,
+      partner_id: activity.partner_id.value,
       status: 'booked',
       title: activity.title,
       start_date: event.start_date.toISOString(),
