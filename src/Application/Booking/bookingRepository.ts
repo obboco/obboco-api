@@ -6,4 +6,5 @@ export interface BookingRepository {
   update(booking: Booking): Promise<void>;
   get(bookingId: Ulid): Promise<Booking>;
   getByEventId(eventId: Ulid): Promise<Booking[]>;
+  getByPartnerId(partnerId: Ulid): Promise<Booking[]>;
 }

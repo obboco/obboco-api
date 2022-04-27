@@ -86,3 +86,7 @@ services:
   Infrastructure.Web.Booking.BookingListByEventController:
     class: ../../../Infrastructure/Web/Booking/BookingListByEventController
     arguments: []
+
+  Infrastructure.Web.Booking.BookingListWithFiltersController:
+    class: ../../../Infrastructure/Web/Booking/BookingListWithFiltersController
+    arguments: []
