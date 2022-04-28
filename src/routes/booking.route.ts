@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { Ulid } from '../Domain/Shared/ulid';
-import { body, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 import container from '../dependency-injection';
 
 export const register = (router: Router) => {
@@ -48,8 +48,8 @@ export const register = (router: Router) => {
   );
   router.get(
     '/bookings',
-    body('filter').isString().isLength({ min: 1, max: 255 }),
-    body('attributes.partner_id')
+    query('filter').isString().isLength({ min: 1, max: 255 }),
+    query('partner_id')
       .optional()
       .isString()
       .isLength({ min: 1, max: 255 })

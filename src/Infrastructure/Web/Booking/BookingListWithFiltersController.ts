@@ -18,8 +18,10 @@ export class BookingListWithFiltersController implements Controller {
     const getBookingsWithFilter: GetBookingsWithFilter =
       new GetBookingsWithFilter(new BookingMysqlRepository());
     const bookings: Booking[] = await getBookingsWithFilter.make({
-      filter: req.body.filter,
-      attributes: req.body.attributes
+      filter: req.query.filter as string,
+      attributes: {
+        partner_id: req.query.partner_id as string
+      }
     });
     res.status(httpStatus.OK).send(this.toResponse(bookings));
   }

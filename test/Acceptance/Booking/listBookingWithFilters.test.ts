@@ -21,15 +21,10 @@ describe('List booking with filters', () => {
     await bookingFixtures.addBooking(makeRandomBooking(event, partner));
 
     request(application.httpServer)
-      .get('/bookings')
+      .get('/bookings?filter=partner&partner_id=' + partner.partner_id.value)
       .set('accept', 'application/json')
       .type('json')
-      .send({
-        filter: 'partner',
-        attributes: {
-          partner_id: partner.partner_id.value
-        }
-      })
+      .send()
       .expect(200)
       .then(async (response) => {
         expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
