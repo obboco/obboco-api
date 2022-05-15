@@ -11,7 +11,7 @@ export const makeNewRandomBookingSession = (): BookingSession => {
     booking_id: Ulid.create().value,
     event_id: Ulid.create().value,
     status: 'init',
-    guest: makeRandomGuest().toPrimitives()
+    guest: makeRandomGuest(Ulid.create()).toPrimitives()
   };
   return BookingSession.fromPrimitives(bookingSessionProps);
 };
@@ -23,7 +23,7 @@ export const makeNewRandomBookingSessionWithEvent = (
     booking_id: Ulid.create().value,
     event_id: event.event_id.value,
     status: 'init',
-    guest: makeRandomGuest().toPrimitives()
+    guest: makeRandomGuest(Ulid.create()).toPrimitives()
   };
   return BookingSession.fromPrimitives(bookingSessionProps);
 };

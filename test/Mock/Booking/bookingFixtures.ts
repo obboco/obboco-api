@@ -47,6 +47,7 @@ export class BookingFixtures {
         booking.guest.guest_id.value,
         JSON.stringify({
           guest_id: booking.guest.guest_id.value,
+          partner_id: booking.guest.partner_id.value,
           first_name: booking.guest.first_name,
           last_name: booking.guest.last_name,
           email: booking.guest.email,

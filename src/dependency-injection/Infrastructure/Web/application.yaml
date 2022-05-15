@@ -90,3 +90,7 @@ services:
   Infrastructure.Web.Booking.BookingListWithFiltersController:
     class: ../../../Infrastructure/Web/Booking/BookingListWithFiltersController
     arguments: []
+
+  Infrastructure.Web.Guest.GuestPostController:
+    class: ../../../Infrastructure/Web/Guest/GuestPostController
+    arguments: []

@@ -5,7 +5,7 @@ export class GuestFixtures {
   async getByEmail(email: string): Promise<Guest> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT guest_id, first_name, last_name, email, phone FROM guest WHERE email = ?',
+      'SELECT guest_id, partner_id, first_name, last_name, email, phone FROM guest WHERE email = ?',
       [email]
     );
 

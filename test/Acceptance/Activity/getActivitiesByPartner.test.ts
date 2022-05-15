@@ -1,5 +1,4 @@
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';
-import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import request from 'supertest';
@@ -35,7 +34,7 @@ describe('List activities', () => {
       .send()
       .expect(200)
       .then(async (response) => {
-        expect(response.body.data).toEqual([randomActivity.toPrimitives()]);
+        expect([randomActivity.toPrimitives()]).toEqual(response.body.data);
         done();
       });
   });
