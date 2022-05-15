@@ -1,3 +1,4 @@
+import { Ulid } from './../../Domain/Shared/ulid';
 import { Guest } from './../../Domain/guest';
 import { GuestRepository } from './../../Application/Guest/guestRepository';
 import { mysqlConnection } from './../Mysql/mysqlConnector';
@@ -15,6 +16,18 @@ export class GuestMysqlRepository implements GuestRepository {
         guest.email,
         guest.phone
       ]
+    );
+  }
+
+  async getByPartner(partnerId: Ulid): Promise<Guest[]> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'SELECT guest_id, partner_id, first_name, last_name, email, phone FROM guest WHERE partner_id = ?',
+      [partnerId.value]
+    );
+
+    return Object.values(JSON.parse(JSON.stringify(result))).map((guest: any) =>
+      Guest.fromPrimitives(guest)
     );
   }
 }

@@ -15,4 +15,19 @@ export class GuestFixtures {
 
     return Guest.fromPrimitives(result[0]);
   }
+
+  async add(guest: Guest): Promise<void> {
+    const connection = await mysqlConnection();
+    connection.execute(
+      'INSERT INTO guest(guest_id, partner_id, first_name, last_name, email, phone) VALUES(?, ?, ?, ?, ?, ?)',
+      [
+        guest.guest_id.value,
+        guest.partner_id.value,
+        guest.first_name,
+        guest.last_name,
+        guest.email,
+        guest.phone
+      ]
+    );
+  }
 }

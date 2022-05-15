@@ -38,4 +38,23 @@ export const register = (router: Router) => {
     body('phone').isString().isLength({ min: 1, max: 255 }),
     (req: Request, res: Response) => guestPostController.run(req, res)
   );
+
+  const guestGetController = container.get(
+    'Infrastructure.Web.Guest.GuestGetController'
+  );
+  router.get(
+    '/guest/:partner_id',
+    param('partner_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
+    (req: Request, res: Response) => guestGetController.run(req, res)
+  );
 };

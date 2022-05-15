@@ -94,3 +94,7 @@ services:
   Infrastructure.Web.Guest.GuestPostController:
     class: ../../../Infrastructure/Web/Guest/GuestPostController
     arguments: []
+
+  Infrastructure.Web.Guest.GuestGetController:
+    class: ../../../Infrastructure/Web/Guest/GuestGetController
+    arguments: []
