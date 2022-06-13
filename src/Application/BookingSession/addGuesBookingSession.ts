@@ -18,7 +18,11 @@ export class AddGuestBookingSession {
 
   async make(command: AddGuessBokingSessionCommand): Promise<void> {
     const guest: Guest = Guest.fromPrimitives(command.guest);
-    this.guestRepository.add(guest);
+
+    const guestFromRepository = await this.guestRepository.get(guest.guest_id);
+    if (!guestFromRepository) {
+      this.guestRepository.add(guest);
+    }
 
     const bookingSessionPrimitives: BookingSessionPrimitives = {
       booking_id: command.booking_id,

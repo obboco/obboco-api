@@ -44,6 +44,35 @@ describe('Add guest details into the booking session', () => {
       });
   });
 
+  it('Do not add already existed guest into the booking session correctly', async (done) => {
+    const bookingSessionFixtures: BookingSessionFixtures =
+      new BookingSessionFixtures();
+    const bookingSession: BookingSession = makeNewRandomBookingSession();
+    const guestFixtures: GuestFixtures = new GuestFixtures();
+    guestFixtures.add(bookingSession.guest);
+
+    request(application.httpServer)
+      .post('/booking/guest')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({
+        event_id: bookingSession.event_id.value,
+        booking_id: bookingSession.booking_id.value,
+        guest: bookingSession.guest.toPrimitives()
+      })
+      .expect(200)
+      .then(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        bookingSessionFixtures
+          .get(bookingSession.event_id, bookingSession.booking_id)
+          .then((bookingSessionResult: BookingSession) => {
+            expect('guest').toEqual(bookingSessionResult.status);
+            expect(bookingSession.guest).toEqual(bookingSessionResult.guest);
+          });
+        done();
+      });
+  });
+
   it('Add guest with empty event_id format and throw an error', async (done) => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 

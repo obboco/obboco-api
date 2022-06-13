@@ -19,6 +19,20 @@ export class GuestMysqlRepository implements GuestRepository {
     );
   }
 
+  async get(guestId: Ulid): Promise<Guest> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'SELECT guest_id, partner_id, first_name, last_name, email, phone FROM guest WHERE guest_id = ?',
+      [guestId.value]
+    );
+
+    if (result[0] == undefined) {
+      return null;
+    }
+
+    return Guest.fromPrimitives(JSON.parse(JSON.stringify(result[0])));
+  }
+
   async getByPartner(partnerId: Ulid): Promise<Guest[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
