@@ -39,6 +39,10 @@ services:
     class: ../../../Infrastructure/Web/Activity/ActivityPostImageController
     arguments: []
 
+  Infrastructure.Web.Activity.ActivityDeleteController:
+    class: ../../../Infrastructure/Web/Activity/ActivityDeleteController
+    arguments: []
+
   Infrastructure.Web.Event.EventPostController:
     class: ../../../Infrastructure/Web/Event/EventPostController
     arguments: []

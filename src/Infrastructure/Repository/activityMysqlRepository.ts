@@ -60,4 +60,12 @@ export class ActivityMysqlRepository implements ActivityRepository {
       (activity: any) => Activity.fromPrimitives(activity)
     );
   }
+
+  async delete(activityId: Ulid): Promise<void> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'DELETE FROM activity WHERE activity_id = ? LIMIT 1',
+      [activityId.value]
+    );
+  }
 }

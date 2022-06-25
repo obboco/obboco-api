@@ -1,4 +1,5 @@
 module.exports = {
+  setupFilesAfterEnv: ['<rootDir>/test/setup.js'],
   roots: ['<rootDir>/test'],
   testMatch: [
     '**/__tests__/**/*.+(ts|tsx|js)',

@@ -108,5 +108,3 @@ volumes/s3-storage/.localstack
 
 # Mac
 .DS_Store
-test/.DS_Store
-test/.DS_Store

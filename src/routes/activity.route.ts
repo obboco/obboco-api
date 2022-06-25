@@ -125,6 +125,25 @@ export const register = (router: Router) => {
     (req: Request, res: Response) => activityGetController.run(req, res)
   );
 
+  const activityDeleteController = container.get(
+    'Infrastructure.Web.Activity.ActivityDeleteController'
+  );
+  router.delete(
+    '/activity/:activity_id',
+    param('activity_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
+    (req: Request, res: Response) => activityDeleteController.run(req, res)
+  );
+
   const activityPostImageController = container.get(
     'Infrastructure.Web.Activity.ActivityPostImageController'
   );

@@ -19,12 +19,15 @@ export class ActivityFixtures {
     );
   }
 
-  async getActivity(activity_id: string) {
+  async getActivity(activity_id: string): Promise<Activity> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
       'SELECT activity_id, title, description, price, currency, partner_id, image_id FROM activity WHERE activity_id = ?',
       [activity_id]
     );
+    if (result[0] == undefined) {
+      return null;
+    }
     return Activity.fromPrimitives(result[0]);
   }
 }

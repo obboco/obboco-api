@@ -6,4 +6,5 @@ export interface ActivityRepository {
   update(activity: Activity): Promise<void>;
   get(activityId: Ulid): Promise<Activity>;
   getByPartnerId(partnerId: Ulid): Promise<Activity[]>;
+  delete(activityId: Ulid): Promise<void>;
 }
