@@ -44,4 +44,12 @@ export class GuestMysqlRepository implements GuestRepository {
       Guest.fromPrimitives(guest)
     );
   }
+
+  async delete(guestId: Ulid): Promise<void> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'DELETE FROM guest WHERE guest_id = ? LIMIT 1',
+      [guestId.value]
+    );
+  }
 }

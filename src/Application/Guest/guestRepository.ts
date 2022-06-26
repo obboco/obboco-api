@@ -4,4 +4,5 @@ export interface GuestRepository {
   add(guest: Guest): void;
   get(guestId: Ulid): Promise<Guest>;
   getByPartner(partnerId: Ulid): Promise<Guest[]>;
+  delete(guestId: Ulid): Promise<void>;
 }

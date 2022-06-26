@@ -57,4 +57,22 @@ export const register = (router: Router) => {
       }),
     (req: Request, res: Response) => guestGetController.run(req, res)
   );
+  const guestDeleteController = container.get(
+    'Infrastructure.Web.Guest.GuestDeleteController'
+  );
+  router.delete(
+    '/guest/:guest_id',
+    param('guest_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
+    (req: Request, res: Response) => guestDeleteController.run(req, res)
+  );
 };

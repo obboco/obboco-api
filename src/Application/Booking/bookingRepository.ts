@@ -7,4 +7,5 @@ export interface BookingRepository {
   get(bookingId: Ulid): Promise<Booking>;
   getByEventId(eventId: Ulid): Promise<Booking[]>;
   getByPartnerId(partnerId: Ulid): Promise<Booking[]>;
+  getByGuestId(guestId: Ulid): Promise<Booking[]>;
 }
