@@ -1,6 +1,5 @@
 import { BookingRepository } from './../Booking/bookingRepository';
 import { Ulid } from './../../Domain/Shared/ulid';
-import { Guest } from '../../Domain/guest';
 import { GuestRepository } from './guestRepository';
 
 interface DeleteGuestCommand {

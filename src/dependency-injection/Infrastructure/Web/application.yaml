@@ -106,3 +106,23 @@ services:
   Infrastructure.Web.Guest.GuestDeleteController:
     class: ../../../Infrastructure/Web/Guest/GuestDeleteController
     arguments: []
+
+  Infrastructure.Web.Pass.PassPostController:
+    class: ../../../Infrastructure/Web/Pass/PassPostController
+    arguments: []
+
+  Infrastructure.Web.Pass.PassPutController:
+    class: ../../../Infrastructure/Web/Pass/PassPutController
+    arguments: []
+
+  Infrastructure.Web.Pass.PassDeleteController:
+    class: ../../../Infrastructure/Web/Pass/PassDeleteController
+    arguments: []
+
+  Infrastructure.Web.Pass.PassGetController:
+    class: ../../../Infrastructure/Web/Pass/PassGetController
+    arguments: []
+
+  Infrastructure.Web.Pass.PassGetByPartnerController:
+    class: ../../../Infrastructure/Web/Pass/PassGetByPartnerController
+    arguments: []
