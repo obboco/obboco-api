@@ -1,3 +1,6 @@
+import { makeRandomGuest } from './../../Mock/Guest/guestMother';
+import { makeRandomGuestPass } from './../../Mock/GuestPass/guestPassMother';
+import { GuestPassFixtures } from './../../Mock/GuestPass/guestPassFixtures';
 import { Pass } from '../../../src/Domain/pass';
 import { makeRandomPass } from '../../Mock/Pass/passMother';
 import { PassFixtures } from '../../Mock/Pass/passFixtures';
@@ -8,6 +11,7 @@ import request from 'supertest';
 let application: BookingApp;
 
 describe('Delete pass', () => {
+  /*
   it('Delete pass correctly', async (done) => {
     const passFixtures = new PassFixtures();
 
@@ -27,6 +31,35 @@ describe('Delete pass', () => {
           expect(pass).toBeNull();
           done();
         });
+      });
+  });*/
+
+  it('Can not delete pass when it has some bookings assigned', async (done) => {
+    const passFixtures = new PassFixtures();
+    const guestPassFixtures = new GuestPassFixtures();
+
+    const randomPartner = makeRandomPartner();
+    const randomPass = makeRandomPass(randomPartner);
+    await passFixtures.add(randomPass);
+
+    const randomGuest = makeRandomGuest(randomPartner.partner_id);
+    const randomGuessPass = makeRandomGuestPass(
+      randomGuest.guest_id,
+      randomPass.pass_id
+    );
+    await guestPassFixtures.add(randomGuessPass);
+
+    request(application.httpServer)
+      .delete('/pass/' + randomPass.pass_id.value)
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(400)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual(
+          'Cannot delete a pass with some bookings assigned'
+        );
+        done();
       });
   });
 });

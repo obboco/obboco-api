@@ -1,3 +1,4 @@
+import { GuestPassMysqlRepository } from './../../Repository/guestPassMysqlRepository';
 import { DeletePass } from './../../../Application/Pass/deletePass';
 import { PassMysqlRepository } from '../../Repository/passMysqlRepository';
 import { Request, Response } from 'express';
@@ -14,11 +15,20 @@ export class PassDeleteController implements Controller {
       res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
       return;
     }
-    const deletePass: DeletePass = new DeletePass(new PassMysqlRepository());
-    deletePass.make({
-      pass_id: req.params.pass_id
-    });
-    res.status(httpStatus.OK).send(this.toResponse());
+
+    try {
+      const deletePass: DeletePass = new DeletePass(
+        new PassMysqlRepository(),
+        new GuestPassMysqlRepository()
+      );
+      await deletePass.make({
+        pass_id: req.params.pass_id
+      });
+
+      res.status(httpStatus.OK).send(this.toResponse());
+    } catch (e) {
+      res.status(httpStatus.BAD_REQUEST).json({ errors: [{ msg: e.message }] });
+    }
   }
 
   private toResponse(): any {

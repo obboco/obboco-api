@@ -45,6 +45,20 @@ export class GuestPassMysqlRepository implements GuestPassRepository {
       (guestPass: any) => GuestPass.fromPrimitives(guestPass)
     );
   }
+
+  async getByPass(passId: Ulid): Promise<GuestPass[]> {
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      'SELECT guest_pass_id, pass_id, guest_id, quantity, current_quantity, price, currency, status FROM guest_pass WHERE pass_id = ?',
+      [passId.value]
+    );
+    connection.end();
+
+    return Object.values(JSON.parse(JSON.stringify(result))).map(
+      (guestPass: any) => GuestPass.fromPrimitives(guestPass)
+    );
+  }
+
   /*
   async delete(guestId: Ulid): Promise<void> {
     const connection = await mysqlConnection();
