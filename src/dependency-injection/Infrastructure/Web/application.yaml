@@ -126,3 +126,7 @@ services:
   Infrastructure.Web.Pass.PassGetByPartnerController:
     class: ../../../Infrastructure/Web/Pass/PassGetByPartnerController
     arguments: []
+
+  Infrastructure.Web.GuestPass.GuestPassPostController:
+    class: ../../../Infrastructure/Web/GuestPass/GuestPassPostController
+    arguments: []
