@@ -25,7 +25,6 @@ export class DeletePass {
       throw new Error('Cannot delete a pass with some bookings assigned');
     }
 
-    console.log(passes.length);
     this.passRepository.delete(passId);
   }
 }

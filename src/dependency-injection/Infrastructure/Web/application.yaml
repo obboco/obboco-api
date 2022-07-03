@@ -134,3 +134,7 @@ services:
   Infrastructure.Web.GuestPass.GuestPassGetByGuestController:
     class: ../../../Infrastructure/Web/GuestPass/GuestPassGetByGuestController
     arguments: []
+
+  Infrastructure.Web.GuestPass.GuestPassDeleteController:
+    class: ../../../Infrastructure/Web/GuestPass/GuestPassDeleteController
+    arguments: []

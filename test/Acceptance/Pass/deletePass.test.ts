@@ -11,7 +11,6 @@ import request from 'supertest';
 let application: BookingApp;
 
 describe('Delete pass', () => {
-  /*
   it('Delete pass correctly', async (done) => {
     const passFixtures = new PassFixtures();
 
@@ -32,7 +31,7 @@ describe('Delete pass', () => {
           done();
         });
       });
-  });*/
+  });
 
   it('Can not delete pass when it has some bookings assigned', async (done) => {
     const passFixtures = new PassFixtures();

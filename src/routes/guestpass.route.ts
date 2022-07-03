@@ -66,4 +66,23 @@ export const register = (router: Router) => {
       }),
     (req: Request, res: Response) => guestPassGetByGuestController.run(req, res)
   );
+
+  const guestPassDeleteController = container.get(
+    'Infrastructure.Web.GuestPass.GuestPassDeleteController'
+  );
+  router.delete(
+    '/guestpass/:guest_pass_id',
+    param('guest_pass_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
+    (req: Request, res: Response) => guestPassDeleteController.run(req, res)
+  );
 };

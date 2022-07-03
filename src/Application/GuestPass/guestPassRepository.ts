@@ -4,8 +4,6 @@ export interface GuestPassRepository {
   add(guestPass: GuestPass): void;
   getByGuest(guestId: Ulid): Promise<GuestPass[]>;
   getByPass(passId: Ulid): Promise<GuestPass[]>;
-  /*
-  get(guestId: Ulid): Promise<Guest>;
-  delete(guestId: Ulid): Promise<void>;
-  */
+  delete(guestPassId: Ulid): Promise<void>;
+  get(guestPassId: Ulid): Promise<GuestPass>;
 }

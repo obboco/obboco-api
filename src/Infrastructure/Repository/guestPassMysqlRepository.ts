@@ -59,12 +59,12 @@ export class GuestPassMysqlRepository implements GuestPassRepository {
     );
   }
 
-  /*
-  async delete(guestId: Ulid): Promise<void> {
+  async delete(guestPassId: Ulid): Promise<void> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'DELETE FROM guest WHERE guest_id = ? LIMIT 1',
-      [guestId.value]
+      'DELETE FROM guest_pass WHERE guest_pass_id = ? LIMIT 1',
+      [guestPassId.value]
     );
-  }*/
+    connection.end();
+  }
 }
