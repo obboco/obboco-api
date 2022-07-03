@@ -6,7 +6,7 @@ import { mysqlConnection } from './../Mysql/mysqlConnector';
 export class GuestMysqlRepository implements GuestRepository {
   async add(guest: Guest): Promise<void> {
     const connection = await mysqlConnection();
-    connection.execute(
+    await connection.execute(
       'INSERT INTO guest(guest_id, partner_id, first_name, last_name, email, phone) VALUES(?, ?, ?, ?, ?, ?)',
       [
         guest.guest_id.value,
@@ -17,6 +17,7 @@ export class GuestMysqlRepository implements GuestRepository {
         guest.phone
       ]
     );
+    connection.end();
   }
 
   async get(guestId: Ulid): Promise<Guest> {
@@ -25,6 +26,7 @@ export class GuestMysqlRepository implements GuestRepository {
       'SELECT guest_id, partner_id, first_name, last_name, email, phone FROM guest WHERE guest_id = ?',
       [guestId.value]
     );
+    connection.end();
 
     if (result[0] == undefined) {
       return null;
@@ -39,6 +41,7 @@ export class GuestMysqlRepository implements GuestRepository {
       'SELECT guest_id, partner_id, first_name, last_name, email, phone FROM guest WHERE partner_id = ?',
       [partnerId.value]
     );
+    connection.end();
 
     return Object.values(JSON.parse(JSON.stringify(result))).map((guest: any) =>
       Guest.fromPrimitives(guest)
@@ -51,5 +54,6 @@ export class GuestMysqlRepository implements GuestRepository {
       'DELETE FROM guest WHERE guest_id = ? LIMIT 1',
       [guestId.value]
     );
+    connection.end();
   }
 }

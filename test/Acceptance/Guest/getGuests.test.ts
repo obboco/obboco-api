@@ -25,9 +25,9 @@ describe('Get guest', () => {
     const guestFixtures = new GuestFixtures();
 
     const randomPartner = makeRandomPartner();
-    guestFixtures.add(makeRandomGuest(randomPartner.partner_id));
-    guestFixtures.add(makeRandomGuest(randomPartner.partner_id));
-    guestFixtures.add(makeRandomGuest(randomPartner.partner_id));
+    await guestFixtures.add(makeRandomGuest(randomPartner.partner_id));
+    await guestFixtures.add(makeRandomGuest(randomPartner.partner_id));
+    await guestFixtures.add(makeRandomGuest(randomPartner.partner_id));
 
     request(application.httpServer)
       .get('/guest/' + randomPartner.partner_id.value)

@@ -22,7 +22,7 @@ export class EventMysqlRepository implements EventRepository {
   async add(event: Event): Promise<void> {
     const connection = await mysqlConnection();
     const moment = require('moment');
-    connection.execute(
+    await connection.execute(
       'INSERT INTO event(event_id, start_date, duration, capacity, current_capacity, activity_id) VALUES(?, ?, ?, ?, ?, ?)',
       [
         event.event_id.value,
@@ -33,6 +33,7 @@ export class EventMysqlRepository implements EventRepository {
         event.activity_id.value
       ]
     );
+    connection.end();
   }
 
   async update(event: Event): Promise<void> {
@@ -47,6 +48,7 @@ export class EventMysqlRepository implements EventRepository {
         event.event_id.value
       ]
     );
+    connection.end();
   }
 
   async get(eventId: Ulid): Promise<Event> {
@@ -55,6 +57,7 @@ export class EventMysqlRepository implements EventRepository {
       'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE event_id = ? LIMIT 1',
       [eventId.value]
     );
+    connection.end();
 
     if (result[0] == undefined) {
       return null;
@@ -85,6 +88,7 @@ export class EventMysqlRepository implements EventRepository {
       sqlOptions.query,
       sqlOptions.params
     );
+    connection.end();
 
     return Object.values(JSON.parse(JSON.stringify(result))).map((event: any) =>
       Event.fromPrimitives(event)
@@ -97,5 +101,6 @@ export class EventMysqlRepository implements EventRepository {
       'DELETE FROM event WHERE event_id = ? LIMIT 1',
       [eventId.value]
     );
+    connection.end();
   }
 }

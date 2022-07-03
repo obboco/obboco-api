@@ -6,7 +6,7 @@ import { mysqlConnection } from './../Mysql/mysqlConnector';
 export class BookingMysqlRepository implements BookingRepository {
   async add(booking: Booking): Promise<void> {
     const connection = await mysqlConnection();
-    connection.execute(
+    await connection.execute(
       'INSERT INTO booking(booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest_id, guest) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         booking.booking_id.value,
@@ -30,6 +30,7 @@ export class BookingMysqlRepository implements BookingRepository {
         })
       ]
     );
+    connection.end();
   }
 
   async update(booking: Booking): Promise<void> {
@@ -38,6 +39,7 @@ export class BookingMysqlRepository implements BookingRepository {
       'UPDATE booking SET status = ? WHERE booking_id = ? LIMIT 1',
       [booking.status, booking.booking_id.value]
     );
+    connection.end();
   }
 
   async get(bookingId: Ulid): Promise<Booking> {
@@ -46,6 +48,7 @@ export class BookingMysqlRepository implements BookingRepository {
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest FROM booking WHERE booking_id = ? LIMIT 1',
       [bookingId.value]
     );
+    connection.end();
 
     const bookingPrimitives: BookingPrimitives = {
       booking_id: result[0].booking_id,
@@ -69,6 +72,7 @@ export class BookingMysqlRepository implements BookingRepository {
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest FROM booking WHERE event_id = ? ORDER BY created_at ASC',
       [eventId.value]
     );
+    connection.end();
 
     return Object.values(JSON.parse(JSON.stringify(result))).map(
       (booking: any) => {
@@ -96,6 +100,7 @@ export class BookingMysqlRepository implements BookingRepository {
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest FROM booking WHERE partner_id = ? ORDER BY created_at ASC',
       [partnerId.value]
     );
+    connection.end();
 
     return Object.values(JSON.parse(JSON.stringify(result))).map(
       (booking: any) => {
@@ -123,6 +128,7 @@ export class BookingMysqlRepository implements BookingRepository {
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest FROM booking WHERE guest_id = ? ORDER BY created_at ASC',
       [guestId.value]
     );
+    connection.end();
 
     return Object.values(JSON.parse(JSON.stringify(result))).map(
       (booking: any) => {

@@ -6,7 +6,7 @@ import { Ulid } from '../../Domain/Shared/ulid';
 export class ActivityMysqlRepository implements ActivityRepository {
   async add(activity: Activity): Promise<void> {
     const connection = await mysqlConnection();
-    connection.execute(
+    await connection.query(
       'INSERT INTO activity(activity_id, title, description, price, currency, partner_id, image_id) VALUES(?, ?, ?, ?, ?, ?, ?)',
       [
         activity.activity_id.value,
@@ -18,11 +18,12 @@ export class ActivityMysqlRepository implements ActivityRepository {
         activity.image_id ? activity.image_id.value : null
       ]
     );
+    connection.end();
   }
 
   async update(activity: Activity): Promise<void> {
     const connection = await mysqlConnection();
-    connection.execute(
+    await connection.execute(
       'UPDATE activity SET title = ?, description = ?, price = ?, currency = ?, image_id = ? WHERE activity_id = ?',
       [
         activity.title,
@@ -33,6 +34,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
         activity.activity_id.value
       ]
     );
+    connection.end();
   }
 
   async get(activityId: Ulid): Promise<Activity> {
@@ -41,6 +43,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
       'SELECT activity_id, title, description, price, currency, partner_id, image_id FROM activity WHERE activity_id = ?',
       [activityId.value]
     );
+    connection.end();
 
     if (result[0] == undefined) {
       return null;
@@ -55,6 +58,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
       'SELECT activity_id, title, description, price, currency, partner_id, image_id FROM activity WHERE partner_id = ? ORDER BY created_at ASC',
       [partner_id.value]
     );
+    connection.end();
 
     return Object.values(JSON.parse(JSON.stringify(result))).map(
       (activity: any) => Activity.fromPrimitives(activity)
@@ -67,5 +71,6 @@ export class ActivityMysqlRepository implements ActivityRepository {
       'DELETE FROM activity WHERE activity_id = ? LIMIT 1',
       [activityId.value]
     );
+    connection.end();
   }
 }

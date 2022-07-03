@@ -6,7 +6,7 @@ import { Partner } from './../../Domain/partner';
 export class PartnerMysqlRepository implements PartnerRepository {
   async add(partner: Partner): Promise<void> {
     const connection = await mysqlConnection();
-    connection.execute(
+    await connection.execute(
       'INSERT INTO partner (partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain) VALUES(? , ? , ? , ? , ? , ? , ? , ?)',
       [
         partner.partner_id.value,
@@ -19,6 +19,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
         partner.subdomain
       ]
     );
+    connection.end();
   }
 
   async get(partnerId: Ulid): Promise<Partner> {
@@ -27,6 +28,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
       'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE partner_id = ? LIMIT 1',
       [partnerId.value]
     );
+    connection.end();
 
     if (result[0] == undefined) {
       return null;
@@ -41,6 +43,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
       'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE email = ? LIMIT 1',
       [email]
     );
+    connection.end();
 
     if (result[0] == undefined) {
       return null;
@@ -55,6 +58,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
       'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE subdomain = ? LIMIT 1',
       [subdomain]
     );
+    connection.end();
 
     if (result[0] == undefined) {
       return null;

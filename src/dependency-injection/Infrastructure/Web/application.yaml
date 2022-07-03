@@ -130,3 +130,7 @@ services:
   Infrastructure.Web.GuestPass.GuestPassPostController:
     class: ../../../Infrastructure/Web/GuestPass/GuestPassPostController
     arguments: []
+
+  Infrastructure.Web.GuestPass.GuestPassGetByGuestController:
+    class: ../../../Infrastructure/Web/GuestPass/GuestPassGetByGuestController
+    arguments: []
