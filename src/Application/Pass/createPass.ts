@@ -5,6 +5,7 @@ interface CreatePassCommand {
   pass_id: string;
   partner_id: string;
   title: string;
+  description: string;
   quantity: number;
   price: number;
   currency: string;
@@ -18,6 +19,7 @@ export class CreatePass {
       pass_id: command.pass_id,
       partner_id: command.partner_id,
       title: command.title,
+      description: command.description,
       quantity: command.quantity,
       price: command.price,
       currency: command.currency

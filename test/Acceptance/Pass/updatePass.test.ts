@@ -24,6 +24,7 @@ describe('Update pass', () => {
         pass_id: randomPass.pass_id.value,
         partner_id: newRandomPass.partner_id.value,
         title: newRandomPass.title,
+        description: newRandomPass.description,
         quantity: newRandomPass.quantity,
         price: newRandomPass.price,
         currency: newRandomPass.currency
@@ -35,6 +36,7 @@ describe('Update pass', () => {
           expect(randomPass.pass_id.value).toEqual(pass.pass_id.value);
           expect(randomPass.partner_id.value).toEqual(pass.partner_id.value);
           expect(newRandomPass.title).toEqual(pass.title);
+          expect(newRandomPass.description).toEqual(pass.description);
           expect(newRandomPass.quantity).toEqual(pass.quantity);
           expect(newRandomPass.price).toEqual(pass.price);
           expect(newRandomPass.currency).toEqual(pass.currency);

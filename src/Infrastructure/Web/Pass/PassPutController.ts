@@ -19,6 +19,7 @@ export class PassPutController implements Controller {
       pass_id: req.body.pass_id,
       partner_id: req.body.partner_id,
       title: req.body.title,
+      description: req.body.description,
       quantity: req.body.quantity,
       price: req.body.price,
       currency: req.body.currency

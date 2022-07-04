@@ -21,6 +21,7 @@ describe('Create pass', () => {
         pass_id: randomPass.pass_id.value,
         partner_id: randomPartner.partner_id.value,
         title: randomPass.title,
+        description: randomPass.description,
         quantity: randomPass.quantity,
         price: randomPass.price,
         currency: randomPass.currency

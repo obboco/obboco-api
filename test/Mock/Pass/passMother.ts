@@ -8,6 +8,7 @@ export const makeRandomPass = (partner: Partner): Pass => {
     pass_id: Ulid.create().value,
     partner_id: partner.partner_id.value,
     title: faker.lorem.word(),
+    description: faker.lorem.word(),
     quantity: faker.datatype.number(2000),
     price: faker.datatype.number(2000),
     currency: 'EUR'
