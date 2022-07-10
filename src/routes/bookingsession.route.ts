@@ -128,6 +128,18 @@ export const register = (router: Router) => {
       }),
     body('source').isString().isLength({ min: 1, max: 255 }),
     body('type').isString().isLength({ min: 1, max: 255 }),
+    body('guest_pass_id')
+      .optional()
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
     (req: Request, res: Response) => bookingFinishPostController.run(req, res)
   );
 };

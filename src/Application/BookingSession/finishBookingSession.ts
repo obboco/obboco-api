@@ -1,3 +1,5 @@
+import { GuestPassRepository } from './../GuestPass/guestPassRepository';
+import { GuestPass } from './../../Domain/guestPass';
 import { Event } from '../../Domain/event';
 import { Activity } from '../../Domain/activity';
 import { EventRepository } from '../Event/eventRepository';
@@ -14,25 +16,17 @@ interface FinnishBookingSessionCommand {
   event_id: string;
   source: string;
   type: string;
+  guest_pass_id: string | null;
 }
 
 export class FinishBookingSession {
-  bookingSessionRepository: BookingSessionRepository;
-  bookingRepository: BookingRepository;
-  activityRepository: ActivityRepository;
-  eventRepository: EventRepository;
-
   constructor(
-    bookingSessionRepository: BookingSessionRepository,
-    bookingRepository: BookingRepository,
-    activityRepository: ActivityRepository,
-    eventRepository: EventRepository
-  ) {
-    this.bookingSessionRepository = bookingSessionRepository;
-    this.bookingRepository = bookingRepository;
-    this.activityRepository = activityRepository;
-    this.eventRepository = eventRepository;
-  }
+    readonly bookingSessionRepository: BookingSessionRepository,
+    readonly bookingRepository: BookingRepository,
+    readonly activityRepository: ActivityRepository,
+    readonly eventRepository: EventRepository,
+    readonly guestPassRepository: GuestPassRepository
+  ) {}
 
   async make(command: FinnishBookingSessionCommand): Promise<void> {
     const bookingSession: BookingSession =
@@ -49,6 +43,12 @@ export class FinishBookingSession {
       event.activity_id
     );
 
+    const guestPassId = command.guest_pass_id
+      ? Ulid.fromPrimitives(command.guest_pass_id).value
+      : null;
+
+    const price = command.guest_pass_id ? 0 : activity.price;
+
     const booking: Booking = Booking.fromPrimitives({
       booking_id: bookingSession.booking_id.value,
       event_id: bookingSession.event_id.value,
@@ -58,20 +58,36 @@ export class FinishBookingSession {
       title: activity.title,
       start_date: event.start_date.toISOString(),
       duration: event.duration,
-      price: activity.price,
+      price: price,
       currency: activity.currency,
       guest: bookingSession.guest.toPrimitives(),
       source: command.source,
-      type: command.type
+      type: command.type,
+      guest_pass_id: guestPassId
     });
 
     this.bookingSessionRepository.delete(bookingSession);
     this.bookingRepository.add(booking);
-    this.incrementCapacity(event);
+    this.incrementEventCapacity(event);
+    this.incrementGuestPassCapacityWhenPassIsApplied(guestPassId);
   }
 
-  async incrementCapacity(event: Event): Promise<void> {
+  private async incrementEventCapacity(event: Event): Promise<void> {
     event.incrementCapacity();
     this.eventRepository.update(event);
+  }
+
+  private async incrementGuestPassCapacityWhenPassIsApplied(
+    guestPassId: string | null
+  ): Promise<void> {
+    if (!guestPassId) {
+      return;
+    }
+
+    const guestPass: GuestPass = await this.guestPassRepository.get(
+      Ulid.fromPrimitives(guestPassId)
+    );
+    guestPass.incrementQuantity();
+    this.guestPassRepository.update(guestPass);
   }
 }

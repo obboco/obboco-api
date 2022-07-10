@@ -7,7 +7,7 @@ export class BookingMysqlRepository implements BookingRepository {
   async add(booking: Booking): Promise<void> {
     const connection = await mysqlConnection();
     await connection.execute(
-      'INSERT INTO booking(booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest_id, guest, source, type) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO booking(booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest_id, guest, source, type, guest_pass_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         booking.booking_id.value,
         booking.event_id.value,
@@ -29,7 +29,8 @@ export class BookingMysqlRepository implements BookingRepository {
           phone: booking.guest.phone
         }),
         booking.source,
-        booking.type
+        booking.type,
+        booking.guestPassId ? booking.guestPassId.value : null
       ]
     );
     connection.end();
@@ -47,7 +48,7 @@ export class BookingMysqlRepository implements BookingRepository {
   async get(bookingId: Ulid): Promise<Booking> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type FROM booking WHERE booking_id = ? LIMIT 1',
+      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE booking_id = ? LIMIT 1',
       [bookingId.value]
     );
     connection.end();
@@ -65,7 +66,8 @@ export class BookingMysqlRepository implements BookingRepository {
       currency: result[0].currency,
       guest: JSON.parse(result[0].guest),
       source: result[0].source,
-      type: result[0].type
+      type: result[0].type,
+      guest_pass_id: result[0].guest_pass_id
     };
     return Booking.fromPrimitives(bookingPrimitives);
   }
@@ -73,7 +75,7 @@ export class BookingMysqlRepository implements BookingRepository {
   async getByEventId(eventId: Ulid): Promise<Booking[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type FROM booking WHERE event_id = ? ORDER BY created_at ASC',
+      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE event_id = ? ORDER BY created_at ASC',
       [eventId.value]
     );
     connection.end();
@@ -93,7 +95,8 @@ export class BookingMysqlRepository implements BookingRepository {
           currency: booking.currency,
           guest: JSON.parse(booking.guest),
           source: booking.source,
-          type: booking.type
+          type: booking.type,
+          guest_pass_id: booking.guest_pass_id
         };
         return Booking.fromPrimitives(bookingPrimitives);
       }
@@ -103,7 +106,7 @@ export class BookingMysqlRepository implements BookingRepository {
   async getByPartnerId(partnerId: Ulid): Promise<Booking[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type FROM booking WHERE partner_id = ? ORDER BY created_at ASC',
+      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE partner_id = ? ORDER BY created_at ASC',
       [partnerId.value]
     );
     connection.end();
@@ -123,7 +126,8 @@ export class BookingMysqlRepository implements BookingRepository {
           currency: booking.currency,
           guest: JSON.parse(booking.guest),
           source: booking.source,
-          type: booking.type
+          type: booking.type,
+          guest_pass_id: booking.guest_pass_id
         };
         return Booking.fromPrimitives(bookingPrimitives);
       }
@@ -133,7 +137,7 @@ export class BookingMysqlRepository implements BookingRepository {
   async getByGuestId(guestId: Ulid): Promise<Booking[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type FROM booking WHERE guest_id = ? ORDER BY created_at ASC',
+      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE guest_id = ? ORDER BY created_at ASC',
       [guestId.value]
     );
     connection.end();
@@ -153,7 +157,8 @@ export class BookingMysqlRepository implements BookingRepository {
           currency: booking.currency,
           guest: JSON.parse(booking.guest),
           source: booking.source,
-          type: booking.type
+          type: booking.type,
+          guest_pass_id: booking.guest_pass_id
         };
         return Booking.fromPrimitives(bookingPrimitives);
       }

@@ -52,4 +52,8 @@ export class GuestPass {
       status: this.status
     };
   }
+
+  incrementQuantity(): void {
+    this.currentQuantity += 1;
+  }
 }

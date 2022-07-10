@@ -1,3 +1,4 @@
+import { GuestPassMysqlRepository } from './../../Repository/guestPassMysqlRepository';
 import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
 import { BookingMysqlRepository } from './../../Repository/bookingMysqlRepository';
 import { BookingSessionRedisRepository } from './../../Repository/bookingRedisRepository';
@@ -22,13 +23,15 @@ export class BookingFinishPostController implements Controller {
       new BookingSessionRedisRepository(),
       new BookingMysqlRepository(),
       new ActivityMysqlRepository(),
-      new EventMysqlRepository()
+      new EventMysqlRepository(),
+      new GuestPassMysqlRepository()
     );
     finishBookingSession.make({
       booking_id: req.body.booking_id,
       event_id: req.body.event_id,
       source: req.body.source,
-      type: req.body.type
+      type: req.body.type,
+      guest_pass_id: req.body.guest_pass_id
     });
     res.status(httpStatus.OK).send(this.toResponse());
   }

@@ -1,3 +1,5 @@
+import { GuestPass } from './../../../src/Domain/guestPass';
+import { makeRandomNewGuestPass } from './../../Mock/GuestPass/guestPassMother';
 import { Booking } from '../../../src/Domain/booking';
 import {
   makeNewRandomBookingSessionWithEvent,
@@ -15,6 +17,7 @@ import { Event } from '../../../src/Domain/event';
 import request from 'supertest';
 import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
 import { BookingApp } from '../../../src/BookingApp';
+import { GuestPassFixtures } from '../../Mock/GuestPass/guestPassFixtures';
 
 let application: BookingApp;
 
@@ -74,6 +77,83 @@ describe('Finish booking session', () => {
           .getEvent(event.event_id.value)
           .then((eventResult: Event) => {
             expect(1).toEqual(eventResult.current_capacity);
+          });
+        done();
+      });
+  });
+
+  it('Finish booking session with pass is appied correctly', async (done) => {
+    const activity: Activity = makeRandomActivity(makeRandomPartner());
+    const activityFixtures: ActivityFixtures = new ActivityFixtures();
+    await activityFixtures.addActivity(activity);
+
+    const event: Event = makeRandomEvent(activity);
+    const eventFixtures: EventFixtures = new EventFixtures();
+    await eventFixtures.addEvent(event);
+
+    const bookingSession: BookingSession =
+      makeNewRandomBookingSessionWithEvent(event);
+    const bookingSessionFixtures: BookingSessionFixtures =
+      new BookingSessionFixtures();
+    await bookingSessionFixtures.add(bookingSession);
+
+    const randomPartner = makeRandomPartner();
+    const randomGuestPass = makeRandomNewGuestPass(
+      bookingSession.guest.guest_id,
+      randomPartner.partner_id
+    );
+    const guestPassFixtures = new GuestPassFixtures();
+    await guestPassFixtures.add(randomGuestPass);
+
+    const bookingFixtures: BookingFixtures = new BookingFixtures();
+    request(application.httpServer)
+      .post('/booking/finish')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({
+        event_id: bookingSession.event_id.value,
+        booking_id: bookingSession.booking_id.value,
+        source: 'landing',
+        type: 'direct',
+        guest_pass_id: randomGuestPass.guestPassId.value
+      })
+      .expect(200)
+      .then(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      })
+      .then(async () => {
+        bookingSessionFixtures
+          .get(bookingSession.event_id, bookingSession.booking_id)
+          .then((bookingSessionResult: BookingSession) => {
+            expect(bookingSessionResult).toBeNull();
+          });
+      })
+      .then(async () => {
+        const bookingResult: Booking = await bookingFixtures.get(
+          bookingSession.booking_id
+        );
+        expect(bookingSession.booking_id).toEqual(bookingResult.booking_id);
+        expect(activity.title).toEqual(bookingResult.title);
+        expect(0).toEqual(bookingResult.price);
+        expect(activity.currency).toEqual(bookingResult.currency);
+        expect(event.start_date).toEqual(bookingResult.start_date);
+        expect('booked').toEqual(bookingResult.status);
+        expect('landing').toEqual(bookingResult.source);
+        expect('direct').toEqual(bookingResult.type);
+        expect(randomGuestPass.guestPassId).toEqual(bookingResult.guestPassId);
+      })
+      .then(async () => {
+        eventFixtures
+          .getEvent(event.event_id.value)
+          .then((eventResult: Event) => {
+            expect(1).toEqual(eventResult.current_capacity);
+          });
+      })
+      .then(async () => {
+        guestPassFixtures
+          .get(randomGuestPass.guestPassId.value)
+          .then((guestPassResult: GuestPass) => {
+            expect(1).toEqual(guestPassResult.currentQuantity);
           });
         done();
       });
