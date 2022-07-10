@@ -41,7 +41,8 @@ describe('Finish booking session', () => {
       .type('json')
       .send({
         event_id: bookingSession.event_id.value,
-        booking_id: bookingSession.booking_id.value
+        booking_id: bookingSession.booking_id.value,
+        source: 'landing'
       })
       .expect(200)
       .then(async () => {
@@ -64,6 +65,7 @@ describe('Finish booking session', () => {
         expect(activity.currency).toEqual(bookingResult.currency);
         expect(event.start_date).toEqual(bookingResult.start_date);
         expect('booked').toEqual(bookingResult.status);
+        expect('landing').toEqual(bookingResult.source);
       })
       .then(async () => {
         eventFixtures

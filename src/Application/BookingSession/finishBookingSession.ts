@@ -12,6 +12,7 @@ import { BookingRepository } from '../Booking/bookingRepository';
 interface FinnishBookingSessionCommand {
   booking_id: string;
   event_id: string;
+  source: string;
 }
 
 export class FinishBookingSession {
@@ -58,7 +59,8 @@ export class FinishBookingSession {
       duration: event.duration,
       price: activity.price,
       currency: activity.currency,
-      guest: bookingSession.guest.toPrimitives()
+      guest: bookingSession.guest.toPrimitives(),
+      source: command.source
     });
 
     this.bookingSessionRepository.delete(bookingSession);

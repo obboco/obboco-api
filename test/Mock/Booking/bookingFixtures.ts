@@ -7,7 +7,7 @@ export class BookingFixtures {
   async get(bookingId: Ulid): Promise<Booking> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest FROM booking WHERE booking_id = ? LIMIT 1',
+      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source FROM booking WHERE booking_id = ? LIMIT 1',
       [bookingId.value]
     );
     if (result[0] == undefined) {
@@ -24,7 +24,8 @@ export class BookingFixtures {
       duration: result[0].duration,
       price: result[0].price,
       currency: result[0].currency,
-      guest: JSON.parse(result[0].guest)
+      guest: JSON.parse(result[0].guest),
+      source: result[0].source
     };
     return Booking.fromPrimitives(bookingPrimitives);
   }
@@ -32,7 +33,7 @@ export class BookingFixtures {
   async addBooking(booking: Booking) {
     const connection = await mysqlConnection();
     connection.execute(
-      'INSERT INTO booking(booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest_id, guest) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO booking(booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest_id, guest, source) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         booking.booking_id.value,
         booking.event_id.value,
@@ -52,7 +53,8 @@ export class BookingFixtures {
           last_name: booking.guest.last_name,
           email: booking.guest.email,
           phone: booking.guest.phone
-        })
+        }),
+        booking.source
       ]
     );
   }
