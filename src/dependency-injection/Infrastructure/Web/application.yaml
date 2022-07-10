@@ -103,6 +103,10 @@ services:
     class: ../../../Infrastructure/Web/Guest/GuestGetController
     arguments: []
 
+  Infrastructure.Web.Guest.GuestsGetController:
+    class: ../../../Infrastructure/Web/Guest/GuestsGetController
+    arguments: []
+
   Infrastructure.Web.Guest.GuestDeleteController:
     class: ../../../Infrastructure/Web/Guest/GuestDeleteController
     arguments: []

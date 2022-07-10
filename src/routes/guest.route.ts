@@ -43,8 +43,8 @@ export const register = (router: Router) => {
     'Infrastructure.Web.Guest.GuestGetController'
   );
   router.get(
-    '/guest/:partner_id',
-    param('partner_id')
+    '/guest/:guest_id',
+    param('guest_id')
       .isString()
       .isLength({ min: 1, max: 255 })
       .custom((value) => {
@@ -57,6 +57,26 @@ export const register = (router: Router) => {
       }),
     (req: Request, res: Response) => guestGetController.run(req, res)
   );
+
+  const guestsGetController = container.get(
+    'Infrastructure.Web.Guest.GuestsGetController'
+  );
+  router.get(
+    '/guests/:partner_id',
+    param('partner_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom((value) => {
+        try {
+          Ulid.fromPrimitives(value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }),
+    (req: Request, res: Response) => guestsGetController.run(req, res)
+  );
+
   const guestDeleteController = container.get(
     'Infrastructure.Web.Guest.GuestDeleteController'
   );

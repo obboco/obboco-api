@@ -1,4 +1,4 @@
-import { GetGuest } from './../../../Application/Guest/getGuest';
+import { GetGuests } from '../../../Application/Guest/getGuests';
 import { Guest } from '../../../Domain/guest';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
@@ -6,7 +6,7 @@ import { Controller } from '../Controller';
 import { validationResult } from 'express-validator';
 import { GuestMysqlRepository } from '../../Repository/guestMysqlRepository';
 
-export class GuestGetController implements Controller {
+export class GuestsGetController implements Controller {
   constructor() {}
 
   async run(req: Request, res: Response) {
@@ -16,21 +16,18 @@ export class GuestGetController implements Controller {
       return;
     }
 
-    const getGuest: GetGuest = new GetGuest(new GuestMysqlRepository());
-    const guest: Guest = await getGuest.make({
-      guest_id: req.params.guest_id
+    const getGuests: GetGuests = new GetGuests(new GuestMysqlRepository());
+    const guests: Guest[] = await getGuests.make({
+      partner_id: req.params.partner_id
     });
-
-    if (!guest) {
-      res.status(httpStatus.NOT_FOUND).send({ data: {} });
-      return;
-    }
-    res.status(httpStatus.OK).send(this.toResponse(guest));
+    res.status(httpStatus.OK).send(this.toResponse(guests));
   }
 
-  private toResponse(guest: Guest): any {
+  private toResponse(guests: Guest[]): any {
     return {
-      data: guest.toPrimitives()
+      data: guests.map((guest: Guest) => {
+        return guest.toPrimitives();
+      })
     };
   }
 }
