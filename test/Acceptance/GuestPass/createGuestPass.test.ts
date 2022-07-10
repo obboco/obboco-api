@@ -25,7 +25,7 @@ describe('Create guest pass', () => {
     await passFixtures.add(randomPass);
 
     request(application.httpServer)
-      .post('/guestPass')
+      .post('/guestpass')
       .set('accept', 'application/json')
       .type('json')
       .send({
