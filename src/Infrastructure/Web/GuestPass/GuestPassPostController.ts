@@ -23,10 +23,7 @@ export class GuestPassPostController implements Controller {
     createGuestPass.make({
       guest_pass_id: req.body.guest_pass_id,
       pass_id: req.body.pass_id,
-      guest_id: req.body.guest_id,
-      quantity: req.body.quantity,
-      price: req.body.price,
-      currency: req.body.currency
+      guest_id: req.body.guest_id
     });
     res.status(httpStatus.OK).send(this.toResponse());
   }

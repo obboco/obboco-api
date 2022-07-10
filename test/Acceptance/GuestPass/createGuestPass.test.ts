@@ -43,6 +43,7 @@ describe('Create guest pass', () => {
               guest_pass_id: randomGuestPass.guestPassId.value,
               pass_id: randomPass.pass_id.value,
               guest_id: randomGuestPass.guestId.value,
+              title: randomPass.title,
               quantity: randomPass.quantity,
               current_quantity: 0,
               price: randomPass.price,

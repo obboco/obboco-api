@@ -8,9 +8,6 @@ interface CreatGuestPassCommand {
   guest_pass_id: string;
   pass_id: string;
   guest_id: string;
-  quantity: number;
-  price: number;
-  currency: string;
 }
 
 export class CreateGuestPass {
@@ -26,6 +23,7 @@ export class CreateGuestPass {
       guest_pass_id: command.guest_pass_id,
       pass_id: command.pass_id,
       guest_id: command.guest_id,
+      title: pass.title,
       quantity: pass.quantity,
       current_quantity: 0,
       price: pass.price,
