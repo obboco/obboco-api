@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
 import { validationResult } from 'express-validator';
+import { PassMysqlRepository } from '../../Repository/passMysqlRepository';
 
 export class GuestPassPostController implements Controller {
   constructor() {}
@@ -16,7 +17,8 @@ export class GuestPassPostController implements Controller {
     }
 
     const createGuestPass: CreateGuestPass = new CreateGuestPass(
-      new GuestPassMysqlRepository()
+      new GuestPassMysqlRepository(),
+      new PassMysqlRepository()
     );
     createGuestPass.make({
       guest_pass_id: req.body.guest_pass_id,

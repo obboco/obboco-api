@@ -42,9 +42,6 @@ export const register = (router: Router) => {
           return false;
         }
       }),
-    body('quantity').isNumeric(),
-    body('price').isNumeric(),
-    body('currency').isString().isLength({ min: 1, max: 255 }),
     (req: Request, res: Response) => guestPassPostController.run(req, res)
   );
 

@@ -1,3 +1,5 @@
+import { makeRandomPass } from './../../Mock/Pass/passMother';
+import { PassFixtures } from './../../Mock/Pass/passFixtures';
 import { GuestPass } from './../../../src/Domain/guestPass';
 import { GuestPassFixtures } from './../../Mock/GuestPass/guestPassFixtures';
 import { makeRandomNewGuestPass } from './../../Mock/GuestPass/guestPassMother';
@@ -11,13 +13,16 @@ let application: BookingApp;
 describe('Create guest pass', () => {
   it('Create guest pass correctly', async (done) => {
     const guestPassFixtures = new GuestPassFixtures();
+    const passFixtures = new PassFixtures();
 
     const randomPartner = makeRandomPartner();
+    const randomPass = makeRandomPass(randomPartner);
     const randomGuest = makeRandomGuest(randomPartner.partner_id);
     const randomGuestPass = makeRandomNewGuestPass(
       randomGuest.guest_id,
-      randomPartner.partner_id
+      randomPass.pass_id
     );
+    await passFixtures.add(randomPass);
 
     request(application.httpServer)
       .post('/guestPass')
@@ -25,11 +30,8 @@ describe('Create guest pass', () => {
       .type('json')
       .send({
         guest_pass_id: randomGuestPass.guestPassId.value,
-        pass_id: randomGuestPass.passId.value,
-        guest_id: randomGuestPass.guestId.value,
-        quantity: randomGuestPass.quantity,
-        price: randomGuestPass.price,
-        currency: randomGuestPass.currency
+        pass_id: randomPass.pass_id.value,
+        guest_id: randomGuestPass.guestId.value
       })
       .expect(200)
       .then(async () => {
@@ -37,9 +39,16 @@ describe('Create guest pass', () => {
         guestPassFixtures
           .get(randomGuestPass.guestPassId.value)
           .then((guestPass: GuestPass) => {
-            expect(guestPass.toPrimitives()).toEqual(
-              randomGuestPass.toPrimitives()
-            );
+            expect(guestPass.toPrimitives()).toEqual({
+              guest_pass_id: randomGuestPass.guestPassId.value,
+              pass_id: randomPass.pass_id.value,
+              guest_id: randomGuestPass.guestId.value,
+              quantity: randomPass.quantity,
+              current_quantity: 0,
+              price: randomPass.price,
+              currency: randomPass.currency,
+              status: 'booked'
+            });
             done();
           });
       });
