@@ -50,7 +50,7 @@ export const register = (router: Router) => {
     '/bookings',
     query('filter').isString().isLength({ min: 1, max: 255 }),
     query('partner_id')
-      .optional()
+      .optional({ nullable: true })
       .isString()
       .isLength({ min: 1, max: 255 })
       .custom((value) => {

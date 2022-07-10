@@ -129,7 +129,7 @@ export const register = (router: Router) => {
     body('source').isString().isLength({ min: 1, max: 255 }),
     body('type').isString().isLength({ min: 1, max: 255 }),
     body('guest_pass_id')
-      .optional()
+      .optional({ nullable: true })
       .isString()
       .isLength({ min: 1, max: 255 })
       .custom((value) => {

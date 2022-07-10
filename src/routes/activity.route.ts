@@ -37,7 +37,7 @@ export const register = (router: Router) => {
         }
       }),
     body('image_id')
-      .optional()
+      .optional({ nullable: true })
       .isString()
       .isLength({ min: 1, max: 255 })
       .custom((value) => {
@@ -72,7 +72,7 @@ export const register = (router: Router) => {
     body('price').isNumeric(),
     body('currency').isString().isLength({ min: 1, max: 255 }),
     body('image_id')
-      .optional()
+      .optional({ nullable: true })
       .isString()
       .isLength({ min: 1, max: 255 })
       .custom((value) => {
