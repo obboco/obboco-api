@@ -27,7 +27,8 @@ export class BookingFinishPostController implements Controller {
     finishBookingSession.make({
       booking_id: req.body.booking_id,
       event_id: req.body.event_id,
-      source: req.body.source
+      source: req.body.source,
+      type: req.body.type
     });
     res.status(httpStatus.OK).send(this.toResponse());
   }

@@ -18,7 +18,8 @@ export const makeNewRandomBooking = (): Booking => {
     price: faker.datatype.number(2000),
     currency: faker.finance.currencyCode(),
     guest: makeRandomGuest(Ulid.create()).toPrimitives(),
-    source: 'pos'
+    source: 'pos',
+    type: 'direct'
   };
   return Booking.fromPrimitives(bookingPrimitives);
 };
@@ -36,7 +37,8 @@ export const makeNewRandomBookingWithEvent = (event: Event): Booking => {
     price: faker.datatype.number(2000),
     currency: faker.finance.currencyCode(),
     guest: makeRandomGuest(Ulid.create()).toPrimitives(),
-    source: 'pos'
+    source: 'pos',
+    type: 'direct'
   };
   return Booking.fromPrimitives(bookingPrimitives);
 };
@@ -54,7 +56,8 @@ export const makeRandomBooking = (event: Event, partner: Partner): Booking => {
     price: faker.datatype.number(2000),
     currency: faker.finance.currencyCode(),
     guest: makeRandomGuest(partner.partner_id).toPrimitives(),
-    source: 'pos'
+    source: 'pos',
+    type: 'direct'
   };
   return Booking.fromPrimitives(bookingPrimitives);
 };

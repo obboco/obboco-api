@@ -127,6 +127,7 @@ export const register = (router: Router) => {
         }
       }),
     body('source').isString().isLength({ min: 1, max: 255 }),
+    body('type').isString().isLength({ min: 1, max: 255 }),
     (req: Request, res: Response) => bookingFinishPostController.run(req, res)
   );
 };

@@ -13,6 +13,7 @@ interface FinnishBookingSessionCommand {
   booking_id: string;
   event_id: string;
   source: string;
+  type: string;
 }
 
 export class FinishBookingSession {
@@ -60,7 +61,8 @@ export class FinishBookingSession {
       price: activity.price,
       currency: activity.currency,
       guest: bookingSession.guest.toPrimitives(),
-      source: command.source
+      source: command.source,
+      type: command.type
     });
 
     this.bookingSessionRepository.delete(bookingSession);

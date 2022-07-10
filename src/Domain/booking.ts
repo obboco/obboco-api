@@ -14,6 +14,7 @@ export interface BookingPrimitives {
   currency: string;
   guest: GuestPrimitives;
   source: string;
+  type: string;
 }
 
 export class Booking {
@@ -29,7 +30,8 @@ export class Booking {
     readonly price: number,
     readonly currency: string,
     readonly guest: Guest,
-    readonly source: string
+    readonly source: string,
+    readonly type: string
   ) {}
 
   static fromPrimitives(primitives: BookingPrimitives): Booking {
@@ -45,7 +47,8 @@ export class Booking {
       primitives.price,
       primitives.currency,
       Guest.fromPrimitives(primitives.guest),
-      primitives.source
+      primitives.source,
+      primitives.type
     );
   }
 
@@ -62,7 +65,8 @@ export class Booking {
       price: this.price,
       currency: this.currency,
       guest: this.guest.toPrimitives(),
-      source: this.source
+      source: this.source,
+      type: this.type
     };
   }
 }
