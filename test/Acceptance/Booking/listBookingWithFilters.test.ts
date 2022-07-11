@@ -27,6 +27,7 @@ describe('List booking with filters', () => {
       .send()
       .expect(200)
       .then(async (response) => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
         expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
           3
         );

@@ -1,5 +1,6 @@
+import { validateMiddleware } from './Validator/validateMiddleware';
+import { ulidValidator } from './Validator/ulidValidator';
 import { uploadFiles } from './../Infrastructure/S3/s3';
-import { Ulid } from './../Domain/Shared/ulid';
 import { Router, Request, Response } from 'express';
 import { param, body } from 'express-validator';
 import container from '../dependency-injection';
@@ -13,14 +14,7 @@ export const register = (router: Router) => {
     body('activity_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('title').isString().isLength({ min: 1, max: 255 }),
     body('description').isString().isLength({ min: 1, max: 255 }),
     body('price').isNumeric(),
@@ -28,26 +22,13 @@ export const register = (router: Router) => {
     body('partner_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('image_id')
       .optional({ nullable: true })
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => activityPostController.run(req, res)
   );
 
@@ -59,14 +40,7 @@ export const register = (router: Router) => {
     body('activity_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('title').isString().isLength({ min: 1, max: 255 }),
     body('description').isString().isLength({ min: 1, max: 255 }),
     body('price').isNumeric(),
@@ -75,14 +49,8 @@ export const register = (router: Router) => {
       .optional({ nullable: true })
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => activityPutController.run(req, res)
   );
 
@@ -94,14 +62,8 @@ export const register = (router: Router) => {
     param('partner_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) =>
       activityGetByPartnerController.run(req, res)
   );
@@ -114,14 +76,8 @@ export const register = (router: Router) => {
     param('activity_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => activityGetController.run(req, res)
   );
 
@@ -133,14 +89,8 @@ export const register = (router: Router) => {
     param('activity_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => activityDeleteController.run(req, res)
   );
 

@@ -2,19 +2,12 @@ import { CreateGuest } from './../../../Application/Guest/createGuest';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
-import { validationResult } from 'express-validator';
 import { GuestMysqlRepository } from '../../Repository/guestMysqlRepository';
 
 export class GuestPostController implements Controller {
   constructor() {}
 
   async run(req: Request, res: Response) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
-      return;
-    }
-
     const createGuest: CreateGuest = new CreateGuest(
       new GuestMysqlRepository()
     );

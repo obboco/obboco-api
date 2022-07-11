@@ -1,4 +1,5 @@
-import { Ulid } from '../Domain/Shared/ulid';
+import { validateMiddleware } from './Validator/validateMiddleware';
+import { ulidValidator } from './Validator/ulidValidator';
 import { Router, Request, Response } from 'express';
 import { param, body } from 'express-validator';
 import container from '../dependency-injection';
@@ -12,30 +13,17 @@ export const register = (router: Router) => {
     body('pass_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('partner_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('title').isString().isLength({ min: 1, max: 255 }),
     body('description').isString().isLength({ min: 1, max: 255 }),
     body('quantity').isNumeric(),
     body('price').isNumeric(),
     body('currency').isString().isLength({ min: 1, max: 255 }),
+    validateMiddleware,
     (req: Request, res: Response) => passPostController.run(req, res)
   );
 
@@ -47,30 +35,17 @@ export const register = (router: Router) => {
     body('pass_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('partner_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('title').isString().isLength({ min: 1, max: 255 }),
     body('description').isString().isLength({ min: 1, max: 255 }),
     body('quantity').isNumeric(),
     body('price').isNumeric(),
     body('currency').isString().isLength({ min: 1, max: 255 }),
+    validateMiddleware,
     (req: Request, res: Response) => passPutController.run(req, res)
   );
 
@@ -82,14 +57,8 @@ export const register = (router: Router) => {
     param('pass_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => passDeleteController.run(req, res)
   );
 
@@ -101,14 +70,8 @@ export const register = (router: Router) => {
     param('pass_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => passGetController.run(req, res)
   );
 
@@ -120,14 +83,8 @@ export const register = (router: Router) => {
     param('partner_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => passGetByPartnerController.run(req, res)
   );
 };

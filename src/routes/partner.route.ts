@@ -1,4 +1,5 @@
-import { Ulid } from './../Domain/Shared/ulid';
+import { validateMiddleware } from './Validator/validateMiddleware';
+import { ulidValidator } from './Validator/ulidValidator';
 import { Router, Request, Response } from 'express';
 import { param, body } from 'express-validator';
 import container from '../dependency-injection';
@@ -9,7 +10,11 @@ export const register = (router: Router) => {
   );
   router.get(
     '/partner/:partner_id',
-    param('partner_id').isString().isLength({ min: 1, max: 255 }),
+    param('partner_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => partnerGetController.run(req, res)
   );
 
@@ -21,14 +26,7 @@ export const register = (router: Router) => {
     body('partner_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('email').isEmail(),
     body('given_name').isString().isLength({ min: 1, max: 255 }),
     body('family_name').isString().isLength({ min: 1, max: 255 }),
@@ -36,6 +34,7 @@ export const register = (router: Router) => {
     body('locale').isString().isLength({ min: 1, max: 255 }),
     body('subscription_plan').isString().isLength({ min: 1, max: 255 }),
     body('subdomain').isString().isLength({ min: 1, max: 255 }),
+    validateMiddleware,
     (req: Request, res: Response) => partnerPostController.run(req, res)
   );
 
@@ -45,6 +44,7 @@ export const register = (router: Router) => {
   router.get(
     '/partner/email/:email',
     param('email').isEmail(),
+    validateMiddleware,
     (req: Request, res: Response) => partnerGetByEmailController.run(req, res)
   );
 
@@ -54,6 +54,7 @@ export const register = (router: Router) => {
   router.get(
     '/partner/subdomain/:subdomain',
     param('subdomain').isString().isLength({ min: 1, max: 255 }),
+    validateMiddleware,
     (req: Request, res: Response) =>
       partnerGetBySubdomainController.run(req, res)
   );

@@ -4,18 +4,12 @@ import { GetPartner } from '../../../Application/Partner/getPartner';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
-import { validationResult } from 'express-validator';
 import { Ulid } from '../../../Domain/Shared/ulid';
 
 export class PartnerGetController implements Controller {
   constructor() {}
 
   async run(req: Request, res: Response) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
-      return;
-    }
     const partnerId: string = req.params.partner_id;
     const getPartner: GetPartner = new GetPartner(new PartnerMysqlRepository());
 

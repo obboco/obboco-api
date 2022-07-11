@@ -1,4 +1,5 @@
-import { Ulid } from '../Domain/Shared/ulid';
+import { validateMiddleware } from './Validator/validateMiddleware';
+import { ulidValidator } from './Validator/ulidValidator';
 import { Router, Request, Response } from 'express';
 import { body, param } from 'express-validator';
 import container from '../dependency-injection';
@@ -12,36 +13,16 @@ export const register = (router: Router) => {
     body('guest_pass_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('pass_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('guest_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => guestPassPostController.run(req, res)
   );
 
@@ -53,14 +34,8 @@ export const register = (router: Router) => {
     param('guest_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => guestPassGetByGuestController.run(req, res)
   );
 
@@ -72,14 +47,8 @@ export const register = (router: Router) => {
     param('guest_pass_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => guestPassDeleteController.run(req, res)
   );
 };

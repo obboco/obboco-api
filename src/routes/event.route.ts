@@ -1,7 +1,8 @@
+import { validateMiddleware } from './Validator/validateMiddleware';
+import { ulidValidator } from './Validator/ulidValidator';
 import { Router, Request, Response } from 'express';
 import { param, body } from 'express-validator';
 import container from '../dependency-injection';
-import { Ulid } from '../Domain/Shared/ulid';
 
 export const register = (router: Router) => {
   const eventPostController = container.get(
@@ -12,28 +13,15 @@ export const register = (router: Router) => {
     body('event_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('start_date').isString().isLength({ min: 1, max: 255 }),
     body('duration').isNumeric(),
     body('capacity').isNumeric(),
     body('activity_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => eventPostController.run(req, res)
   );
 
@@ -45,28 +33,15 @@ export const register = (router: Router) => {
     body('event_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('start_date').isString().isLength({ min: 1, max: 255 }),
     body('duration').isNumeric(),
     body('capacity').isNumeric(),
     body('activity_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => eventPutController.run(req, res)
   );
 
@@ -78,15 +53,8 @@ export const register = (router: Router) => {
     param('activity_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => eventGetByActivityController.run(req, res)
   );
 
@@ -98,15 +66,8 @@ export const register = (router: Router) => {
     param('event_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
-
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => eventGetController.run(req, res)
   );
 
@@ -118,14 +79,8 @@ export const register = (router: Router) => {
     param('event_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => eventDeleteController.run(req, res)
   );
 };

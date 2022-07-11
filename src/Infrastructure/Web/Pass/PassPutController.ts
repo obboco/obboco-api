@@ -3,17 +3,11 @@ import { PassMysqlRepository } from '../../Repository/passMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
-import { validationResult } from 'express-validator';
 
 export class PassPutController implements Controller {
   constructor() {}
 
   async run(req: Request, res: Response) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
-      return;
-    }
     const updatePass: UpdatePass = new UpdatePass(new PassMysqlRepository());
     updatePass.make({
       pass_id: req.body.pass_id,

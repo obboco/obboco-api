@@ -1,4 +1,5 @@
-import { Ulid } from '../Domain/Shared/ulid';
+import { validateMiddleware } from './Validator/validateMiddleware';
+import { ulidValidator } from './Validator/ulidValidator';
 import { Router, Request, Response } from 'express';
 import { param, body } from 'express-validator';
 import container from '../dependency-injection';
@@ -12,30 +13,17 @@ export const register = (router: Router) => {
     body('guest_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('partner_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('email').isEmail(),
     body('first_name').isString().isLength({ min: 1, max: 255 }),
     body('last_name').isString().isLength({ min: 1, max: 255 }),
     body('email').isString().isLength({ min: 1, max: 255 }),
     body('phone').isString().isLength({ min: 1, max: 255 }),
+    validateMiddleware,
     (req: Request, res: Response) => guestPostController.run(req, res)
   );
 
@@ -47,14 +35,8 @@ export const register = (router: Router) => {
     param('guest_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => guestGetController.run(req, res)
   );
 
@@ -66,14 +48,8 @@ export const register = (router: Router) => {
     param('partner_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => guestsGetController.run(req, res)
   );
 
@@ -85,14 +61,8 @@ export const register = (router: Router) => {
     param('guest_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => guestDeleteController.run(req, res)
   );
 };

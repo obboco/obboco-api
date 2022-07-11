@@ -1,7 +1,8 @@
+import { ulidValidator } from './Validator/ulidValidator';
 import { Router, Request, Response } from 'express';
-import { Ulid } from '../Domain/Shared/ulid';
 import { body, param } from 'express-validator';
 import container from '../dependency-injection';
+import { validateMiddleware } from './Validator/validateMiddleware';
 
 export const register = (router: Router) => {
   const bookingGetByEventController = container.get(
@@ -13,14 +14,8 @@ export const register = (router: Router) => {
     param('event_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => bookingGetByEventController.run(req, res)
   );
 
@@ -32,25 +27,12 @@ export const register = (router: Router) => {
     body('booking_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('event_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => bookingInitPostController.run(req, res)
   );
 
@@ -62,40 +44,20 @@ export const register = (router: Router) => {
     body('event_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('booking_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('guest.guest_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('guest.first_name').isString().isLength({ min: 1, max: 255 }),
     body('guest.last_name').isString().isLength({ min: 1, max: 255 }),
     body('guest.email').isString().isLength({ min: 1, max: 255 }).isEmail(),
     body('guest.phone').isString().isLength({ min: 1, max: 255 }),
+    validateMiddleware,
     (req: Request, res: Response) => bookingGuestPostController.run(req, res)
   );
 
@@ -107,39 +69,19 @@ export const register = (router: Router) => {
     body('event_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('booking_id')
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
     body('source').isString().isLength({ min: 1, max: 255 }),
     body('type').isString().isLength({ min: 1, max: 255 }),
     body('guest_pass_id')
       .optional({ nullable: true })
       .isString()
       .isLength({ min: 1, max: 255 })
-      .custom((value) => {
-        try {
-          Ulid.fromPrimitives(value);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }),
+      .custom(ulidValidator),
+    validateMiddleware,
     (req: Request, res: Response) => bookingFinishPostController.run(req, res)
   );
 };
