@@ -11,7 +11,7 @@ export class PassMysqlRepository implements PassRepository {
       [
         pass.pass_id.value,
         pass.title,
-        pass.description,
+        pass.description ? pass.description : null,
         pass.quantity,
         pass.price,
         pass.currency,

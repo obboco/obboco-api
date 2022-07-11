@@ -19,7 +19,10 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom(ulidValidator),
     body('title').isString().isLength({ min: 1, max: 255 }),
-    body('description').isString().isLength({ min: 1, max: 255 }),
+    body('description')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
     body('quantity').isNumeric(),
     body('price').isNumeric(),
     body('currency').isString().isLength({ min: 1, max: 255 }),
@@ -41,7 +44,10 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom(ulidValidator),
     body('title').isString().isLength({ min: 1, max: 255 }),
-    body('description').isString().isLength({ min: 1, max: 255 }),
+    body('description')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
     body('quantity').isNumeric(),
     body('price').isNumeric(),
     body('currency').isString().isLength({ min: 1, max: 255 }),

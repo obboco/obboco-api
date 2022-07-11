@@ -6,7 +6,7 @@ interface UpdatePassCommand {
   pass_id: string;
   partner_id: string;
   title: string;
-  description: string;
+  description: string | null;
   quantity: number;
   price: number;
   currency: string;
