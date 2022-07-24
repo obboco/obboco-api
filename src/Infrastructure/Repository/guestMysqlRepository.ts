@@ -20,6 +20,21 @@ export class GuestMysqlRepository implements GuestRepository {
     connection.end();
   }
 
+  async update(guest: Guest): Promise<void> {
+    const connection = await mysqlConnection();
+    await connection.execute(
+      'UPDATE guest SET first_name = ?, last_name = ?, email = ?, phone = ? WHERE guest_id = ?',
+      [
+        guest.first_name,
+        guest.last_name,
+        guest.email,
+        guest.phone,
+        guest.guest_id.value
+      ]
+    );
+    connection.end();
+  }
+
   async get(guestId: Ulid): Promise<Guest> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(

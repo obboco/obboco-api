@@ -1,7 +1,7 @@
 import { Guest } from './../../Domain/guest';
 import { GuestRepository } from './guestRepository';
 
-interface CreatGuestCommand {
+interface CreateGuestCommand {
   guest_id: string;
   partner_id: string;
   first_name: string;
@@ -17,7 +17,7 @@ export class CreateGuest {
     this.guestRepository = guestRepository;
   }
 
-  async make(command: CreatGuestCommand): Promise<void> {
+  async make(command: CreateGuestCommand): Promise<void> {
     const guest: Guest = Guest.fromPrimitives({
       guest_id: command.guest_id,
       partner_id: command.partner_id,

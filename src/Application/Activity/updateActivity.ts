@@ -21,7 +21,7 @@ export class UpdateActivity {
     const activity: Activity = await this.activityRepository.get(
       Ulid.fromPrimitives(command.activity_id)
     );
-    const UpdateActivity: Activity = Activity.fromPrimitives({
+    const updatedActivity: Activity = Activity.fromPrimitives({
       activity_id: activity.activity_id.value,
       title: command.title,
       description: command.description,
@@ -31,6 +31,6 @@ export class UpdateActivity {
       partner_id: activity.partner_id.value,
       image_id: command.image_id
     });
-    this.activityRepository.update(UpdateActivity);
+    this.activityRepository.update(updatedActivity);
   }
 }

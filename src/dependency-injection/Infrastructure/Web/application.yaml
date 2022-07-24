@@ -99,6 +99,10 @@ services:
     class: ../../../Infrastructure/Web/Guest/GuestPostController
     arguments: []
 
+  Infrastructure.Web.Guest.GuestPutController:
+    class: ../../../Infrastructure/Web/Guest/GuestPutController
+    arguments: []
+
   Infrastructure.Web.Guest.GuestGetController:
     class: ../../../Infrastructure/Web/Guest/GuestGetController
     arguments: []

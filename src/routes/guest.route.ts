@@ -21,10 +21,26 @@ export const register = (router: Router) => {
     body('email').isEmail(),
     body('first_name').isString().isLength({ min: 1, max: 255 }),
     body('last_name').isString().isLength({ min: 1, max: 255 }),
-    body('email').isString().isLength({ min: 1, max: 255 }),
     body('phone').isString().isLength({ min: 1, max: 255 }),
     validateMiddleware,
     (req: Request, res: Response) => guestPostController.run(req, res)
+  );
+
+  const guestPutController = container.get(
+    'Infrastructure.Web.Guest.GuestPutController'
+  );
+  router.put(
+    '/guest',
+    body('guest_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom(ulidValidator),
+    body('email').isEmail(),
+    body('first_name').isString().isLength({ min: 1, max: 255 }),
+    body('last_name').isString().isLength({ min: 1, max: 255 }),
+    body('phone').isString().isLength({ min: 1, max: 255 }),
+    validateMiddleware,
+    (req: Request, res: Response) => guestPutController.run(req, res)
   );
 
   const guestGetController = container.get(
