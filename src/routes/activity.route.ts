@@ -19,6 +19,10 @@ export const register = (router: Router) => {
     body('description').isString().isLength({ min: 1, max: 255 }),
     body('price').isNumeric(),
     body('currency').isString().isLength({ min: 1, max: 255 }),
+    body('location')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
     body('partner_id')
       .isString()
       .isLength({ min: 1, max: 255 })
@@ -45,6 +49,10 @@ export const register = (router: Router) => {
     body('description').isString().isLength({ min: 1, max: 255 }),
     body('price').isNumeric(),
     body('currency').isString().isLength({ min: 1, max: 255 }),
+    body('location')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
     body('image_id')
       .optional({ nullable: true })
       .isString()

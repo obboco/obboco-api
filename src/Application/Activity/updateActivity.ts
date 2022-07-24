@@ -9,6 +9,7 @@ interface UpdateActivityCommand {
   description: string;
   price: number;
   currency: string;
+  location: string | null;
   partner_id: string;
   image_id: string | null;
 }
@@ -26,6 +27,7 @@ export class UpdateActivity {
       description: command.description,
       price: command.price,
       currency: command.currency,
+      location: command.location,
       partner_id: activity.partner_id.value,
       image_id: command.image_id
     });

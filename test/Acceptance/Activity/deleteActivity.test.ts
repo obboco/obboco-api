@@ -1,7 +1,7 @@
 import { EventFixtures } from './../../Mock/Event/eventFixtures';
 import {
   makeRandomActivity,
-  makeRandomActivityWhithoutImage,
+  makeRandomActivityWhithoutOptionalParameters,
   makeRandomIsolatedActivity
 } from '../../Mock/Activity/activityMother';
 import { Activity } from '../../../src/Domain/activity';
@@ -18,7 +18,8 @@ describe('Delete activity', () => {
     const activityFixtures = new ActivityFixtures();
 
     const randomPartner = makeRandomPartner();
-    const randomActivity = makeRandomActivityWhithoutImage(randomPartner);
+    const randomActivity =
+      makeRandomActivityWhithoutOptionalParameters(randomPartner);
     activityFixtures.addActivity(randomActivity);
 
     request(application.httpServer)
@@ -40,7 +41,8 @@ describe('Delete activity', () => {
     const activityFixtures = new ActivityFixtures();
 
     const randomPartner = makeRandomPartner();
-    const randomActivity = makeRandomActivityWhithoutImage(randomPartner);
+    const randomActivity =
+      makeRandomActivityWhithoutOptionalParameters(randomPartner);
     activityFixtures.addActivity(randomActivity);
 
     const randomEvent = makeRandomEvent(randomActivity);

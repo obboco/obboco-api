@@ -17,6 +17,7 @@ export class ActivityPutController implements Controller {
       description: req.body.description,
       price: req.body.price,
       currency: req.body.currency,
+      location: req.body.location,
       partner_id: req.body.partner_id,
       image_id: req.body.image_id ? req.body.image_id : null
     });

@@ -1,6 +1,6 @@
 import {
   makeRandomActivity,
-  makeRandomActivityWhithoutImage,
+  makeRandomActivityWhithoutOptionalParameters,
   makeRandomIsolatedActivity
 } from './../../Mock/Activity/activityMother';
 import { Activity } from '../../../src/Domain/activity';
@@ -16,7 +16,8 @@ describe('Create activity', () => {
     const activityFixtures = new ActivityFixtures();
 
     const randomPartner = makeRandomPartner();
-    const randomActivity = makeRandomActivityWhithoutImage(randomPartner);
+    const randomActivity =
+      makeRandomActivityWhithoutOptionalParameters(randomPartner);
     request(application.httpServer)
       .post('/activity')
       .set('accept', 'application/json')
@@ -43,7 +44,7 @@ describe('Create activity', () => {
       });
   });
 
-  it('Create activity with image correctly', async (done) => {
+  it('Create activity with image and location correctly', async (done) => {
     const activityFixtures = new ActivityFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -58,6 +59,7 @@ describe('Create activity', () => {
         description: randomActivity.description,
         price: randomActivity.price,
         currency: randomActivity.currency,
+        location: randomActivity.location,
         partner_id: randomPartner.partner_id.value,
         image_id: randomActivity.image_id.value
       })

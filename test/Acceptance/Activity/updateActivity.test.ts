@@ -18,6 +18,7 @@ describe('Update activity', () => {
     const randomDescription = faker.lorem.sentence();
     const randomPrice = faker.datatype.number(2000);
     const randomCurrency = faker.finance.currencyCode();
+    const randomLocation = faker.address.city();
 
     request(application.httpServer)
       .put('/activity')
@@ -28,7 +29,8 @@ describe('Update activity', () => {
         title: randomTitle,
         description: randomDescription,
         price: randomPrice,
-        currency: randomCurrency
+        currency: randomCurrency,
+        location: randomLocation
       })
       .expect(200)
       .then(async () => {
@@ -40,6 +42,7 @@ describe('Update activity', () => {
             expect(randomDescription).toEqual(activityResult.description);
             expect(randomPrice).toEqual(activityResult.price);
             expect(randomCurrency).toEqual(activityResult.currency);
+            expect(randomLocation).toEqual(activityResult.location);
             done();
           });
       });

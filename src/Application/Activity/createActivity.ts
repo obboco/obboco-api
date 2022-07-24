@@ -1,6 +1,5 @@
 import { Ulid } from './../../Domain/Shared/ulid';
 import { Activity } from './../../Domain/activity';
-import { Request } from 'express';
 import { ActivityRepository } from './activityRepository';
 
 interface CreateActivityCommand {
@@ -9,6 +8,7 @@ interface CreateActivityCommand {
   description: string;
   price: number;
   currency: string;
+  location: string | null;
   partner_id: string;
   image_id: string | null;
 }
@@ -27,6 +27,7 @@ export class CreateActivity {
       description: command.description,
       price: command.price,
       currency: command.currency,
+      location: command.location,
       partner_id: command.partner_id,
       image_id: command.image_id
     });

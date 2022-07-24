@@ -6,6 +6,7 @@ export interface ActivityPrimitives {
   description: string;
   price: number;
   currency: string;
+  location: string | null;
   partner_id: string;
   image_id: string | null;
 }
@@ -17,6 +18,7 @@ export class Activity {
     readonly description: string,
     readonly price: number,
     readonly currency: string,
+    readonly location: string | null,
     readonly partner_id: Ulid,
     readonly image_id: Ulid | null
   ) {}
@@ -28,6 +30,7 @@ export class Activity {
       props.description,
       props.price,
       props.currency,
+      props.location ? props.location : null,
       Ulid.fromPrimitives(props.partner_id),
       props.image_id ? Ulid.fromPrimitives(props.image_id) : null
     );
@@ -40,6 +43,7 @@ export class Activity {
       description: this.description,
       price: this.price,
       currency: this.currency,
+      location: this.location ? this.location : null,
       partner_id: this.partner_id.value,
       image_id: this.image_id ? this.image_id.value : null
     };

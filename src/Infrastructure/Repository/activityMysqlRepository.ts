@@ -7,13 +7,14 @@ export class ActivityMysqlRepository implements ActivityRepository {
   async add(activity: Activity): Promise<void> {
     const connection = await mysqlConnection();
     await connection.query(
-      'INSERT INTO activity(activity_id, title, description, price, currency, partner_id, image_id) VALUES(?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO activity(activity_id, title, description, price, currency, location, partner_id, image_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
       [
         activity.activity_id.value,
         activity.title,
         activity.description,
         activity.price,
         activity.currency,
+        activity.location,
         activity.partner_id.value,
         activity.image_id ? activity.image_id.value : null
       ]
@@ -24,12 +25,13 @@ export class ActivityMysqlRepository implements ActivityRepository {
   async update(activity: Activity): Promise<void> {
     const connection = await mysqlConnection();
     await connection.execute(
-      'UPDATE activity SET title = ?, description = ?, price = ?, currency = ?, image_id = ? WHERE activity_id = ?',
+      'UPDATE activity SET title = ?, description = ?, price = ?, currency = ?, location = ?, image_id = ? WHERE activity_id = ?',
       [
         activity.title,
         activity.description,
         activity.price,
         activity.currency,
+        activity.location ? activity.location : null,
         activity.image_id ? activity.image_id.value : null,
         activity.activity_id.value
       ]
@@ -40,7 +42,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
   async get(activityId: Ulid): Promise<Activity> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT activity_id, title, description, price, currency, partner_id, image_id FROM activity WHERE activity_id = ?',
+      'SELECT activity_id, title, description, price, currency, location, partner_id, image_id FROM activity WHERE activity_id = ?',
       [activityId.value]
     );
     connection.end();
@@ -55,7 +57,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
   async getByPartnerId(partner_id: Ulid): Promise<Activity[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT activity_id, title, description, price, currency, partner_id, image_id FROM activity WHERE partner_id = ? ORDER BY created_at ASC',
+      'SELECT activity_id, title, description, price, currency, location, partner_id, image_id FROM activity WHERE partner_id = ? ORDER BY created_at ASC',
       [partner_id.value]
     );
     connection.end();
