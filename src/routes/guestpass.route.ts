@@ -26,6 +26,20 @@ export const register = (router: Router) => {
     (req: Request, res: Response) => guestPassPostController.run(req, res)
   );
 
+  const guestPassPutController = container.get(
+    'Infrastructure.Web.GuestPass.GuestPassPutController'
+  );
+  router.put(
+    '/guestpass',
+    body('guest_pass_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom(ulidValidator),
+    body('status').isString().isLength({ min: 1, max: 255 }),
+    validateMiddleware,
+    (req: Request, res: Response) => guestPassPutController.run(req, res)
+  );
+
   const guestPassGetController = container.get(
     'Infrastructure.Web.GuestPass.GuestPassGetController'
   );
