@@ -36,8 +36,11 @@ export class BookingListWithFiltersController implements Controller {
       );
     }
 
-    const criteria: Criteria = new Criteria(filters);
-    return criteria;
+    if (req.query.status) {
+      filters.push(new Filter('status', '=', req.query.status as string));
+    }
+
+    return new Criteria(filters);
   }
 
   private toResponse(bookings: Booking[]): any {

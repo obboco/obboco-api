@@ -70,6 +70,34 @@ describe('List booking with filters', () => {
         done();
       });
   });
+
+  it('Get bookings by partner and status correctly', async (done) => {
+    const partner: Partner = makeRandomPartner();
+    const event: Event = makeRandomEvent(makeRandomActivity(partner));
+
+    let customBooking: BookingPrimitives = makeCustomBookingPrimitives();
+    const bookingFixtures = new BookingFixtures();
+    customBooking.partner_id = partner.partner_id.value;
+    await bookingFixtures.addBooking(makeCustomBooking(customBooking));
+
+    customBooking.status = 'paid';
+    await bookingFixtures.addBooking(makeCustomBooking(customBooking));
+    await bookingFixtures.addBooking(makeCustomBooking(customBooking));
+
+    request(application.httpServer)
+      .get(`/bookings?partner=${partner.partner_id.value}&status=paid`)
+      .set('accept', 'application/json')
+      .type('json')
+      .send()
+      .expect(200)
+      .then(async (response) => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
+          2
+        );
+        done();
+      });
+  });
 });
 
 beforeAll(async () => {

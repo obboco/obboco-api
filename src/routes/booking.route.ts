@@ -49,6 +49,10 @@ export const register = (router: Router) => {
       .optional({ nullable: true })
       .isString()
       .isLength({ min: 1, max: 255 }),
+    query('status')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
     validateMiddleware,
     (req: Request, res: Response) =>
       bookingListWithFiltersController.run(req, res)
