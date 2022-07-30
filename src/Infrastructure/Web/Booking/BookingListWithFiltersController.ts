@@ -24,7 +24,16 @@ export class BookingListWithFiltersController implements Controller {
     let filters: Filter[] = [];
 
     if (req.query.partner) {
-      filters.push(new Filter('partner_id', req.query.partner as string));
+      filters.push(new Filter('partner_id', '=', req.query.partner as string));
+    }
+
+    if (req.query.start_date && req.query.end_date) {
+      filters.push(
+        new Filter('start_date', '>=', req.query.start_date as string)
+      );
+      filters.push(
+        new Filter('start_date', '<=', req.query.end_date as string)
+      );
     }
 
     const criteria: Criteria = new Criteria(filters);

@@ -1,4 +1,7 @@
-import { Ulid } from './../Shared/ulid';
 export class Filter {
-  constructor(readonly field: string, readonly value: string) {}
+  constructor(
+    readonly field: string,
+    readonly operator: string,
+    readonly value: string
+  ) {}
 }

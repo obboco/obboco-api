@@ -41,6 +41,14 @@ export const register = (router: Router) => {
       .isString()
       .isLength({ min: 1, max: 255 })
       .custom(ulidValidator),
+    query('start_date')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
+    query('end_date')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
     validateMiddleware,
     (req: Request, res: Response) =>
       bookingListWithFiltersController.run(req, res)

@@ -64,3 +64,28 @@ export const makeRandomBooking = (event: Event, partner: Partner): Booking => {
   };
   return Booking.fromPrimitives(bookingPrimitives);
 };
+
+export const makeCustomBookingPrimitives = (): BookingPrimitives => {
+  const bookingPrimitives: BookingPrimitives = {
+    booking_id: Ulid.create().value,
+    event_id: Ulid.create().value,
+    activity_id: Ulid.create().value,
+    partner_id: Ulid.create().value,
+    status: 'init',
+    title: faker.lorem.word(),
+    start_date: new Date('2022-05-15 06:39:09').toISOString(),
+    duration: faker.datatype.number(2000),
+    price: faker.datatype.number(2000),
+    currency: faker.finance.currencyCode(),
+    guest: makeRandomGuest(Ulid.create()).toPrimitives(),
+    source: 'pos',
+    type: 'direct',
+    guest_pass_id: Ulid.create().value
+  };
+  return bookingPrimitives;
+};
+
+export const makeCustomBooking = (bookingPrimitives): Booking => {
+  bookingPrimitives.booking_id = Ulid.create().value;
+  return Booking.fromPrimitives(bookingPrimitives);
+};
