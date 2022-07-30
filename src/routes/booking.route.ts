@@ -37,9 +37,7 @@ export const register = (router: Router) => {
   );
   router.get(
     '/bookings',
-    query('filter').isString().isLength({ min: 1, max: 255 }),
-    query('partner_id')
-      .optional({ nullable: true })
+    query('partner')
       .isString()
       .isLength({ min: 1, max: 255 })
       .custom(ulidValidator),

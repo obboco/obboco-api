@@ -1,3 +1,5 @@
+import { Filter } from './../../Domain/Criteria/filter';
+import { Criteria } from './../../Domain/Criteria/criteria';
 import { Ulid } from './../../Domain/Shared/ulid';
 import { BookingRepository } from './../../Application/Booking/bookingRepository';
 import { Booking, BookingPrimitives } from './../../Domain/booking';
@@ -103,11 +105,18 @@ export class BookingMysqlRepository implements BookingRepository {
     );
   }
 
-  async getByPartnerId(partnerId: Ulid): Promise<Booking[]> {
+  async getByCriteria(criteria: Criteria): Promise<Booking[]> {
+    const filters: string = criteria.filters
+      .map((filter: Filter): string => {
+        return `${filter.field} = '${filter.value}'`;
+      })
+      .join(' AND ');
+
+    console.log('getByCriteria');
+    console.log(filters);
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE partner_id = ? ORDER BY created_at ASC',
-      [partnerId.value]
+      `SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE ${filters} ORDER BY created_at ASC`
     );
     connection.end();
 

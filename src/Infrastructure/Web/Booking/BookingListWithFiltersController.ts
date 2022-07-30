@@ -1,3 +1,6 @@
+import { Ulid } from './../../../Domain/Shared/ulid';
+import { Filter } from './../../../Domain/Criteria/filter';
+import { Criteria } from './../../../Domain/Criteria/criteria';
 import { GetBookingsWithFilter } from './../../../Application/Booking/getBookingsWithFilter';
 import { Booking } from '../../../Domain/booking';
 import { BookingMysqlRepository } from '../../Repository/bookingMysqlRepository';
@@ -12,12 +15,20 @@ export class BookingListWithFiltersController implements Controller {
     const getBookingsWithFilter: GetBookingsWithFilter =
       new GetBookingsWithFilter(new BookingMysqlRepository());
     const bookings: Booking[] = await getBookingsWithFilter.make({
-      filter: req.query.filter as string,
-      attributes: {
-        partner_id: req.query.partner_id as string
-      }
+      criteria: this.makeCriteria(req)
     });
     res.status(httpStatus.OK).send(this.toResponse(bookings));
+  }
+
+  private makeCriteria(req: Request): Criteria {
+    let filters: Filter[] = [];
+
+    if (req.query.partner) {
+      filters.push(new Filter('partner_id', req.query.partner as string));
+    }
+
+    const criteria: Criteria = new Criteria(filters);
+    return criteria;
   }
 
   private toResponse(bookings: Booking[]): any {
