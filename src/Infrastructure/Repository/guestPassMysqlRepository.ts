@@ -7,11 +7,12 @@ export class GuestPassMysqlRepository implements GuestPassRepository {
   async add(guestPass: GuestPass): Promise<void> {
     const connection = await mysqlConnection();
     await connection.execute(
-      'INSERT INTO guest_pass(guest_pass_id, pass_id, guest_id, title, quantity, current_quantity, price, currency, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO guest_pass(guest_pass_id, pass_id, guest_id, partner_id, title, quantity, current_quantity, price, currency, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         guestPass.guestPassId.value,
         guestPass.passId.value,
         guestPass.guestId.value,
+        guestPass.partnerId.value,
         guestPass.title,
         guestPass.quantity,
         guestPass.currentQuantity,
@@ -26,7 +27,7 @@ export class GuestPassMysqlRepository implements GuestPassRepository {
   async get(guestPassId: Ulid): Promise<GuestPass> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT guest_pass_id, pass_id, guest_id, title, quantity, current_quantity, price, currency, status FROM guest_pass WHERE guest_pass_id = ?',
+      'SELECT guest_pass_id, pass_id, guest_id, partner_id, title, quantity, current_quantity, price, currency, status FROM guest_pass WHERE guest_pass_id = ?',
       [guestPassId.value]
     );
     connection.end();
@@ -37,7 +38,7 @@ export class GuestPassMysqlRepository implements GuestPassRepository {
   async getByGuest(guestId: Ulid): Promise<GuestPass[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT guest_pass_id, pass_id, guest_id, title, quantity, current_quantity, price, currency, status FROM guest_pass WHERE guest_id = ?',
+      'SELECT guest_pass_id, pass_id, guest_id, partner_id, title, quantity, current_quantity, price, currency, status FROM guest_pass WHERE guest_id = ?',
       [guestId.value]
     );
     connection.end();
@@ -50,7 +51,7 @@ export class GuestPassMysqlRepository implements GuestPassRepository {
   async getByPass(passId: Ulid): Promise<GuestPass[]> {
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      'SELECT guest_pass_id, pass_id, guest_id, title, quantity, current_quantity, price, currency, status FROM guest_pass WHERE pass_id = ?',
+      'SELECT guest_pass_id, pass_id, guest_id, partner_id, title, quantity, current_quantity, price, currency, status FROM guest_pass WHERE pass_id = ?',
       [passId.value]
     );
     connection.end();

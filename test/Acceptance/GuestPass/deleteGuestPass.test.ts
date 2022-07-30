@@ -17,6 +17,7 @@ describe('Delete guest pass', () => {
     const randomGuest = makeRandomGuest(randomPartner.partner_id);
     const randomGuestPass: GuestPass = makeRandomNewGuestPass(
       randomGuest.guest_id,
+      randomPartner.partner_id,
       randomPartner.partner_id
     );
     await guestPassFixtures.add(randomGuestPass);
@@ -45,6 +46,7 @@ describe('Delete guest pass', () => {
     const randomGuest = makeRandomGuest(randomPartner.partner_id);
     const randomGuestPass: GuestPass = makeRandomGuestPass(
       randomGuest.guest_id,
+      randomPartner.partner_id,
       randomPartner.partner_id
     );
     randomGuestPass.currentQuantity = 1;

@@ -20,7 +20,8 @@ describe('Create guest pass', () => {
     const randomGuest = makeRandomGuest(randomPartner.partner_id);
     const randomGuestPass = makeRandomNewGuestPass(
       randomGuest.guest_id,
-      randomPass.pass_id
+      randomPass.pass_id,
+      randomPartner.partner_id
     );
     await passFixtures.add(randomPass);
 
@@ -31,7 +32,8 @@ describe('Create guest pass', () => {
       .send({
         guest_pass_id: randomGuestPass.guestPassId.value,
         pass_id: randomPass.pass_id.value,
-        guest_id: randomGuestPass.guestId.value
+        guest_id: randomGuestPass.guestId.value,
+        partner_id: randomGuestPass.partnerId.value
       })
       .expect(200)
       .then(async () => {
@@ -43,6 +45,7 @@ describe('Create guest pass', () => {
               guest_pass_id: randomGuestPass.guestPassId.value,
               pass_id: randomPass.pass_id.value,
               guest_id: randomGuestPass.guestId.value,
+              partner_id: randomGuestPass.partnerId.value,
               title: randomPass.title,
               quantity: randomPass.quantity,
               current_quantity: 0,

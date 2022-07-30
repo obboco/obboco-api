@@ -22,6 +22,10 @@ export const register = (router: Router) => {
       .isString()
       .isLength({ min: 1, max: 255 })
       .custom(ulidValidator),
+    body('partner_id')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom(ulidValidator),
     validateMiddleware,
     (req: Request, res: Response) => guestPassPostController.run(req, res)
   );

@@ -2,11 +2,16 @@ import { Ulid } from './../../../src/Domain/Shared/ulid';
 import { GuestPass } from './../../../src/Domain/guestPass';
 import faker from 'faker';
 
-export const makeRandomGuestPass = (guestId: Ulid, passId: Ulid): GuestPass => {
+export const makeRandomGuestPass = (
+  guestId: Ulid,
+  passId: Ulid,
+  partnerId: Ulid
+): GuestPass => {
   return GuestPass.fromPrimitives({
     guest_pass_id: Ulid.create().value,
     guest_id: guestId.value,
     pass_id: passId.value,
+    partner_id: partnerId.value,
     title: faker.lorem.word(),
     quantity: faker.datatype.number(2000),
     current_quantity: faker.datatype.number(2000),
@@ -18,12 +23,14 @@ export const makeRandomGuestPass = (guestId: Ulid, passId: Ulid): GuestPass => {
 
 export const makeRandomNewGuestPass = (
   guestId: Ulid,
-  passId: Ulid
+  passId: Ulid,
+  paprtnerId: Ulid
 ): GuestPass => {
   return GuestPass.fromPrimitives({
     guest_pass_id: Ulid.create().value,
     guest_id: guestId.value,
     pass_id: passId.value,
+    partner_id: paprtnerId.value,
     title: faker.lorem.word(),
     quantity: faker.datatype.number(2000),
     current_quantity: 0,

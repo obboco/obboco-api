@@ -16,7 +16,8 @@ describe('Get guest pass', () => {
     const randomGuest = makeRandomGuest(randomPartner.partner_id);
     const randomGuestPass: GuestPass = makeRandomNewGuestPass(
       randomGuest.guest_id,
-      randomPass.pass_id
+      randomPass.pass_id,
+      randomPartner.partner_id
     );
 
     request(application.httpServer)
@@ -38,7 +39,8 @@ describe('Get guest pass', () => {
     const randomGuest = makeRandomGuest(randomPartner.partner_id);
     const randomGuestPass: GuestPass = makeRandomNewGuestPass(
       randomGuest.guest_id,
-      randomPass.pass_id
+      randomPass.pass_id,
+      randomPartner.partner_id
     );
     await guestPassFixtures.add(randomGuestPass);
 

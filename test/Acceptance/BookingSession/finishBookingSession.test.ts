@@ -100,7 +100,8 @@ describe('Finish booking session', () => {
     const randomPartner = makeRandomPartner();
     const randomGuestPass = makeRandomNewGuestPass(
       bookingSession.guest.guest_id,
-      randomPartner.partner_id
+      randomPartner.partner_id,
+      bookingSession.event_id
     );
     const guestPassFixtures = new GuestPassFixtures();
     await guestPassFixtures.add(randomGuestPass);

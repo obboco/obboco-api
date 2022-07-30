@@ -4,6 +4,7 @@ export interface GuestPastPrimitives {
   guest_pass_id: string;
   pass_id: string;
   guest_id: string;
+  partner_id: string;
   title: string;
   quantity: number;
   current_quantity: number;
@@ -17,6 +18,7 @@ export class GuestPass {
     readonly guestPassId: Ulid,
     readonly passId: Ulid,
     readonly guestId: Ulid,
+    readonly partnerId: Ulid,
     public title: string,
     public quantity: number,
     public currentQuantity: number,
@@ -30,6 +32,7 @@ export class GuestPass {
       Ulid.fromPrimitives(props.guest_pass_id),
       Ulid.fromPrimitives(props.pass_id),
       Ulid.fromPrimitives(props.guest_id),
+      Ulid.fromPrimitives(props.partner_id),
       props.title,
       props.quantity,
       props.current_quantity,
@@ -44,6 +47,7 @@ export class GuestPass {
       guest_pass_id: this.guestPassId.value,
       pass_id: this.passId.value,
       guest_id: this.guestId.value,
+      partner_id: this.partnerId.value,
       title: this.title,
       quantity: this.quantity,
       current_quantity: this.currentQuantity,
