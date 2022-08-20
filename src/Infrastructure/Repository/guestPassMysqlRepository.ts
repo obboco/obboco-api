@@ -2,6 +2,8 @@ import { GuestPassRepository } from './../../Application/GuestPass/guestPassRepo
 import { Ulid } from '../../Domain/Shared/ulid';
 import { GuestPass } from '../../Domain/guestPass';
 import { mysqlConnection } from '../Mysql/mysqlConnector';
+import { Criteria } from '../../Domain/Criteria/criteria';
+import { Filter } from '../../Domain/Criteria/filter';
 
 export class GuestPassMysqlRepository implements GuestPassRepository {
   async add(guestPass: GuestPass): Promise<void> {
@@ -33,6 +35,24 @@ export class GuestPassMysqlRepository implements GuestPassRepository {
     connection.end();
 
     return result[0] == undefined ? null : GuestPass.fromPrimitives(result[0]);
+  }
+
+  async getByCriteria(criteria: Criteria): Promise<GuestPass[]> {
+    const filters: string = criteria.filters
+      .map((filter: Filter): string => {
+        return `${filter.field} ${filter.operator} '${filter.value}'`;
+      })
+      .join(' AND ');
+
+    const connection = await mysqlConnection();
+    const [result, fields] = await connection.execute(
+      `SELECT guest_pass_id, pass_id, guest_id, partner_id, title, quantity, current_quantity, price, currency, status FROM guest_pass WHERE ${filters} ORDER BY created_at DESC`
+    );
+    connection.end();
+
+    return Object.values(JSON.parse(JSON.stringify(result))).map(
+      (guestPass: any) => GuestPass.fromPrimitives(guestPass)
+    );
   }
 
   async getByGuest(guestId: Ulid): Promise<GuestPass[]> {

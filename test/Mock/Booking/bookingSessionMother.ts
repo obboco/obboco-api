@@ -66,7 +66,7 @@ export const makeRandomBooking = (event: Event, partner: Partner): Booking => {
 };
 
 export const makeCustomBookingPrimitives = (): BookingPrimitives => {
-  const bookingPrimitives: BookingPrimitives = {
+  return {
     booking_id: Ulid.create().value,
     event_id: Ulid.create().value,
     activity_id: Ulid.create().value,
@@ -82,7 +82,6 @@ export const makeCustomBookingPrimitives = (): BookingPrimitives => {
     type: 'direct',
     guest_pass_id: Ulid.create().value
   };
-  return bookingPrimitives;
 };
 
 export const makeCustomBooking = (bookingPrimitives): Booking => {

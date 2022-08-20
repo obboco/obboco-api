@@ -151,6 +151,10 @@ services:
     class: ../../../Infrastructure/Web/GuestPass/GuestPassGetController
     arguments: []
 
+  Infrastructure.Web.GuestPass.GuestPassListWithFiltersController:
+    class: ../../../Infrastructure/Web/GuestPass/GuestPassListWithFiltersController
+    arguments: []
+
   Infrastructure.Web.GuestPass.GuestPassDeleteController:
     class: ../../../Infrastructure/Web/GuestPass/GuestPassDeleteController
     arguments: []

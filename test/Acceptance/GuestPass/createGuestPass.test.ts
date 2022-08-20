@@ -1,6 +1,9 @@
 import { makeRandomPass } from './../../Mock/Pass/passMother';
 import { PassFixtures } from './../../Mock/Pass/passFixtures';
-import { GuestPass } from './../../../src/Domain/guestPass';
+import {
+  GuestPass,
+  GuestPassPrimitives
+} from './../../../src/Domain/guestPass';
 import { GuestPassFixtures } from './../../Mock/GuestPass/guestPassFixtures';
 import { makeRandomNewGuestPass } from './../../Mock/GuestPass/guestPassMother';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
@@ -41,7 +44,9 @@ describe('Create guest pass', () => {
         guestPassFixtures
           .get(randomGuestPass.guestPassId.value)
           .then((guestPass: GuestPass) => {
-            expect(guestPass.toPrimitives()).toEqual({
+            let guestPassResult: GuestPassPrimitives = guestPass.toPrimitives();
+            delete guestPassResult.created;
+            expect(guestPassResult).toEqual({
               guest_pass_id: randomGuestPass.guestPassId.value,
               pass_id: randomPass.pass_id.value,
               guest_id: randomGuestPass.guestId.value,

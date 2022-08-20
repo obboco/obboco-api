@@ -43,6 +43,7 @@ describe('Get guest pass', () => {
       .send()
       .expect(200)
       .then(async (response) => {
+        delete response.body.data.created_at;
         expect([randomGuestPass.toPrimitives()]).toEqual(response.body.data);
         done();
       });

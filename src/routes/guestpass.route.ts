@@ -1,7 +1,7 @@
 import { validateMiddleware } from './Validator/validateMiddleware';
 import { ulidValidator } from './Validator/ulidValidator';
 import { Router, Request, Response } from 'express';
-import { body, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 import container from '../dependency-injection';
 
 export const register = (router: Router) => {
@@ -55,6 +55,32 @@ export const register = (router: Router) => {
       .custom(ulidValidator),
     validateMiddleware,
     (req: Request, res: Response) => guestPassGetController.run(req, res)
+  );
+
+  const guestPassListWithFiltersController = container.get(
+    'Infrastructure.Web.GuestPass.GuestPassListWithFiltersController'
+  );
+  router.get(
+    '/guestpass',
+    query('partner')
+      .isString()
+      .isLength({ min: 1, max: 255 })
+      .custom(ulidValidator),
+    query('start_date')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
+    query('end_date')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
+    query('status')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
+    validateMiddleware,
+    (req: Request, res: Response) =>
+      guestPassListWithFiltersController.run(req, res)
   );
 
   const guestPassGetByGuestController = container.get(

@@ -1,6 +1,6 @@
 import { Ulid } from './Shared/ulid';
 
-export interface GuestPastPrimitives {
+export interface GuestPassPrimitives {
   guest_pass_id: string;
   pass_id: string;
   guest_id: string;
@@ -11,6 +11,7 @@ export interface GuestPastPrimitives {
   price: number;
   currency: string;
   status: string;
+  created?: string;
 }
 
 export class GuestPass {
@@ -24,10 +25,11 @@ export class GuestPass {
     public currentQuantity: number,
     public price: number,
     public currency: string,
-    public status: string
+    public status: string,
+    public created: string
   ) {}
 
-  static fromPrimitives(props: GuestPastPrimitives): GuestPass {
+  static fromPrimitives(props: GuestPassPrimitives): GuestPass {
     return new GuestPass(
       Ulid.fromPrimitives(props.guest_pass_id),
       Ulid.fromPrimitives(props.pass_id),
@@ -38,11 +40,12 @@ export class GuestPass {
       props.current_quantity,
       props.price,
       props.currency,
-      props.status
+      props.status,
+      props.created
     );
   }
 
-  public toPrimitives(): GuestPastPrimitives {
+  public toPrimitives(): GuestPassPrimitives {
     return {
       guest_pass_id: this.guestPassId.value,
       pass_id: this.passId.value,
@@ -53,7 +56,8 @@ export class GuestPass {
       current_quantity: this.currentQuantity,
       price: this.price,
       currency: this.currency,
-      status: this.status
+      status: this.status,
+      created: this.created
     };
   }
 

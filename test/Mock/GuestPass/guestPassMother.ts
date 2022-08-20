@@ -1,5 +1,8 @@
 import { Ulid } from './../../../src/Domain/Shared/ulid';
-import { GuestPass } from './../../../src/Domain/guestPass';
+import {
+  GuestPass,
+  GuestPassPrimitives
+} from './../../../src/Domain/guestPass';
 import faker from 'faker';
 
 export const makeRandomGuestPass = (
@@ -24,13 +27,13 @@ export const makeRandomGuestPass = (
 export const makeRandomNewGuestPass = (
   guestId: Ulid,
   passId: Ulid,
-  paprtnerId: Ulid
+  partnerId: Ulid
 ): GuestPass => {
   return GuestPass.fromPrimitives({
     guest_pass_id: Ulid.create().value,
     guest_id: guestId.value,
     pass_id: passId.value,
-    partner_id: paprtnerId.value,
+    partner_id: partnerId.value,
     title: faker.lorem.word(),
     quantity: faker.datatype.number(2000),
     current_quantity: 0,
@@ -38,4 +41,27 @@ export const makeRandomNewGuestPass = (
     currency: faker.random.word(),
     status: 'booked'
   });
+};
+
+export const makeCustomGuestPassPrimitives = (
+  guestId: Ulid,
+  passId: Ulid,
+  partnerId: Ulid
+): GuestPassPrimitives => {
+  return {
+    guest_pass_id: Ulid.create().value,
+    guest_id: guestId.value,
+    pass_id: passId.value,
+    partner_id: partnerId.value,
+    title: faker.lorem.word(),
+    quantity: faker.datatype.number(2000),
+    current_quantity: 0,
+    price: faker.datatype.number(2000),
+    currency: faker.random.word(),
+    status: 'booked'
+  };
+};
+
+export const makeCustomGuestPass = (guestPassPrimitives): GuestPass => {
+  return GuestPass.fromPrimitives(guestPassPrimitives);
 };
