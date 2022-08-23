@@ -11,7 +11,7 @@ export interface GuestPassPrimitives {
   price: number;
   currency: string;
   status: string;
-  created?: string;
+  created_date?: string;
 }
 
 export class GuestPass {
@@ -26,7 +26,7 @@ export class GuestPass {
     public price: number,
     public currency: string,
     public status: string,
-    public created: string
+    public createdDate: string
   ) {}
 
   static fromPrimitives(props: GuestPassPrimitives): GuestPass {
@@ -41,7 +41,7 @@ export class GuestPass {
       props.price,
       props.currency,
       props.status,
-      props.created
+      props.created_date
     );
   }
 
@@ -57,7 +57,7 @@ export class GuestPass {
       price: this.price,
       currency: this.currency,
       status: this.status,
-      created: this.created
+      created_date: this.createdDate
     };
   }
 

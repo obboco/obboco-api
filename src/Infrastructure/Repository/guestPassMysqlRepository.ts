@@ -46,7 +46,7 @@ export class GuestPassMysqlRepository implements GuestPassRepository {
 
     const connection = await mysqlConnection();
     const [result, fields] = await connection.execute(
-      `SELECT guest_pass_id, pass_id, guest_id, partner_id, title, quantity, current_quantity, price, currency, status FROM guest_pass WHERE ${filters} ORDER BY created_at DESC`
+      `SELECT guest_pass_id, pass_id, guest_id, partner_id, title, quantity, current_quantity, price, currency, status, created_at as created_date FROM guest_pass WHERE ${filters} ORDER BY created_at DESC`
     );
     connection.end();
 
