@@ -9,7 +9,7 @@
   "main": "dist/app.js",
   "scripts": {
     "dev": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules  ./src/start.ts",
-    "start": "NODE_ENV=dev ts-node ./src/start.ts NODE_ENV=production node dist/src/start",
+    "start": "NODE_ENV=production node dist/src/start",
     "test": "NODE_ENV=test jest --force-exit --detectOpenHandles",
     "test:watch": "jest --watch --detectOpenHandles",
     "test:cov": "jest --coverage --force-exit --detectOpenHandles"
