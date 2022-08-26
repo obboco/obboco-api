@@ -1,6 +1,6 @@
 services:
-  Infrastructure.Web.Healthcheck.HealthCheckController:
-    class: ../../../Infrastructure/Web/Healthcheck/HealthcheckController
+  Infrastructure.Web.Status.StatusController:
+    class: ../../../Infrastructure/Web/Status/StatusController
     arguments: []
 
   Infrastructure.Web.Partner.PartnerGetController:

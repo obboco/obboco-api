@@ -44,12 +44,12 @@ export class Server {
   async listen(): Promise<void> {
     return new Promise((resolve) => {
       this.httpServer = this.express.listen(this.port, () => {
-        /*this.logger.info(
-          `  Backoffice Backend App is running at http://localhost:${
+        console.log(
+          `  Obboco API is running at http://localhost:${
             this.port
           } in ${this.express.get('env')} mode`
         );
-        this.logger.info('  Press CTRL-C to stop\n');*/
+        console.log('  Press CTRL-C to stop\n');
         resolve();
       });
     });

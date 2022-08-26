@@ -3,9 +3,9 @@ import request from 'supertest';
 
 let application: BookingApp;
 
-describe('Health check', () => {
-  it('Health check call', async (done) => {
-    const response = await request(application.httpServer).get('/healthcheck');
+describe('Status check', () => {
+  it('Status check call', async (done) => {
+    const response = await request(application.httpServer).get('/status');
 
     expect(response.status).toBe(200);
     expect(response.text).toBe('ok');

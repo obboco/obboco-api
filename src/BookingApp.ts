@@ -10,7 +10,10 @@ export class BookingApp {
   }
 
   async stop() {
-    await this.server?.stop();
+    if (!this.server) {
+      throw new Error('Obboco API has not been started');
+    }
+    await this.server.stop();
   }
 
   get port(): string {
