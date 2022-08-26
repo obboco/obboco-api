@@ -1,6 +1,6 @@
 import { Ulid } from './../../Domain/Shared/ulid';
 import { PartnerRepository } from './../../Application/Partner/partnerRepository';
-import { mysqlConnection } from './../../Infrastructure/Mysql/mysqlConnector';
+import { mysqlConnection } from '../Mysql/mysqlConnector';
 import { Partner } from './../../Domain/partner';
 
 export class PartnerMysqlRepository implements PartnerRepository {
