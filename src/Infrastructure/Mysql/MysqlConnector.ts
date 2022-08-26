@@ -1,6 +1,6 @@
 import mysql, { Pool } from 'mysql2/promise';
 
-export const mysqlConnection = async (): Promise<Pool> => {
+export async function mysqlConnection(): Promise<Pool> {
   return mysql.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
@@ -8,4 +8,4 @@ export const mysqlConnection = async (): Promise<Pool> => {
     database: process.env.MYSQL_DATABASE,
     connectionLimit: 10
   });
-};
+}

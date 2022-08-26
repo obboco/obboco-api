@@ -1,7 +1,7 @@
 import { GuestPassRepository } from './../../Application/GuestPass/guestPassRepository';
 import { Ulid } from '../../Domain/Shared/ulid';
 import { GuestPass } from '../../Domain/guestPass';
-import { mysqlConnection } from '../Mysql/mysqlConnector';
+import { mysqlConnection } from '../Mysql/MysqlConnector';
 import { Criteria } from '../../Domain/Criteria/criteria';
 import { Filter } from '../../Domain/Criteria/filter';
 

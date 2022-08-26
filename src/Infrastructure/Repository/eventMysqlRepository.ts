@@ -3,7 +3,7 @@ import {
   EventRepository,
   EventRepostitoryFilter
 } from './../../Application/Event/eventRepository';
-import { mysqlConnection } from '../Mysql/mysqlConnector';
+import { mysqlConnection } from '../Mysql/MysqlConnector';
 import { Ulid } from '../../Domain/Shared/ulid';
 
 export class EventMysqlRepository implements EventRepository {

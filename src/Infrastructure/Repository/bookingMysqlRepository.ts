@@ -3,7 +3,7 @@ import { Criteria } from './../../Domain/Criteria/criteria';
 import { Ulid } from './../../Domain/Shared/ulid';
 import { BookingRepository } from './../../Application/Booking/bookingRepository';
 import { Booking, BookingPrimitives } from './../../Domain/booking';
-import { mysqlConnection } from '../Mysql/mysqlConnector';
+import { mysqlConnection } from '../Mysql/MysqlConnector';
 
 export class BookingMysqlRepository implements BookingRepository {
   async add(booking: Booking): Promise<void> {

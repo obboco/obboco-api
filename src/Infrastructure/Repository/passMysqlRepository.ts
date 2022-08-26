@@ -1,6 +1,6 @@
 import { Pass } from './../../Domain/pass';
 import { Ulid } from '../../Domain/Shared/ulid';
-import { mysqlConnection } from '../Mysql/mysqlConnector';
+import { mysqlConnection } from '../Mysql/MysqlConnector';
 import { PassRepository } from '../../Application/Pass/passRepository';
 
 export class PassMysqlRepository implements PassRepository {
