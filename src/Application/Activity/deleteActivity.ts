@@ -1,7 +1,5 @@
 import { EventRepository } from './../Event/eventRepository';
 import { Ulid } from '../../Domain/Shared/ulid';
-import { Activity } from '../../Domain/activity';
-import { Request } from 'express';
 import { ActivityRepository } from './activityRepository';
 
 interface DeleteActivityCommand {

@@ -1,4 +1,3 @@
-import { Ulid } from './../../../Domain/Shared/ulid';
 import { Filter } from './../../../Domain/Criteria/filter';
 import { Criteria } from './../../../Domain/Criteria/criteria';
 import { GetBookingsWithFilter } from './../../../Application/Booking/getBookingsWithFilter';

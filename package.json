@@ -1,15 +1,19 @@
 {
-  "name": "api-booking",
+  "name": "obboco-api",
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": ">=12.0.0",
+    "node": ">=14.0.0",
     "npm": ">=6.7.0"
   },
   "main": "dist/app.js",
   "scripts": {
-    "dev": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules  ./src/start.ts",
+    "dev": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules ./src/start.ts",
     "start": "NODE_ENV=production node dist/src/start",
+    "build": "npm run build:clean && npm run build:tsc && npm run build:di",
+    "build:tsc": "tsc -p tsconfig.prod.json",
+    "build:di": "copy 'src/**/*.{json,yaml,html,png}' dist/src",
+    "build:clean": "rm -r dist; exit 0",
     "test": "NODE_ENV=test jest --force-exit --detectOpenHandles",
     "test:watch": "jest --watch --detectOpenHandles",
     "test:cov": "jest --coverage --force-exit --detectOpenHandles"

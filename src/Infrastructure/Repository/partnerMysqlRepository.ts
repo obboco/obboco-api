@@ -24,7 +24,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
 
   async get(partnerId: Ulid): Promise<Partner> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE partner_id = ? LIMIT 1',
       [partnerId.value]
     );
@@ -39,7 +39,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
 
   async getByEmail(email: string): Promise<Partner> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE email = ? LIMIT 1',
       [email]
     );
@@ -54,7 +54,7 @@ export class PartnerMysqlRepository implements PartnerRepository {
 
   async getBySubdomain(subdomain: string): Promise<Partner> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE subdomain = ? LIMIT 1',
       [subdomain]
     );

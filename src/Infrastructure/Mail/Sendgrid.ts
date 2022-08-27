@@ -23,7 +23,7 @@ export class SendgridMail {
   async send(mailConfig: MailConfig): Promise<void> {
     const createdDate: string = new Date().toISOString();
     const uid: string = Ulid.create().value;
-    const ics = require('ics');
+    //const ics = require('ics');
 
     const value = `
 BEGIN:VCALENDAR

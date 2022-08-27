@@ -9,7 +9,7 @@ import { Ulid } from '../../Domain/Shared/ulid';
 export class EventMysqlRepository implements EventRepository {
   async getByActivityId(activityId: Ulid): Promise<Event[]> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? ORDER BY start_date DESC',
       [activityId.value]
     );
@@ -38,7 +38,7 @@ export class EventMysqlRepository implements EventRepository {
 
   async update(event: Event): Promise<void> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    await connection.execute(
       'UPDATE event SET start_date = ?, duration = ?, capacity = ?, current_capacity = ? WHERE event_id = ? LIMIT 1',
       [
         event.start_date,
@@ -53,7 +53,7 @@ export class EventMysqlRepository implements EventRepository {
 
   async get(eventId: Ulid): Promise<Event> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE event_id = ? LIMIT 1',
       [eventId.value]
     );
@@ -84,7 +84,7 @@ export class EventMysqlRepository implements EventRepository {
       }
     };
     const sqlOptions = sqlOptionsMaker(filters);
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       sqlOptions.query,
       sqlOptions.params
     );
@@ -97,10 +97,9 @@ export class EventMysqlRepository implements EventRepository {
 
   async delete(eventId: Ulid): Promise<void> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
-      'DELETE FROM event WHERE event_id = ? LIMIT 1',
-      [eventId.value]
-    );
+    await connection.execute('DELETE FROM event WHERE event_id = ? LIMIT 1', [
+      eventId.value
+    ]);
     connection.end();
   }
 }

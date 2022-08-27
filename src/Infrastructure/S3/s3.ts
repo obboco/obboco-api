@@ -9,7 +9,7 @@ const credentials = {
   secretAccessKey: process.env.AWS_SECRET_KEY
 };
 
-const useLocal = process.env.NODE_ENV !== 'production';
+//const useLocal = process.env.NODE_ENV !== 'production';
 
 const bucketName = process.env.AWS_BUCKET_NAME;
 

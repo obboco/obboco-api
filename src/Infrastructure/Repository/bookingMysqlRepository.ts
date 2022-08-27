@@ -40,7 +40,7 @@ export class BookingMysqlRepository implements BookingRepository {
 
   async update(booking: Booking): Promise<void> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    await connection.execute(
       'UPDATE booking SET status = ? WHERE booking_id = ? LIMIT 1',
       [booking.status, booking.booking_id.value]
     );
@@ -49,7 +49,7 @@ export class BookingMysqlRepository implements BookingRepository {
 
   async get(bookingId: Ulid): Promise<Booking> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE booking_id = ? LIMIT 1',
       [bookingId.value]
     );
@@ -76,7 +76,7 @@ export class BookingMysqlRepository implements BookingRepository {
 
   async getByEventId(eventId: Ulid): Promise<Booking[]> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE event_id = ? ORDER BY created_at ASC',
       [eventId.value]
     );
@@ -113,7 +113,7 @@ export class BookingMysqlRepository implements BookingRepository {
       .join(' AND ');
 
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       `SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE ${filters} ORDER BY start_date DESC`
     );
     connection.end();
@@ -143,7 +143,7 @@ export class BookingMysqlRepository implements BookingRepository {
 
   async getByGuestId(guestId: Ulid): Promise<Booking[]> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE guest_id = ? ORDER BY created_at ASC',
       [guestId.value]
     );

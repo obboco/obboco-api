@@ -1,12 +1,8 @@
 import { GuestPassMysqlRepository } from './../../Repository/guestPassMysqlRepository';
 import { GuestPass } from './../../../Domain/guestPass';
 import { GetGuestPassWithFilter } from './../../../Application/GuestPass/getGuestPassWithFilter';
-import { Ulid } from '../../../Domain/Shared/ulid';
 import { Filter } from '../../../Domain/Criteria/filter';
 import { Criteria } from '../../../Domain/Criteria/criteria';
-import { GetBookingsWithFilter } from '../../../Application/Booking/getBookingsWithFilter';
-import { Booking } from '../../../Domain/booking';
-import { BookingMysqlRepository } from '../../Repository/bookingMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

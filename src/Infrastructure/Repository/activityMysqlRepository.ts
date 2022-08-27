@@ -41,7 +41,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
 
   async get(activityId: Ulid): Promise<Activity> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT activity_id, title, description, price, currency, location, partner_id, image_id FROM activity WHERE activity_id = ?',
       [activityId.value]
     );
@@ -56,7 +56,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
 
   async getByPartnerId(partner_id: Ulid): Promise<Activity[]> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT activity_id, title, description, price, currency, location, partner_id, image_id FROM activity WHERE partner_id = ? ORDER BY created_at ASC',
       [partner_id.value]
     );
@@ -69,7 +69,7 @@ export class ActivityMysqlRepository implements ActivityRepository {
 
   async delete(activityId: Ulid): Promise<void> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    await connection.execute(
       'DELETE FROM activity WHERE activity_id = ? LIMIT 1',
       [activityId.value]
     );

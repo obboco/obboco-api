@@ -1,4 +1,3 @@
-import { Request } from 'express';
 import { Partner } from './../../Domain/partner';
 import { Ulid } from './../../Domain/Shared/ulid';
 import { PartnerRepository } from './partnerRepository';

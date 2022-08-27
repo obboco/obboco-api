@@ -1,3 +1,3 @@
-import { SendgridMail } from './Infrastructure/Mail/Sendgrid';
+//import { SendgridMail } from './Infrastructure/Mail/Sendgrid';
 
-const mailk = new SendgridMail();
+//const mailk = new SendgridMail();

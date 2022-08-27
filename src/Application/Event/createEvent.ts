@@ -1,6 +1,5 @@
 import { Event } from './../../Domain/event';
 import { Ulid } from '../../Domain/Shared/ulid';
-import { Request } from 'express';
 import { EventRepository } from './eventRepository';
 
 interface EventListCommand {

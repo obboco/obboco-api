@@ -37,7 +37,7 @@ export class GuestMysqlRepository implements GuestRepository {
 
   async get(guestId: Ulid): Promise<Guest> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT guest_id, partner_id, first_name, last_name, email, phone FROM guest WHERE guest_id = ?',
       [guestId.value]
     );
@@ -52,7 +52,7 @@ export class GuestMysqlRepository implements GuestRepository {
 
   async getByPartner(partnerId: Ulid): Promise<Guest[]> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT guest_id, partner_id, first_name, last_name, email, phone FROM guest WHERE partner_id = ?',
       [partnerId.value]
     );
@@ -65,10 +65,9 @@ export class GuestMysqlRepository implements GuestRepository {
 
   async delete(guestId: Ulid): Promise<void> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
-      'DELETE FROM guest WHERE guest_id = ? LIMIT 1',
-      [guestId.value]
-    );
+    await connection.execute('DELETE FROM guest WHERE guest_id = ? LIMIT 1', [
+      guestId.value
+    ]);
     connection.end();
   }
 }

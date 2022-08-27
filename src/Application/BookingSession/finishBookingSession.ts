@@ -5,7 +5,6 @@ import { Activity } from '../../Domain/activity';
 import { EventRepository } from '../Event/eventRepository';
 import { ActivityRepository } from '../Activity/activityRepository';
 import { Booking } from '../../Domain/booking';
-import { Request } from 'express';
 import { BookingSession } from '../../Domain/bookingSession';
 import { Ulid } from '../../Domain/Shared/ulid';
 import { BookingSessionRepository } from './bookingSessionRepository';

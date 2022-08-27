@@ -1,6 +1,5 @@
 import { GuestPass } from './../../Domain/guestPass';
 import { Ulid } from './../../Domain/Shared/ulid';
-import { Pass } from '../../Domain/pass';
 import { PassRepository } from './passRepository';
 import { GuestPassRepository } from '../GuestPass/guestPassRepository';
 

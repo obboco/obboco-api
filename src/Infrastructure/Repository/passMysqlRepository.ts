@@ -23,7 +23,7 @@ export class PassMysqlRepository implements PassRepository {
 
   async get(passId: Ulid): Promise<Pass> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT pass_id, title, description, quantity, price, currency, partner_id FROM pass WHERE pass_id = ?',
       [passId.value]
     );
@@ -38,7 +38,7 @@ export class PassMysqlRepository implements PassRepository {
 
   async getByPartner(partnerId: Ulid): Promise<Pass[]> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT pass_id, title, description, quantity, price, currency, partner_id FROM pass WHERE partner_id = ? ORDER BY created_at ASC',
       [partnerId.value]
     );
@@ -67,10 +67,9 @@ export class PassMysqlRepository implements PassRepository {
 
   async delete(passId: Ulid): Promise<void> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
-      'DELETE FROM pass WHERE pass_id = ? LIMIT 1',
-      [passId.value]
-    );
+    await connection.execute('DELETE FROM pass WHERE pass_id = ? LIMIT 1', [
+      passId.value
+    ]);
     connection.end();
   }
 }

@@ -20,7 +20,7 @@ export class StatusController implements Controller {
   private async checkMysqlConnection(): Promise<boolean> {
     try {
       const connection = await mysqlConnection();
-      const [result, fields] = await connection.execute('SELECT 1');
+      const [result] = await connection.execute('SELECT 1');
       connection.end();
 
       if (result[0] == undefined) {

@@ -3,10 +3,16 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
+    "noImplicitAny": false,
     "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist"
+    "sourceMap": false,
+    "rootDir": ".",
+    "strict": false,
+    "noEmit": false,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "outDir": "./dist"
   },
-  "lib": ["es2015"],
-  "include": ["src", "src/**/*.ts", "@types/**/*.d.ts"]
+  "include": ["src/**/**.ts"],
+  "exclude": ["node_modules"]
 }
