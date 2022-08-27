@@ -9,7 +9,6 @@
   "main": "dist/app.js",
   "scripts": {
     "dev": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules ./src/start.ts",
-    "production": "npm run build && npm run start",
     "start": "NODE_ENV=production node dist/src/start",
     "build": "npm run build:tsc && npm run build:di",
     "build:tsc": "tsc -p tsconfig.prod.json",
