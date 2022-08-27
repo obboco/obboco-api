@@ -9,8 +9,14 @@ export class StatusController implements Controller {
   async run(req: Request, res: Response) {
     const mysqlConnection: boolean = await this.checkMysqlConnection();
     const redisConnection: boolean = await this.checkRedisConnection();
+
+    let returnHttpStatus: any = httpStatus.OK;
+    if (!mysqlConnection || !redisConnection) {
+      returnHttpStatus = httpStatus[500];
+    }
+
     res
-      .status(httpStatus.OK)
+      .status(returnHttpStatus)
       .send(this.toResponse(mysqlConnection, redisConnection));
   }
 
