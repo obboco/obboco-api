@@ -1,3 +1,4 @@
+import { redisConnection } from './../../Redis/redisConnector';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { mysqlConnection } from '../../Mysql/MysqlConnector';
@@ -7,13 +8,17 @@ export class StatusController implements Controller {
   constructor() {}
   async run(req: Request, res: Response) {
     const mysqlConnection: boolean = await this.checkMysqlConnection();
-    res.status(httpStatus.OK).send(this.toResponse(mysqlConnection));
+    const redisConnection: boolean = await this.checkRedisConnection();
+    res
+      .status(httpStatus.OK)
+      .send(this.toResponse(mysqlConnection, redisConnection));
   }
 
-  private toResponse(mysqlConnection: boolean): any {
+  private toResponse(mysqlConnection: boolean, redisConnection: boolean): any {
     return {
       http: 'ok',
-      mysql: mysqlConnection
+      mysql: mysqlConnection,
+      redis: redisConnection
     };
   }
 
@@ -24,6 +29,20 @@ export class StatusController implements Controller {
       connection.end();
 
       if (result[0] == undefined) {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private async checkRedisConnection(): Promise<boolean> {
+    try {
+      const connection = await redisConnection();
+      const result = await connection.SELECT('1');
+      if (result === null) {
         return false;
       }
     } catch (e) {
