@@ -1,17 +1,37 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { migrate } from '../../MysqlMigration/MysqlCustomMigration';
 import { Controller } from '../Controller';
 
 export class MysqlMigrationController implements Controller {
   constructor() {}
   async run(req: Request, res: Response) {
-    const { exec } = require('child_process');
+    require('dotenv').config();
+    var mysql = require('mysql');
 
-    exec('node src/migrations.ts up --migrate-all', (error, stdout, stderr) => {
-      if (stdout) res.status(httpStatus.OK).send(stdout);
-      if (error)
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
-      if (stderr) res.status(httpStatus.INTERNAL_SERVER_ERROR).send(stderr);
+    var connection = mysql.createPool({
+      connectionLimit: 10,
+      host: process.env.MYSQL_HOST,
+      port: process.env.MYSQL_PORT,
+      user: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PASSWORD,
+      database: process.env.MYSQL_DATABASE
     });
+
+    try {
+      const argv = ['node', 'migration', 'up', '--migrate-all'];
+
+      migrate(
+        argv,
+        connection,
+        __dirname + '/../../../migrations',
+        function () {
+          res.status(httpStatus.OK).send('ok');
+        },
+        ['--migrate-all']
+      );
+    } catch (e) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send(e);
+    }
   }
 }
