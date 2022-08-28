@@ -12,7 +12,7 @@ export class StatusController implements Controller {
 
     let returnHttpStatus: any = httpStatus.OK;
     if (!mysqlConnection || !redisConnection) {
-      returnHttpStatus = httpStatus[500];
+      returnHttpStatus = httpStatus.INTERNAL_SERVER_ERROR;
     }
 
     res

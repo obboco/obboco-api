@@ -19,7 +19,9 @@ export class ActivityDeleteController implements Controller {
       });
       res.status(httpStatus.OK).send(this.toResponse());
     } catch (e) {
-      res.status(httpStatus.BAD_REQUEST).json({ errors: [{ msg: e.message }] });
+      res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ errors: [{ msg: e.message }] });
     }
   }
 

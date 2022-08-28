@@ -3,6 +3,10 @@ services:
     class: ../../../Infrastructure/Web/Status/StatusController
     arguments: []
 
+  Infrastructure.Web.Migration.MysqlMigrationController:
+    class: ../../../Infrastructure/Web/Migration/MysqlMigrationController
+    arguments: []
+
   Infrastructure.Web.Partner.PartnerGetController:
     class: ../../../Infrastructure/Web/Partner/PartnerGetController
     arguments: []
