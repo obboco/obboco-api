@@ -11,8 +11,8 @@
     "noEmit": false,
     "resolveJsonModule": true,
     "noUnusedLocals": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "allowJs": true
   },
-  "include": ["src/**/**.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/**.ts", "src/**/**.js"]
 }
