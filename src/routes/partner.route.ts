@@ -28,12 +28,24 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom(ulidValidator),
     body('email').isEmail(),
-    body('given_name').isString().isLength({ min: 1, max: 255 }),
-    body('family_name').isString().isLength({ min: 1, max: 255 }),
-    body('picture').isString().isLength({ min: 1, max: 255 }),
+    body('given_name')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
+    body('family_name')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
+    body('picture')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
     body('locale').isString().isLength({ min: 1, max: 255 }),
     body('subscription_plan').isString().isLength({ min: 1, max: 255 }),
-    body('subdomain').isString().isLength({ min: 1, max: 255 }),
+    body('subdomain')
+      .optional({ nullable: true })
+      .isString()
+      .isLength({ min: 1, max: 255 }),
     validateMiddleware,
     (req: Request, res: Response) => partnerPostController.run(req, res)
   );

@@ -21,7 +21,7 @@ export class PartnerFixtures {
 
   async getPartnerByEmail(email: string) {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT partner_id, email, given_name, family_name, picture, locale, subscription_plan, subdomain FROM partner WHERE email = ?',
       [email]
     );

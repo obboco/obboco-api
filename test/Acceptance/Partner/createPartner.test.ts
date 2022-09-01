@@ -69,6 +69,28 @@ describe('Create partner', () => {
       });
   });
 
+  it('Create partner correctly with no optional values ', async (done) => {
+    const partnerFixtures = new PartnerFixtures();
+    const partner: Partner = makeRandomPartner();
+    await partnerFixtures.addPartner(partner);
+
+    request(application.httpServer)
+      .post('/partner')
+      .set('accept', 'application/json')
+      .type('json')
+      .send({
+        partner_id: partner.partner_id.value,
+        email: partner.email,
+        locale: partner.locale,
+        subscription_plan: partner.subscription_plan
+      })
+      .expect(200)
+      .then(async (response) => {
+        expect(response.body.errors[0].msg).toEqual('Partner already exists');
+        done();
+      });
+  });
+
   it('Create partner with an empty email and throw an error', async (done) => {
     const randomEmail = '';
     request(application.httpServer)
