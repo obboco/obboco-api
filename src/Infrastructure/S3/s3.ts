@@ -13,6 +13,7 @@ const spacesEndpoint = new aws.Endpoint(process.env.STORAGE_SPACES_ENDPOINT);
 
 const s3 = new aws.S3({
   credentials,
+  s3ForcePathStyle: true,
   endpoint: spacesEndpoint
 });
 
@@ -29,7 +30,6 @@ export const uploadFiles = (request, response, next) => {
         cb(null, { fieldName: activityImageId.value });
       },
       key: function (request, file, cb) {
-        console.log(file);
         cb(null, activityImageId.value + '.jpg');
       }
     })
