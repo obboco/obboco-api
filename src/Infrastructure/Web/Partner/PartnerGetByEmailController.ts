@@ -1,6 +1,6 @@
-import { getPartnerByEmail } from './../../../Application/Partner/getPartnerByEmail';
-import { Partner } from '../../../Domain/partner';
-import { PartnerMysqlRepository } from './../../Repository/partnerMysqlRepository';
+import { getPartnerByEmail } from '../../../Application/Partner/GetPartnerByEmail';
+import { Partner } from '../../../Domain/Partner';
+import { PartnerMysqlRepository } from '../../Repository/PartnerMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

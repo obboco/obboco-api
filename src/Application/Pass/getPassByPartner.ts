@@ -1,6 +1,6 @@
-import { Ulid } from '../../Domain/Shared/ulid';
-import { Pass } from '../../Domain/pass';
-import { PassRepository } from './passRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { Pass } from '../../Domain/Pass';
+import { PassRepository } from './PassRepository';
 
 interface GetPassByPartnerCommand {
   partner_id: string;

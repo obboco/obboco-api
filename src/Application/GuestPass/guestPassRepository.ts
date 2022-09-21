@@ -1,6 +1,6 @@
-import { Criteria } from './../../Domain/Criteria/criteria';
-import { GuestPass } from './../../Domain/guestPass';
-import { Ulid } from '../../Domain/Shared/ulid';
+import { Criteria } from '../../Domain/Criteria/Criteria';
+import { GuestPass } from '../../Domain/GuestPass';
+import { Ulid } from '../../Domain/Shared/Ulid';
 export interface GuestPassRepository {
   add(guestPass: GuestPass): Promise<void>;
   getByGuest(guestId: Ulid): Promise<GuestPass[]>;

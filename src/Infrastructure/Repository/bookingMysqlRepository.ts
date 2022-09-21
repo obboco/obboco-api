@@ -1,8 +1,8 @@
-import { Filter } from './../../Domain/Criteria/filter';
-import { Criteria } from './../../Domain/Criteria/criteria';
-import { Ulid } from './../../Domain/Shared/ulid';
-import { BookingRepository } from './../../Application/Booking/bookingRepository';
-import { Booking, BookingPrimitives } from './../../Domain/booking';
+import { Filter } from '../../Domain/Criteria/Filter';
+import { Criteria } from '../../Domain/Criteria/Criteria';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { BookingRepository } from '../../Application/Booking/BookingRepository';
+import { Booking, BookingPrimitives } from '../../Domain/booking';
 import { mysqlConnection } from '../Mysql/MysqlConnector';
 
 export class BookingMysqlRepository implements BookingRepository {

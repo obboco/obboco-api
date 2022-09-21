@@ -1,2 +1,4 @@
 imports:
   - { resource: ./Infrastructure/Web/application.yaml }
+  - { resource: ./Infrastructure/Repository/application.yaml }
+  - { resource: ./Application/application.yaml }

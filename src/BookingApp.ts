@@ -4,9 +4,13 @@ export class BookingApp {
   private server?: Server;
 
   async start() {
-    const port = process.env.PORT || '3000';
-    this.server = new Server(port);
-    return this.server.listen();
+    try {
+      const port = process.env.PORT || '3000';
+      this.server = new Server(port);
+      return this.server.listen();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async stop() {

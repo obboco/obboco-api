@@ -1,5 +1,5 @@
-import { Ulid } from '../../Domain/Shared/ulid';
-import { BookingSession } from '../../Domain/bookingSession';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { BookingSession } from '../../Domain/BookingSession';
 
 export interface BookingSessionRepository {
   add(bookingSession: BookingSession): Promise<void>;

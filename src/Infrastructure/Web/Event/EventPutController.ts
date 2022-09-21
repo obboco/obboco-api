@@ -1,6 +1,6 @@
-import { BookingMysqlRepository } from './../../Repository/bookingMysqlRepository';
-import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
-import { UpdateEvent } from './../../../Application/Event/updateEvent';
+import { BookingMysqlRepository } from '../../Repository/BookingMysqlRepository';
+import { EventMysqlRepository } from '../../Repository/EventMysqlRepository';
+import { UpdateEvent } from '../../../Application/Event/UpdateEvent';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

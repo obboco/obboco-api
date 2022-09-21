@@ -1,4 +1,4 @@
-import { Ulid } from './Shared/ulid';
+import { Ulid } from './Shared/Ulid';
 
 export interface GuestPrimitives {
   guest_id: string;

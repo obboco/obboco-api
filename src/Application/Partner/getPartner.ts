@@ -1,6 +1,6 @@
-import { Partner } from './../../Domain/partner';
-import { PartnerRepository } from './partnerRepository';
-import { Ulid } from './../../Domain/Shared/ulid';
+import { Partner } from '../../Domain/Partner';
+import { PartnerRepository } from './PartnerRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
 
 export class GetPartner {
   constructor(readonly partnerRepository: PartnerRepository) {}

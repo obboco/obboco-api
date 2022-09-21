@@ -1,6 +1,6 @@
-import { Event } from './../../../Domain/event';
-import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
-import { ListEvent } from './../../../Application/Event/listEvent';
+import { Event } from '../../../Domain/Event';
+import { EventMysqlRepository } from '../../Repository/EventMysqlRepository';
+import { ListEvent } from '../../../Application/Event/ListEvent';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

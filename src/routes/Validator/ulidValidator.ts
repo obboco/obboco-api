@@ -1,5 +1,5 @@
 import { CustomValidator } from 'express-validator';
-import { Ulid } from './../../Domain/Shared/ulid';
+import { Ulid } from '../../Domain/Shared/Ulid';
 
 export const ulidValidator: CustomValidator = (input: string): boolean => {
   try {

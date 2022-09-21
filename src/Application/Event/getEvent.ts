@@ -1,6 +1,6 @@
-import { Event } from '../../Domain/event';
-import { EventRepository } from './eventRepository';
-import { Ulid } from '../../Domain/Shared/ulid';
+import { Event } from '../../Domain/Event';
+import { EventRepository } from './EventRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
 
 export class GetEvent {
   constructor(private eventRepository: EventRepository) {}

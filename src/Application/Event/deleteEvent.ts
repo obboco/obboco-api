@@ -1,6 +1,6 @@
-import { BookingRepository } from './../Booking/bookingRepository';
-import { EventRepository } from './eventRepository';
-import { Ulid } from '../../Domain/Shared/ulid';
+import { BookingRepository } from '../Booking/BookingRepository';
+import { EventRepository } from './EventRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
 
 export class DeleteEvent {
   constructor(

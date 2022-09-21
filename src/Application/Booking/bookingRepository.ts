@@ -1,6 +1,6 @@
-import { Criteria } from './../../Domain/Criteria/criteria';
-import { Ulid } from './../../Domain/Shared/ulid';
-import { Booking } from '../../Domain/booking';
+import { Criteria } from '../../Domain/Criteria/Criteria';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { Booking } from '../../Domain/Booking';
 
 export interface BookingRepository {
   add(booking: Booking): Promise<void>;

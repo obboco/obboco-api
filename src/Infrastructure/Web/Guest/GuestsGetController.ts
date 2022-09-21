@@ -1,9 +1,9 @@
-import { GetGuests } from '../../../Application/Guest/getGuests';
-import { Guest } from '../../../Domain/guest';
+import { GetGuests } from '../../../Application/Guest/GetGuests';
+import { Guest } from '../../../Domain/Guest';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
-import { GuestMysqlRepository } from '../../Repository/guestMysqlRepository';
+import { GuestMysqlRepository } from '../../Repository/GuestMysqlRepository';
 
 export class GuestsGetController implements Controller {
   constructor() {}

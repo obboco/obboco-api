@@ -1,6 +1,6 @@
-import { Partner } from './../../Domain/partner';
-import { Ulid } from './../../Domain/Shared/ulid';
-import { PartnerRepository } from './partnerRepository';
+import { Partner } from '../../Domain/Partner';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { PartnerRepository } from './PartnerRepository';
 
 interface createPartnerCommand {
   partner_id: string;

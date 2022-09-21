@@ -25,6 +25,17 @@ export const makeRandomIsolatedEvent = (): Event => {
   });
 };
 
+export const makeRandomEventWithSomeCapacity = (): Event => {
+  return Event.fromPrimitives({
+    event_id: Ulid.create().value,
+    start_date: new Date('2022-05-15 06:39:09').toISOString(),
+    duration: faker.datatype.number(2000),
+    capacity: faker.datatype.number(2000),
+    current_capacity: 5,
+    activity_id: Ulid.create().value
+  });
+};
+
 export const makeRandomPastEvent = (activity: Activity): Event => {
   const date = new Date();
   date.setDate(date.getDate() - 14);

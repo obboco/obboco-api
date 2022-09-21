@@ -1,7 +1,7 @@
-import { GuestPass } from './../../Domain/guestPass';
-import { Ulid } from './../../Domain/Shared/ulid';
-import { PassRepository } from './passRepository';
-import { GuestPassRepository } from '../GuestPass/guestPassRepository';
+import { GuestPass } from '../../Domain/GuestPass';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { PassRepository } from './PassRepository';
+import { GuestPassRepository } from '../GuestPass/GuestPassRepository';
 
 interface DeletePassCommand {
   pass_id: string;

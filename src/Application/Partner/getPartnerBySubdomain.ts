@@ -1,5 +1,5 @@
-import { Partner } from '../../Domain/partner';
-import { PartnerRepository } from './partnerRepository';
+import { Partner } from '../../Domain/Partner';
+import { PartnerRepository } from './PartnerRepository';
 
 export class getPartnerBySubdomain {
   constructor(readonly partnerRepository: PartnerRepository) {}

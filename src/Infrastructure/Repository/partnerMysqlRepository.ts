@@ -1,7 +1,7 @@
-import { Ulid } from './../../Domain/Shared/ulid';
-import { PartnerRepository } from './../../Application/Partner/partnerRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { PartnerRepository } from '../../Application/Partner/PartnerRepository';
 import { mysqlConnection } from '../Mysql/MysqlConnector';
-import { Partner } from './../../Domain/partner';
+import { Partner } from '../../Domain/Partner';
 
 export class PartnerMysqlRepository implements PartnerRepository {
   async add(partner: Partner): Promise<void> {

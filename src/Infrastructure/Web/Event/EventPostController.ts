@@ -1,9 +1,9 @@
-import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
-import { CreateEvent } from './../../../Application/Event/createEvent';
+import { EventMysqlRepository } from '../../Repository/EventMysqlRepository';
+import { CreateEvent } from '../../../Application/Event/CreateEvent';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
-import { Ulid } from '../../../Domain/Shared/ulid';
+import { Ulid } from '../../../Domain/Shared/Ulid';
 
 export class EventPostController implements Controller {
   constructor() {}

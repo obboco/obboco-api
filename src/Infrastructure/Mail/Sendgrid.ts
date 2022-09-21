@@ -1,4 +1,4 @@
-import { Ulid } from './../../Domain/Shared/ulid';
+import { Ulid } from '../../Domain/Shared/Ulid';
 export interface MailConfig {
   apiKey: string;
   to: {

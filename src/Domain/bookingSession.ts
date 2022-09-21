@@ -1,5 +1,5 @@
-import { Guest, GuestPrimitives } from './guest';
-import { Ulid } from './Shared/ulid';
+import { Guest, GuestPrimitives } from './Guest';
+import { Ulid } from './Shared/Ulid';
 
 export interface BookingSessionPrimitives {
   booking_id: string;

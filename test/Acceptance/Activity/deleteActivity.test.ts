@@ -1,10 +1,5 @@
 import { EventFixtures } from './../../Mock/Event/eventFixtures';
-import {
-  makeRandomActivity,
-  makeRandomActivityWhithoutOptionalParameters,
-  makeRandomIsolatedActivity
-} from '../../Mock/Activity/activityMother';
-import { Activity } from '../../../src/Domain/activity';
+import { makeRandomActivityWhithoutOptionalParameters } from '../../Mock/Activity/activityMother';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import { BookingApp } from '../../../src/BookingApp';

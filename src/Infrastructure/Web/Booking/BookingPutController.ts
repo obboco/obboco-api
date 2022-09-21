@@ -1,17 +1,13 @@
-import { UpdateBooking } from './../../../Application/Booking/updateBooking';
-import { BookingMysqlRepository } from '../../Repository/bookingMysqlRepository';
+import { UpdateBooking } from '../../../Application/Booking/UpdateBooking';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
 
 export class BookingPutController implements Controller {
-  constructor() {}
+  constructor(readonly updateBooking: UpdateBooking) {}
 
   async run(req: Request, res: Response) {
-    const updateBooking: UpdateBooking = new UpdateBooking(
-      new BookingMysqlRepository()
-    );
-    updateBooking.make({
+    this.updateBooking.make({
       booking_id: req.body.booking_id,
       status: req.body.status
     });

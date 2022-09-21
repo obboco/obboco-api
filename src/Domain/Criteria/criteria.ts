@@ -1,4 +1,4 @@
-import { Filter } from './filter';
+import { Filter } from './Filter';
 export class Criteria {
   constructor(
     readonly filters: Filter[],

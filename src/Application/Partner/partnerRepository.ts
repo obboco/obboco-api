@@ -1,5 +1,5 @@
-import { Partner } from './../../Domain/partner';
-import { Ulid } from './../../Domain/Shared/ulid';
+import { Partner } from '../../Domain/Partner';
+import { Ulid } from '../../Domain/Shared/Ulid';
 
 export interface PartnerRepository {
   add(partner: Partner): void;

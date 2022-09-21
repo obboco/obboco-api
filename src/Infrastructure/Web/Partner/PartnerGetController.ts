@@ -1,10 +1,10 @@
-import { PartnerMysqlRepository } from './../../Repository/partnerMysqlRepository';
-import { Partner } from '../../../Domain/partner';
-import { GetPartner } from '../../../Application/Partner/getPartner';
+import { PartnerMysqlRepository } from '../../Repository/PartnerMysqlRepository';
+import { Partner } from '../../../Domain/Partner';
+import { GetPartner } from '../../../Application/Partner/GetPartner';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
-import { Ulid } from '../../../Domain/Shared/ulid';
+import { Ulid } from '../../../Domain/Shared/Ulid';
 
 export class PartnerGetController implements Controller {
   constructor() {}

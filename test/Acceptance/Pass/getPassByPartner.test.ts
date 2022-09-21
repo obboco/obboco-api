@@ -1,4 +1,3 @@
-import { Pass } from '../../../src/Domain/pass';
 import { makeRandomPass } from '../../Mock/Pass/passMother';
 import { PassFixtures } from '../../Mock/Pass/passFixtures';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';

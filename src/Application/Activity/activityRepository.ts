@@ -1,5 +1,5 @@
-import { Ulid } from './../../Domain/Shared/ulid';
-import { Activity } from './../../Domain/activity';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { Activity } from '../../Domain/Activity';
 
 export interface ActivityRepository {
   add(activity: Activity): Promise<void>;

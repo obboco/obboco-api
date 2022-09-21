@@ -1,8 +1,8 @@
-import { BookingSessionPrimitives } from './../../Domain/bookingSession';
-import { Guest, GuestPrimitives } from './../../Domain/guest';
-import { GuestRepository } from './../Guest/guestRepository';
-import { BookingSession } from '../../Domain/bookingSession';
-import { BookingSessionRepository } from './bookingSessionRepository';
+import { BookingSessionPrimitives } from '../../Domain/BookingSession';
+import { Guest, GuestPrimitives } from '../../Domain/Guest';
+import { GuestRepository } from '../Guest/GuestRepository';
+import { BookingSession } from '../../Domain/BookingSession';
+import { BookingSessionRepository } from './BookingSessionRepository';
 
 interface AddGuessBokingSessionCommand {
   booking_id: string;

@@ -1,5 +1,5 @@
-import { PassMysqlRepository } from './../../Repository/passMysqlRepository';
-import { CreatePass } from './../../../Application/Pass/createPass';
+import { PassMysqlRepository } from '../../Repository/PassMysqlRepository';
+import { CreatePass } from '../../../Application/Pass/CreatePass';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

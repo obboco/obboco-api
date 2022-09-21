@@ -4,9 +4,9 @@ import { Ulid } from '../../../src/Domain/Shared/ulid';
 import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class BookingFixtures {
-  async get(bookingId: Ulid): Promise<Booking> {
+  async get(bookingId: Ulid): Promise<Booking | null> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE booking_id = ? LIMIT 1',
       [bookingId.value]
     );

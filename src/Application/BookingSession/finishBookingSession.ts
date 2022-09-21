@@ -1,14 +1,14 @@
-import { GuestPassRepository } from './../GuestPass/guestPassRepository';
-import { GuestPass } from './../../Domain/guestPass';
-import { Event } from '../../Domain/event';
-import { Activity } from '../../Domain/activity';
-import { EventRepository } from '../Event/eventRepository';
-import { ActivityRepository } from '../Activity/activityRepository';
-import { Booking } from '../../Domain/booking';
-import { BookingSession } from '../../Domain/bookingSession';
-import { Ulid } from '../../Domain/Shared/ulid';
-import { BookingSessionRepository } from './bookingSessionRepository';
-import { BookingRepository } from '../Booking/bookingRepository';
+import { GuestPassRepository } from '../GuestPass/GuestPassRepository';
+import { GuestPass } from '../../Domain/GuestPass';
+import { Event } from '../../Domain/Event';
+import { Activity } from '../../Domain/Activity';
+import { EventRepository } from '../Event/EventRepository';
+import { ActivityRepository } from '../Activity/ActivityRepository';
+import { Booking } from '../../Domain/Booking';
+import { BookingSession } from '../../Domain/BookingSession';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { BookingSessionRepository } from './BookingSessionRepository';
+import { BookingRepository } from '../Booking/BookingRepository';
 
 interface FinnishBookingSessionCommand {
   booking_id: string;

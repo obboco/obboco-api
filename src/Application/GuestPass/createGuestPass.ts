@@ -1,8 +1,8 @@
-import { Ulid } from './../../Domain/Shared/ulid';
-import { PassRepository } from './../Pass/passRepository';
-import { GuestPass } from '../../Domain/guestPass';
-import { GuestPassRepository } from './guestPassRepository';
-import { Pass } from '../../Domain/pass';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { PassRepository } from '../Pass/PassRepository';
+import { GuestPass } from '../../Domain/GuestPass';
+import { GuestPassRepository } from './GuestPassRepository';
+import { Pass } from '../../Domain/Pass';
 
 interface CreatGuestPassCommand {
   guest_pass_id: string;

@@ -1,6 +1,6 @@
-import { Activity } from './../../../Domain/activity';
-import { ActivityMysqlRepository } from '../../Repository/activityMysqlRepository';
-import { ListActivity } from './../../../Application/Activity/listActivity';
+import { Activity } from '../../../Domain/Activity';
+import { ActivityMysqlRepository } from '../../Repository/ActivityMysqlRepository';
+import { ListActivity } from '../../../Application/Activity/ListActivity';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

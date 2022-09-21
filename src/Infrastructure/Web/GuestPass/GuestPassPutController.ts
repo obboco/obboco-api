@@ -1,5 +1,5 @@
-import { UpdateGuestPass } from './../../../Application/GuestPass/updateGuestPass';
-import { GuestPassMysqlRepository } from '../../Repository/guestPassMysqlRepository';
+import { UpdateGuestPass } from '../../../Application/GuestPass/UpdateGuestPass';
+import { GuestPassMysqlRepository } from '../../Repository/GuestPassMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

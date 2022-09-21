@@ -1,5 +1,5 @@
-import { Pass } from '../../Domain/pass';
-import { PassRepository } from './passRepository';
+import { Pass } from '../../Domain/Pass';
+import { PassRepository } from './PassRepository';
 
 interface CreatePassCommand {
   pass_id: string;

@@ -1,6 +1,6 @@
-import { EventRepository } from './../Event/eventRepository';
-import { Ulid } from '../../Domain/Shared/ulid';
-import { ActivityRepository } from './activityRepository';
+import { EventRepository } from '../Event/EventRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { ActivityRepository } from './ActivityRepository';
 
 interface DeleteActivityCommand {
   activity_id: string;

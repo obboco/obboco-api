@@ -1,6 +1,6 @@
-import { BookingRepository } from './../Booking/bookingRepository';
-import { Ulid } from './../../Domain/Shared/ulid';
-import { GuestRepository } from './guestRepository';
+import { BookingRepository } from '../Booking/BookingRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { GuestRepository } from './GuestRepository';
 
 interface DeleteGuestCommand {
   guest_id: string;

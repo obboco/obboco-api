@@ -1,7 +1,7 @@
-import { Pass } from './../../Domain/pass';
-import { Ulid } from '../../Domain/Shared/ulid';
+import { Pass } from '../../Domain/Pass';
+import { Ulid } from '../../Domain/Shared/Ulid';
 import { mysqlConnection } from '../Mysql/MysqlConnector';
-import { PassRepository } from '../../Application/Pass/passRepository';
+import { PassRepository } from '../../Application/Pass/PassRepository';
 
 export class PassMysqlRepository implements PassRepository {
   async add(pass: Pass): Promise<void> {

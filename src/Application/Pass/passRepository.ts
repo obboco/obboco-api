@@ -1,5 +1,5 @@
-import { Ulid } from './../../Domain/Shared/ulid';
-import { Pass } from '../../Domain/pass';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { Pass } from '../../Domain/Pass';
 
 export interface PassRepository {
   add(pass: Pass): Promise<void>;

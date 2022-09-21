@@ -1,6 +1,6 @@
-import { Booking } from '../../Domain/booking';
-import { Ulid } from '../../Domain/Shared/ulid';
-import { BookingRepository } from './bookingRepository';
+import { Booking } from '../../Domain/Booking';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { BookingRepository } from './BookingRepository';
 
 export class GetBookings {
   constructor(private bookingRepository: BookingRepository) {}

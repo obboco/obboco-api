@@ -19,7 +19,7 @@ export class EventFixtures {
 
   async getEvent(event_id: string) {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE event_id = ?',
       [event_id]
     );

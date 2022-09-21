@@ -1,6 +1,6 @@
-import { Pass } from './../../../Domain/pass';
-import { GetPass } from './../../../Application/Pass/getPass';
-import { PassMysqlRepository } from '../../Repository/passMysqlRepository';
+import { Pass } from '../../../Domain/Pass';
+import { GetPass } from '../../../Application/Pass/GetPass';
+import { PassMysqlRepository } from '../../Repository/PassMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

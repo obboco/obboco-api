@@ -1,8 +1,8 @@
-import { Filter } from './../../../Domain/Criteria/filter';
-import { Criteria } from './../../../Domain/Criteria/criteria';
-import { GetBookingsWithFilter } from './../../../Application/Booking/getBookingsWithFilter';
-import { Booking } from '../../../Domain/booking';
-import { BookingMysqlRepository } from '../../Repository/bookingMysqlRepository';
+import { Filter } from '../../../Domain/Criteria/Filter';
+import { Criteria } from '../../../Domain/Criteria/Criteria';
+import { GetBookingsWithFilter } from '../../../Application/Booking/GetBookingsWithFilter';
+import { Booking } from '../../../Domain/Booking';
+import { BookingMysqlRepository } from '../../Repository/BookingMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

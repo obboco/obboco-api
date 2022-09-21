@@ -1,9 +1,9 @@
-import { BookingSessionRedisRepository } from './../../Infrastructure/Repository/bookingRedisRepository';
-import { ActivityRepository } from '../Activity/activityRepository';
-import { Event } from '../../Domain/event';
-import { EventRepository } from '../Event/eventRepository';
-import { Ulid } from '../../Domain/Shared/ulid';
-import { Activity } from '../../Domain/activity';
+import { BookingSessionRedisRepository } from '../../Infrastructure/Repository/BookingRedisRepository';
+import { ActivityRepository } from '../Activity/ActivityRepository';
+import { Event } from '../../Domain/Event';
+import { EventRepository } from '../Event/EventRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { Activity } from '../../Domain/Activity';
 
 export interface BookingEventResponse {
   event: Event;

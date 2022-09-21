@@ -1,9 +1,9 @@
-import { PartnerMysqlRepository } from './../../Repository/partnerMysqlRepository';
+import { PartnerMysqlRepository } from '../../Repository/PartnerMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
-import { Ulid } from '../../../Domain/Shared/ulid';
-import { CreatePartner } from '../../../Application/Partner/createPartner';
+import { Ulid } from '../../../Domain/Shared/Ulid';
+import { CreatePartner } from '../../../Application/Partner/CreatePartner';
 
 export class PartnerPostController implements Controller {
   constructor() {}

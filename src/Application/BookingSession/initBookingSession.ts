@@ -1,6 +1,6 @@
-import { BookingSession } from '../../Domain/bookingSession';
-import { Ulid } from '../../Domain/Shared/ulid';
-import { BookingSessionRepository } from './bookingSessionRepository';
+import { BookingSession } from '../../Domain/BookingSession';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { BookingSessionRepository } from './BookingSessionRepository';
 
 export interface InitBookingSessionResponse {
   booking_id: Ulid;

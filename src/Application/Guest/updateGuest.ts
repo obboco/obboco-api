@@ -1,6 +1,6 @@
-import { Ulid } from './../../Domain/Shared/ulid';
-import { Guest } from '../../Domain/guest';
-import { GuestRepository } from './guestRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { Guest } from '../../Domain/Guest';
+import { GuestRepository } from './GuestRepository';
 
 interface UpdateGuestCommand {
   guest_id: string;

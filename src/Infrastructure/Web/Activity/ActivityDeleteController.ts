@@ -1,6 +1,6 @@
-import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
-import { DeleteActivity } from './../../../Application/Activity/deleteActivity';
-import { ActivityMysqlRepository } from '../../Repository/activityMysqlRepository';
+import { EventMysqlRepository } from '../../Repository/EventMysqlRepository';
+import { DeleteActivity } from '../../../Application/Activity/DeleteActivity';
+import { ActivityMysqlRepository } from '../../Repository/ActivityMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

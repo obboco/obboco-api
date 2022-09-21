@@ -1,5 +1,5 @@
-import { Guest } from './../../Domain/guest';
-import { GuestRepository } from './guestRepository';
+import { Guest } from '../../Domain/Guest';
+import { GuestRepository } from './GuestRepository';
 
 interface CreateGuestCommand {
   guest_id: string;

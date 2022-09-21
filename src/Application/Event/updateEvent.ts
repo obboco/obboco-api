@@ -1,9 +1,9 @@
-import { BookingRepository } from './../Booking/bookingRepository';
-import { Event } from '../../Domain/event';
-import { Ulid } from '../../Domain/Shared/ulid';
-import { EventRepository } from './eventRepository';
+import { BookingRepository } from '../Booking/bookingRepository';
+import { Event } from '../../Domain/Event';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { EventRepository } from './EventRepository';
 
-interface EventListCommand {
+interface EventUpdateCommand {
   event_id: string;
   start_date: string;
   duration: number;
@@ -17,7 +17,7 @@ export class UpdateEvent {
     private bookingRepository: BookingRepository
   ) {}
 
-  async make(command: EventListCommand): Promise<void> {
+  async make(command: EventUpdateCommand): Promise<void> {
     const eventId = Ulid.fromPrimitives(command.event_id);
 
     await this.bookingRepository.getByEventId(eventId).then((bookings) => {

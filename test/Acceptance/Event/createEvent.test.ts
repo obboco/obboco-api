@@ -1,7 +1,4 @@
-import {
-  makeRandomEvent,
-  makeRandomIsolatedEvent
-} from './../../Mock/Event/eventMother';
+import { makeRandomIsolatedEvent } from './../../Mock/Event/eventMother';
 import { Event } from '../../../src/Domain/event';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';
 import { Ulid } from '../../../src/Domain/Shared/ulid';

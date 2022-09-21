@@ -1,6 +1,6 @@
-import { Event } from './../../Domain/event';
-import { Ulid } from '../../Domain/Shared/ulid';
-import { EventRepository } from './eventRepository';
+import { Event } from '../../Domain/Event';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { EventRepository } from './EventRepository';
 
 interface EventListCommand {
   event_id: string;

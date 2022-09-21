@@ -1,9 +1,9 @@
-import { ActivityMysqlRepository } from '../../Repository/activityMysqlRepository';
-import { CreateActivity } from './../../../Application/Activity/createActivity';
+import { ActivityMysqlRepository } from '../../Repository/ActivityMysqlRepository';
+import { CreateActivity } from '../../../Application/Activity/CreateActivity';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
-import { Ulid } from '../../../Domain/Shared/ulid';
+import { Ulid } from '../../../Domain/Shared/Ulid';
 
 export class ActivityPostController implements Controller {
   constructor() {}

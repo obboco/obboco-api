@@ -1,4 +1,3 @@
-import { Guest } from './../../../src/Domain/guest';
 import { GuestFixtures } from '../../Mock/Guest/guestFixtures';
 import { makeNewRandomBookingSession } from '../../Mock/BookingSession/bookingSessionMother';
 import { BookingSession } from '../../../src/Domain/bookingSession';

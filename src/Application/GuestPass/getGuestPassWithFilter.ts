@@ -1,6 +1,6 @@
-import { GuestPass } from './../../Domain/guestPass';
-import { GuestPassRepository } from './guestPassRepository';
-import { Criteria } from '../../Domain/Criteria/criteria';
+import { GuestPass } from '../../Domain/GuestPass';
+import { GuestPassRepository } from './GuestPassRepository';
+import { Criteria } from '../../Domain/Criteria/Criteria';
 
 interface GetGuestPassWithFilterCommand {
   criteria: Criteria;

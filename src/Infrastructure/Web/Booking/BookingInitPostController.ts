@@ -1,5 +1,5 @@
-import { BookingSessionRedisRepository } from './../../Repository/bookingRedisRepository';
-import { InitBookingSession } from './../../../Application/BookingSession/initBookingSession';
+import { BookingSessionRedisRepository } from '../../Repository/BookingRedisRepository';
+import { InitBookingSession } from '../../../Application/BookingSession/InitBookingSession';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

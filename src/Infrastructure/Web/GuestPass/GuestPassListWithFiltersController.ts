@@ -1,8 +1,8 @@
-import { GuestPassMysqlRepository } from './../../Repository/guestPassMysqlRepository';
-import { GuestPass } from './../../../Domain/guestPass';
-import { GetGuestPassWithFilter } from './../../../Application/GuestPass/getGuestPassWithFilter';
-import { Filter } from '../../../Domain/Criteria/filter';
-import { Criteria } from '../../../Domain/Criteria/criteria';
+import { GuestPassMysqlRepository } from '../../Repository/GuestPassMysqlRepository';
+import { GuestPass } from '../../../Domain/GuestPass';
+import { GetGuestPassWithFilter } from '../../../Application/GuestPass/GetGuestPassWithFilter';
+import { Filter } from '../../../Domain/Criteria/Filter';
+import { Criteria } from '../../../Domain/Criteria/Criteria';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

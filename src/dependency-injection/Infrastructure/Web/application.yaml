@@ -89,7 +89,7 @@ services:
 
   Infrastructure.Web.Booking.BookingPutController:
     class: ../../../Infrastructure/Web/Booking/BookingPutController
-    arguments: []
+    arguments: ['@Application.Booking.UpdateBooking']
 
   Infrastructure.Web.Booking.BookingListByEventController:
     class: ../../../Infrastructure/Web/Booking/BookingListByEventController

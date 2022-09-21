@@ -1,9 +1,9 @@
-import { GuestPassRepository } from './../../Application/GuestPass/guestPassRepository';
-import { Ulid } from '../../Domain/Shared/ulid';
-import { GuestPass } from '../../Domain/guestPass';
+import { GuestPassRepository } from '../../Application/GuestPass/GuestPassRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { GuestPass } from '../../Domain/GuestPass';
 import { mysqlConnection } from '../Mysql/MysqlConnector';
-import { Criteria } from '../../Domain/Criteria/criteria';
-import { Filter } from '../../Domain/Criteria/filter';
+import { Criteria } from '../../Domain/Criteria/Criteria';
+import { Filter } from '../../Domain/Criteria/Filter';
 
 export class GuestPassMysqlRepository implements GuestPassRepository {
   async add(guestPass: GuestPass): Promise<void> {

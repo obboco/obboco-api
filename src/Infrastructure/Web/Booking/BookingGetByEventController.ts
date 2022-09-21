@@ -1,13 +1,13 @@
-import { BookingSessionRedisRepository } from './../../Repository/bookingRedisRepository';
-import { ActivityMysqlRepository } from '../../Repository/activityMysqlRepository';
-import { EventMysqlRepository } from './../../Repository/eventMysqlRepository';
+import { BookingSessionRedisRepository } from '../../Repository/BookingRedisRepository';
+import { ActivityMysqlRepository } from '../../Repository/ActivityMysqlRepository';
+import { EventMysqlRepository } from '../../Repository/EventMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
 import {
   GetEvent as GetEventForBookingSession,
   BookingEventResponse
-} from './../../../Application/BookingSession/getEvent';
+} from '../../../Application/BookingSession/GetEvent';
 
 export class BookingGetByEventController implements Controller {
   constructor() {}

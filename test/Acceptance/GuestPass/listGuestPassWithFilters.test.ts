@@ -4,7 +4,6 @@ import {
 } from './../../Mock/GuestPass/guestPassMother';
 import { GuestPassPrimitives } from './../../../src/Domain/guestPass';
 import { GuestPassFixtures } from '../../Mock/GuestPass/guestPassFixtures';
-import { makeRandomNewGuestPass } from '../../Mock/GuestPass/guestPassMother';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { BookingApp } from '../../../src/BookingApp';
 import request from 'supertest';

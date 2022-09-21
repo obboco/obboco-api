@@ -1,5 +1,5 @@
-import { Ulid } from './../../Domain/Shared/ulid';
-import { Guest } from './../../Domain/guest';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { Guest } from '../../Domain/Guest';
 export interface GuestRepository {
   add(guest: Guest): void;
   update(guest: Guest): void;

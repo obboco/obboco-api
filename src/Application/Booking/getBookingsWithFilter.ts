@@ -1,6 +1,6 @@
-import { Criteria } from './../../Domain/Criteria/criteria';
-import { Booking } from '../../Domain/booking';
-import { BookingRepository } from './bookingRepository';
+import { Criteria } from '../../Domain/Criteria/Criteria';
+import { Booking } from '../../Domain/Booking';
+import { BookingRepository } from './BookingRepository';
 
 interface GetBookingsWithFilterCommand {
   criteria: Criteria;

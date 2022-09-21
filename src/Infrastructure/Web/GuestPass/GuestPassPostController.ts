@@ -1,9 +1,9 @@
-import { GuestPassMysqlRepository } from './../../Repository/guestPassMysqlRepository';
-import { CreateGuestPass } from './../../../Application/GuestPass/createGuestPass';
+import { GuestPassMysqlRepository } from '../../Repository/GuestPassMysqlRepository';
+import { CreateGuestPass } from '../../../Application/GuestPass/CreateGuestPass';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
-import { PassMysqlRepository } from '../../Repository/passMysqlRepository';
+import { PassMysqlRepository } from '../../Repository/PassMysqlRepository';
 
 export class GuestPassPostController implements Controller {
   constructor() {}

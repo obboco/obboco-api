@@ -1,6 +1,6 @@
-import { Ulid } from './../../Domain/Shared/ulid';
-import { Guest } from './../../Domain/guest';
-import { GuestRepository } from './../../Application/Guest/guestRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { Guest } from '../../Domain/Guest';
+import { GuestRepository } from '../../Application/Guest/GuestRepository';
 import { mysqlConnection } from '../Mysql/MysqlConnector';
 
 export class GuestMysqlRepository implements GuestRepository {

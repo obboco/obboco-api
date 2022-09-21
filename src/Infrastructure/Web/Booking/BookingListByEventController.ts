@@ -1,6 +1,6 @@
-import { Booking } from './../../../Domain/booking';
-import { BookingMysqlRepository } from './../../Repository/bookingMysqlRepository';
-import { GetBookings } from './../../../Application/Booking/getBookings';
+import { Booking } from '../../../Domain/Booking';
+import { BookingMysqlRepository } from '../../Repository/BookingMysqlRepository';
+import { GetBookings } from '../../../Application/Booking/GetBookings';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

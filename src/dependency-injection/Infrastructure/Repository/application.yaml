@@ -1,0 +1,7 @@
+services:
+  Infrastructure.Repository.EventMysqlRepository:
+    class: ../../../Infrastructure/Repository/EventMysqlRepository
+    arguments: []
+  Infrastructure.Repository.BookingMysqlRepository:
+    class: ../../../Infrastructure/Repository/BookingMysqlRepository
+    arguments: []

@@ -1,9 +1,9 @@
-import { BookingMysqlRepository } from './../../Repository/bookingMysqlRepository';
-import { DeleteGuest } from './../../../Application/Guest/deleteGuest';
+import { BookingMysqlRepository } from '../../Repository/BookingMysqlRepository';
+import { DeleteGuest } from '../../../Application/Guest/DeleteGuest';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';
-import { GuestMysqlRepository } from '../../Repository/guestMysqlRepository';
+import { GuestMysqlRepository } from '../../Repository/GuestMysqlRepository';
 
 export class GuestDeleteController implements Controller {
   constructor() {}

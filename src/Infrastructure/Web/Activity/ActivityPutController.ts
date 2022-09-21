@@ -1,5 +1,5 @@
-import { UpdateActivity } from './../../../Application/Activity/updateActivity';
-import { ActivityMysqlRepository } from '../../Repository/activityMysqlRepository';
+import { UpdateActivity } from '../../../Application/Activity/UpdateActivity';
+import { ActivityMysqlRepository } from '../../Repository/ActivityMysqlRepository';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Controller } from '../Controller';

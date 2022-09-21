@@ -1,6 +1,6 @@
-import { Ulid } from './../../Domain/Shared/ulid';
-import { Activity } from './../../Domain/activity';
-import { ActivityRepository } from './activityRepository';
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { Activity } from '../../Domain/Activity';
+import { ActivityRepository } from './ActivityRepository';
 
 interface CreateActivityCommand {
   activity_id: string;

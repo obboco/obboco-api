@@ -42,7 +42,6 @@ describe('List booking with filters', () => {
 
   it('Get bookings by partner and date correctly', async (done) => {
     const partner: Partner = makeRandomPartner();
-    const event: Event = makeRandomEvent(makeRandomActivity(partner));
 
     let customBooking: BookingPrimitives = makeCustomBookingPrimitives();
     const bookingFixtures = new BookingFixtures();
@@ -73,7 +72,6 @@ describe('List booking with filters', () => {
 
   it('Get bookings by partner and status correctly', async (done) => {
     const partner: Partner = makeRandomPartner();
-    const event: Event = makeRandomEvent(makeRandomActivity(partner));
 
     let customBooking: BookingPrimitives = makeCustomBookingPrimitives();
     const bookingFixtures = new BookingFixtures();

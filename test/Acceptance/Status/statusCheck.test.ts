@@ -7,8 +7,13 @@ describe('Status check', () => {
   it('Status check call', async (done) => {
     const response = await request(application.httpServer).get('/status');
 
+    const expectedResponse = {
+      http: 'ok',
+      mysql: true,
+      redis: true
+    };
     expect(response.status).toBe(200);
-    expect(response.text).toBe('ok');
+    expect(response.text).toEqual(expectedResponse);
     done();
   });
 });
