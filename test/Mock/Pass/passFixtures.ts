@@ -2,9 +2,9 @@ import { Pass } from '../../../src/Domain/Pass';
 import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class PassFixtures {
-  async get(passId: string): Promise<Pass> {
+  async get(passId: string): Promise<Pass | null> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT pass_id, title, description, quantity, price, currency, partner_id FROM pass WHERE pass_id = ?',
       [passId]
     );
