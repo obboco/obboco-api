@@ -1,4 +1,4 @@
-import { Activity } from './../../../src/Domain/activity';
+import { Activity } from '../../../src/Domain/Activity';
 import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class ActivityFixtures {

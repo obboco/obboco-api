@@ -1,6 +1,6 @@
-import { Partner } from '../../../src/Domain/partner';
-import { Pass } from '../../../src/Domain/pass';
-import { Ulid } from '../../../src/Domain/Shared/ulid';
+import { Partner } from '../../../src/Domain/Partner';
+import { Pass } from '../../../src/Domain/Pass';
+import { Ulid } from '../../../src/Domain/Shared/Ulid';
 import faker from 'faker';
 
 export const makeRandomPass = (partner: Partner): Pass => {

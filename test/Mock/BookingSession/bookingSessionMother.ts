@@ -1,9 +1,9 @@
-import { Ulid } from '../../../src/Domain/Shared/ulid';
+import { Ulid } from '../../../src/Domain/Shared/Ulid';
 import {
   BookingSession,
   BookingSessionPrimitives
-} from '../../../src/Domain/bookingSession';
-import { Event } from '../../../src/Domain/event';
+} from '../../../src/Domain/BookingSession';
+import { Event } from '../../../src/Domain/Event';
 import { makeRandomGuest } from '../Guest/guestMother';
 
 export const makeNewRandomBookingSession = (): BookingSession => {

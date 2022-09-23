@@ -1,8 +1,8 @@
-import { Partner } from './../../../src/Domain/partner';
-import { Booking, BookingPrimitives } from './../../../src/Domain/booking';
-import { Ulid } from '../../../src/Domain/Shared/ulid';
+import { Partner } from '../../../src/Domain/Partner';
+import { Booking, BookingPrimitives } from '../../../src/Domain/Booking';
+import { Ulid } from '../../../src/Domain/Shared/Ulid';
 import faker from 'faker';
-import { Event } from '../../../src/Domain/event';
+import { Event } from '../../../src/Domain/Event';
 import { makeRandomGuest } from '../Guest/guestMother';
 
 export const makeNewRandomBooking = (): Booking => {

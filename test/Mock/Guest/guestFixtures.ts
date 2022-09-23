@@ -1,4 +1,4 @@
-import { Guest } from './../../../src/Domain/guest';
+import { Guest } from '../../../src/Domain/Guest';
 import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class GuestFixtures {

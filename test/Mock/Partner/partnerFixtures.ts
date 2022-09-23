@@ -1,5 +1,5 @@
 import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
-import { Partner } from './../../../src/Domain/partner';
+import { Partner } from '../../../src/Domain/Partner';
 
 export class PartnerFixtures {
   async addPartner(partner: Partner) {

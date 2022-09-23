@@ -1,6 +1,6 @@
-import { Partner } from './../../../src/Domain/partner';
+import { Partner } from '../../../src/Domain/Partner';
 import faker from 'faker';
-import { Ulid } from '../../../src/Domain/Shared/ulid';
+import { Ulid } from '../../../src/Domain/Shared/Ulid';
 
 export const makeRandomPartner = (): Partner => {
   return Partner.fromPrimitives({

@@ -1,5 +1,5 @@
-import { Ulid } from './../../../src/Domain/Shared/ulid';
-import { Guest } from './../../../src/Domain/guest';
+import { Ulid } from '../../../src/Domain/Shared/Ulid';
+import { Guest } from '../../../src/Domain/Guest';
 import faker from 'faker';
 
 export const makeRandomGuest = (partnerId: Ulid): Guest => {

@@ -1,6 +1,6 @@
-import { Ulid } from './../../../src/Domain/Shared/ulid';
-import { Partner } from './../../../src/Domain/partner';
-import { Activity } from './../../../src/Domain/activity';
+import { Ulid } from '../../../src/Domain/Shared/Ulid';
+import { Partner } from '../../../src/Domain/Partner';
+import { Activity } from '../../../src/Domain/Activity';
 import faker from 'faker';
 
 export const makeRandomActivity = (partner: Partner): Activity => {

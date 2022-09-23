@@ -1,8 +1,5 @@
-import { Ulid } from './../../../src/Domain/Shared/ulid';
-import {
-  GuestPass,
-  GuestPassPrimitives
-} from './../../../src/Domain/guestPass';
+import { Ulid } from '../../../src/Domain/Shared/Ulid';
+import { GuestPass, GuestPassPrimitives } from '../../../src/Domain/GuestPass';
 import faker from 'faker';
 
 export const makeRandomGuestPass = (

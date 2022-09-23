@@ -1,6 +1,6 @@
-import { BookingPrimitives } from './../../../src/Domain/booking';
-import { Booking } from '../../../src/Domain/booking';
-import { Ulid } from '../../../src/Domain/Shared/ulid';
+import { BookingPrimitives } from '../../../src/Domain/Booking';
+import { Booking } from '../../../src/Domain/Booking';
+import { Ulid } from '../../../src/Domain/Shared/Ulid';
 import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class BookingFixtures {

@@ -1,6 +1,6 @@
-import { Ulid } from './../../../src/Domain/Shared/ulid';
-import { Event } from './../../../src/Domain/event';
-import { Activity } from '../../../src/Domain/activity';
+import { Ulid } from '../../../src/Domain/Shared/Ulid';
+import { Event } from '../../../src/Domain/Event';
+import { Activity } from '../../../src/Domain/Activity';
 import faker from 'faker';
 
 export const makeRandomEvent = (activity: Activity): Event => {

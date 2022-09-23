@@ -1,4 +1,4 @@
-import { Pass } from '../../../src/Domain/pass';
+import { Pass } from '../../../src/Domain/Pass';
 import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class PassFixtures {

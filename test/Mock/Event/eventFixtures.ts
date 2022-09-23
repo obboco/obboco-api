@@ -1,4 +1,4 @@
-import { Event } from './../../../src/Domain/event';
+import { Event } from '../../../src/Domain/Event';
 import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class EventFixtures {

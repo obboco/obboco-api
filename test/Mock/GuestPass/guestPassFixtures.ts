@@ -1,4 +1,4 @@
-import { GuestPass } from './../../../src/Domain/guestPass';
+import { GuestPass } from '../../../src/Domain/GuestPass';
 import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class GuestPassFixtures {
