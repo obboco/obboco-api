@@ -1,4 +1,7 @@
 module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  cacheDirectory: '.tmp/jestCache',
   setupFilesAfterEnv: ['<rootDir>/test/setup.js'],
   roots: ['<rootDir>/test'],
   testMatch: [
