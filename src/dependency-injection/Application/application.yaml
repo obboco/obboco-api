@@ -1,7 +1,11 @@
 services:
   Application.Booking.UpdateBooking:
     class: ../../Application/Booking/UpdateBooking
-    arguments: ['@Infrastructure.Repository.BookingMysqlRepository']
+    arguments:
+      [
+        '@Infrastructure.Repository.BookingMysqlRepository',
+        '@Application.Event.UpdateCurrentCapacityEvent'
+      ]
   Application.Event.UpdateCurrentCapacityEvent:
     class: ../../Application/Event/UpdateCurrentCapacityEvent
     arguments: ['@Infrastructure.Repository.EventMysqlRepository']

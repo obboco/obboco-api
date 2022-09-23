@@ -1,11 +1,8 @@
-import { makeRandomPass } from './../../Mock/Pass/passMother';
-import { PassFixtures } from './../../Mock/Pass/passFixtures';
-import {
-  GuestPass,
-  GuestPassPrimitives
-} from './../../../src/Domain/guestPass';
-import { GuestPassFixtures } from './../../Mock/GuestPass/guestPassFixtures';
-import { makeRandomNewGuestPass } from './../../Mock/GuestPass/guestPassMother';
+import { makeRandomPass } from '../../Mock/Pass/passMother';
+import { PassFixtures } from '../../Mock/Pass/passFixtures';
+import { GuestPass, GuestPassPrimitives } from '../../../src/Domain/guestPass';
+import { GuestPassFixtures } from '../../Mock/GuestPass/guestPassFixtures';
+import { makeRandomNewGuestPass } from '../../Mock/GuestPass/guestPassMother';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { BookingApp } from '../../../src/BookingApp';
 import request from 'supertest';

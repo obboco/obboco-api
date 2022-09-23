@@ -5,7 +5,7 @@ import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnecto
 export class ActivityFixtures {
   async addActivity(activity: Activity) {
     const connection = await mysqlConnection();
-    connection.execute(
+    await connection.execute(
       'INSERT INTO activity(activity_id, title, description, price, currency, location, partner_id, image_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
       [
         activity.activity_id.value,
@@ -18,14 +18,17 @@ export class ActivityFixtures {
         activity.image_id ? activity.image_id.value : null
       ]
     );
+    connection.end();
   }
 
-  async getActivity(activity_id: string): Promise<Activity> {
+  async getActivity(activity_id: string): Promise<Activity | null> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT activity_id, title, description, price, currency, location, partner_id, image_id FROM activity WHERE activity_id = ?',
       [activity_id]
     );
+    connection.end();
+
     if (result[0] == undefined) {
       return null;
     }

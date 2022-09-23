@@ -1,9 +1,9 @@
-import { BookingPrimitives } from './../../../src/Domain/booking';
+import { BookingPrimitives } from '../../../src/Domain/booking';
 import {
   makeCustomBookingPrimitives,
   makeCustomBooking
-} from './../../Mock/Booking/bookingSessionMother';
-import { Partner } from './../../../src/Domain/partner';
+} from '../../Mock/Booking/bookingSessionMother';
+import { Partner } from '../../../src/Domain/partner';
 import { Event } from '../../../src/Domain/event';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { makeRandomActivity } from '../../Mock/Activity/activityMother';

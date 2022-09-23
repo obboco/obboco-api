@@ -1,6 +1,6 @@
-import { Guest } from './../../../src/Domain/guest';
-import { GuestFixtures } from './../../Mock/Guest/guestFixtures';
-import { makeRandomGuest } from './../../Mock/Guest/guestMother';
+import { Guest } from '../../../src/Domain/guest';
+import { GuestFixtures } from '../../Mock/Guest/guestFixtures';
+import { makeRandomGuest } from '../../Mock/Guest/guestMother';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { BookingApp } from '../../../src/BookingApp';
 import request from 'supertest';

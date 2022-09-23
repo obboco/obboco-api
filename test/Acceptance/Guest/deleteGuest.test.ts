@@ -1,5 +1,5 @@
-import { makeNewRandomBooking } from './../../Mock/Booking/bookingSessionMother';
-import { BookingFixtures } from './../../Mock/Booking/bookingFixtures';
+import { makeNewRandomBooking } from '../../Mock/Booking/bookingSessionMother';
+import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
 import { GuestFixtures } from '../../Mock/Guest/guestFixtures';
 import { makeRandomGuest } from '../../Mock/Guest/guestMother';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';

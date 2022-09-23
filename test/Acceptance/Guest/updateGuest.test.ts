@@ -1,4 +1,4 @@
-import { GuestFixtures } from './../../Mock/Guest/guestFixtures';
+import { GuestFixtures } from '../../Mock/Guest/guestFixtures';
 import { Guest } from '../../../src/Domain/guest';
 import { makeRandomGuest } from '../../Mock/Guest/guestMother';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';

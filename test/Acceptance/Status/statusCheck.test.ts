@@ -13,7 +13,7 @@ describe('Status check', () => {
       redis: true
     };
     expect(response.status).toBe(200);
-    expect(response.text).toEqual(expectedResponse);
+    expect(response.body).toEqual(expectedResponse);
     done();
   });
 });

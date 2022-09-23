@@ -10,6 +10,7 @@ export class BookingFixtures {
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE booking_id = ? LIMIT 1',
       [bookingId.value]
     );
+    connection.end();
     if (result[0] == undefined) {
       return null;
     }
@@ -34,7 +35,7 @@ export class BookingFixtures {
 
   async addBooking(booking: Booking) {
     const connection = await mysqlConnection();
-    connection.execute(
+    await connection.execute(
       'INSERT INTO booking(booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest_id, guest, source, type, guest_pass_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         booking.booking_id.value,
@@ -61,5 +62,6 @@ export class BookingFixtures {
         booking.guestPassId ? booking.guestPassId.value : null
       ]
     );
+    connection.end();
   }
 }

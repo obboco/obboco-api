@@ -1,5 +1,5 @@
-import { BookingSession } from './../../../src/Domain/bookingSession';
-import { makeInitilizedRandomBookingSessionWithEvent } from './../../Mock/BookingSession/bookingSessionMother';
+import { BookingSession } from '../../../src/Domain/bookingSession';
+import { makeInitilizedRandomBookingSessionWithEvent } from '../../Mock/BookingSession/bookingSessionMother';
 import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
 import { makeRandomEvent } from '../../Mock/Event/eventMother';
 import { EventFixtures } from '../../Mock/Event/eventFixtures';

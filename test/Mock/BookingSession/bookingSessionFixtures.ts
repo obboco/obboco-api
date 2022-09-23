@@ -3,7 +3,7 @@ import { BookingSession } from '../../../src/Domain/bookingSession';
 import { Ulid } from '../../../src/Domain/Shared/ulid';
 
 export class BookingSessionFixtures {
-  async get(eventId: Ulid, bookingId: Ulid): Promise<BookingSession> {
+  async get(eventId: Ulid, bookingId: Ulid): Promise<BookingSession | null> {
     const connection = await redisConnection();
     const key: string = eventId.value + ':' + bookingId.value;
     const result = await connection.get(key);

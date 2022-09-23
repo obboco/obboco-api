@@ -1,6 +1,6 @@
-import { makeRandomGuest } from './../../Mock/Guest/guestMother';
-import { makeRandomGuestPass } from './../../Mock/GuestPass/guestPassMother';
-import { GuestPassFixtures } from './../../Mock/GuestPass/guestPassFixtures';
+import { makeRandomGuest } from '../../Mock/Guest/guestMother';
+import { makeRandomGuestPass } from '../../Mock/GuestPass/guestPassMother';
+import { GuestPassFixtures } from '../../Mock/GuestPass/guestPassFixtures';
 import { Pass } from '../../../src/Domain/pass';
 import { makeRandomPass } from '../../Mock/Pass/passMother';
 import { PassFixtures } from '../../Mock/Pass/passFixtures';

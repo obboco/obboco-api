@@ -1,8 +1,8 @@
 import {
   makeCustomGuestPassPrimitives,
   makeCustomGuestPass
-} from './../../Mock/GuestPass/guestPassMother';
-import { GuestPassPrimitives } from './../../../src/Domain/guestPass';
+} from '../../Mock/GuestPass/guestPassMother';
+import { GuestPassPrimitives } from '../../../src/Domain/guestPass';
 import { GuestPassFixtures } from '../../Mock/GuestPass/guestPassFixtures';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { BookingApp } from '../../../src/BookingApp';
@@ -23,21 +23,21 @@ describe('Get guest pass', () => {
       randomPartner.partner_id,
       randomPartner.partner_id
     );
-    customGuestPass.created = '2020-05-01';
+    customGuestPass.created_date = '2020-05-01';
     await guestPassFixtures.add(makeCustomGuestPass(customGuestPass));
     customGuestPass = makeCustomGuestPassPrimitives(
       randomGuest.guest_id,
       randomPartner.partner_id,
       randomPartner.partner_id
     );
-    customGuestPass.created = '2020-05-01';
+    customGuestPass.created_date = '2020-05-01';
     await guestPassFixtures.add(makeCustomGuestPass(customGuestPass));
     customGuestPass = makeCustomGuestPassPrimitives(
       randomGuest.guest_id,
       randomPartner.partner_id,
       randomPartner.partner_id
     );
-    customGuestPass.created = '2021-05-01';
+    customGuestPass.created_date = '2021-05-01';
     await guestPassFixtures.add(makeCustomGuestPass(customGuestPass));
 
     request(application.httpServer)
@@ -49,6 +49,7 @@ describe('Get guest pass', () => {
       .send()
       .expect(200)
       .then(async (response) => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
         expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
           2
         );

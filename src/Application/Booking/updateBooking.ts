@@ -1,3 +1,4 @@
+import { UpdateCurrentCapacityEvent } from './../Event/UpdateCurrentCapacityEvent';
 import { Booking } from '../../Domain/booking';
 import { Ulid } from '../../Domain/Shared/Ulid';
 import { BookingRepository } from './BookingRepository';
@@ -8,7 +9,10 @@ interface UpdateBookingCommand {
 }
 
 export class UpdateBooking {
-  constructor(private bookingRepository: BookingRepository) {}
+  constructor(
+    private readonly bookingRepository: BookingRepository,
+    private readonly updateCurrentCapacityEvent: UpdateCurrentCapacityEvent
+  ) {}
 
   async make(command: UpdateBookingCommand): Promise<void> {
     const bookingId = Ulid.fromPrimitives(command.booking_id);
@@ -23,13 +27,19 @@ export class UpdateBooking {
       })
     );
 
-    if (command.status === 'deleted') {
-      //decrease
+    if (command.status === 'canceled') {
+      await this.updateCurrentCapacityEvent.make({
+        action: 'decrease',
+        event_id: booking.event_id.value
+      });
     }
 
-    if (booking.status === 'deleted' && command.status !== 'deleted') {
+    if (booking.status === 'canceled' && command.status !== 'canceled') {
       //Overbooking case
-      //increase
+      await this.updateCurrentCapacityEvent.make({
+        action: 'increase',
+        event_id: booking.event_id.value
+      });
     }
   }
 }

@@ -1,5 +1,5 @@
-import { GuestPass } from './../../../src/Domain/guestPass';
-import { makeRandomNewGuestPass } from './../../Mock/GuestPass/guestPassMother';
+import { GuestPass } from '../../../src/Domain/guestPass';
+import { makeRandomNewGuestPass } from '../../Mock/GuestPass/guestPassMother';
 import { Booking } from '../../../src/Domain/booking';
 import {
   makeNewRandomBookingSessionWithEvent,
@@ -35,7 +35,7 @@ describe('Finish booking session', () => {
       new BookingSessionFixtures();
     const bookingSession: BookingSession =
       makeNewRandomBookingSessionWithEvent(event);
-    bookingSessionFixtures.add(bookingSession);
+    await bookingSessionFixtures.add(bookingSession);
 
     const bookingFixtures: BookingFixtures = new BookingFixtures();
     request(application.httpServer)

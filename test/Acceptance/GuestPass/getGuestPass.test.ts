@@ -1,4 +1,4 @@
-import { GuestPass } from './../../../src/Domain/guestPass';
+import { GuestPass } from '../../../src/Domain/guestPass';
 import { GuestPassFixtures } from '../../Mock/GuestPass/guestPassFixtures';
 import { makeRandomNewGuestPass } from '../../Mock/GuestPass/guestPassMother';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';

@@ -1,5 +1,5 @@
-import { Ulid } from '../../Domain/Shared/Ulid
-import { Event } from '../../Domain/Event
+import { Ulid } from '../../Domain/Shared/Ulid';
+import { Event } from '../../Domain/Event';
 
 export interface EventRepostitoryFilter {
   activityId: Ulid;

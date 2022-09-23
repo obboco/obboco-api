@@ -2,9 +2,9 @@ import { Guest } from './../../../src/Domain/guest';
 import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
 
 export class GuestFixtures {
-  async getGuest(guestId: string): Promise<Guest> {
+  async getGuest(guestId: string): Promise<Guest | null> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT guest_id, partner_id, first_name, last_name, email, phone FROM guest WHERE guest_id = ?',
       [guestId]
     );
@@ -16,12 +16,13 @@ export class GuestFixtures {
     return Guest.fromPrimitives(result[0]);
   }
 
-  async getByEmail(email: string): Promise<Guest> {
+  async getByEmail(email: string): Promise<Guest | null> {
     const connection = await mysqlConnection();
-    const [result, fields] = await connection.execute(
+    const [result] = await connection.execute(
       'SELECT guest_id, partner_id, first_name, last_name, email, phone FROM guest WHERE email = ?',
       [email]
     );
+    connection.end();
 
     if (result[0] == undefined) {
       return null;
@@ -32,7 +33,7 @@ export class GuestFixtures {
 
   async add(guest: Guest): Promise<void> {
     const connection = await mysqlConnection();
-    connection.execute(
+    await connection.execute(
       'INSERT INTO guest(guest_id, partner_id, first_name, last_name, email, phone) VALUES(?, ?, ?, ?, ?, ?)',
       [
         guest.guest_id.value,
@@ -43,5 +44,6 @@ export class GuestFixtures {
         guest.phone
       ]
     );
+    connection.end();
   }
 }

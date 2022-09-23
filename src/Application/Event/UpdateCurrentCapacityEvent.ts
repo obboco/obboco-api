@@ -5,7 +5,6 @@ import { EventRepository } from './EventRepository';
 interface EventUpdateCurrentCapacityCommand {
   action: string;
   event_id: string;
-  current_capacity: number;
 }
 
 export class UpdateCurrentCapacityEvent {
@@ -33,13 +32,13 @@ export class UpdateCurrentCapacityEvent {
     await this.eventRepository.update(updateEvent);
   }
 
-  validateAction(action: string): boolean {
+  private validateAction(action: string): boolean {
     return action === 'increase' || action === 'decrease';
   }
 
-  calculateCurrentCapacity(action: string, currentCapacity): number {
+  private calculateCurrentCapacity(action: string, currentCapacity): number {
     if (action === 'increase') return ++currentCapacity;
-    if (action === 'descrease') return --currentCapacity;
+    if (action === 'decrease') return --currentCapacity;
     return currentCapacity;
   }
 }

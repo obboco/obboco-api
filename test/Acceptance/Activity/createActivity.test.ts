@@ -2,8 +2,8 @@ import {
   makeRandomActivity,
   makeRandomActivityWhithoutOptionalParameters,
   makeRandomIsolatedActivity
-} from './../../Mock/Activity/activityMother';
-import { Activity } from '../../../src/Domain/activity';
+} from '../../Mock/Activity/activityMother
+import { Activity } from '../../../src/Domain/Activity';
 import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
 import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
 import { BookingApp } from '../../../src/BookingApp';
