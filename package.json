@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules ./src/start.ts",
     "start": "NODE_ENV=production node dist/src/start",
-    "build": "npm run build:clean && npm run build:tsc && npm run build:di",
+    "build": "npm run build:tsc && npm run build:di",
     "build:tsc": "tsc -p tsconfig.prod.json",
     "build:di": "copy 'src/**/*.{json,yaml,html,png}' dist/src",
     "build:clean": "rm -r dist; exit 0",
