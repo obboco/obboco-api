@@ -4,8 +4,14 @@ services:
     arguments:
       [
         '@Infrastructure.Repository.BookingMysqlRepository',
-        '@Application.Event.UpdateCurrentCapacityEvent'
+        '@Application.Event.UpdateCurrentCapacityEvent',
+        '@Application.GuestPass.UpdateCurrentCapacityGuestPass'
       ]
   Application.Event.UpdateCurrentCapacityEvent:
     class: ../../Application/Event/UpdateCurrentCapacityEvent
     arguments: ['@Infrastructure.Repository.EventMysqlRepository']
+
+  Application.GuestPass.UpdateCurrentCapacityGuestPass:
+    class: ../../Application/GuestPass/UpdateCurrentCapacityGuestPass
+    arguments: ['@Infrastructure.Repository.GuestPassRepository']
+

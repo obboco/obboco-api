@@ -5,3 +5,6 @@ services:
   Infrastructure.Repository.BookingMysqlRepository:
     class: ../../../Infrastructure/Repository/BookingMysqlRepository
     arguments: []
+  Infrastructure.Repository.GuestPassRepository:
+    class: ../../../Infrastructure/Repository/GuestPassMysqlRepository
+    arguments: []
