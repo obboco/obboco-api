@@ -162,3 +162,12 @@ services:
   Infrastructure.Web.GuestPass.GuestPassDeleteController:
     class: ../../../Infrastructure/Web/GuestPass/GuestPassDeleteController
     arguments: []
+
+  Infrastructure.Web.Calendar.CalendarEventPostController:
+    class: ../../../Infrastructure/Web/Calendar/CalendarEventPostController
+    arguments: ['@Application.Calendar.CreateCalendarEvent']
+
+  Infrastructure.Web.Calendar.CalendarEventDeleteController:
+    class: ../../../Infrastructure/Web/Calendar/CalendarEventDeleteController
+    arguments: ['@Application.Calendar.DeleteCalendarEvent']
+
