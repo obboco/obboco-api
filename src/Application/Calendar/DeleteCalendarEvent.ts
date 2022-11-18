@@ -28,7 +28,8 @@ export class DeleteCalendarEvent {
       maxResults: 1,
       q: command.title,
       timeMin: startDate.toISOString(),
-      timeMax: endDate.toISOString()
+      timeMax: endDate.toISOString(),
+      singleEvents: true
     });
 
     if (

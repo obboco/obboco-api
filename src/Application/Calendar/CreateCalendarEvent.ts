@@ -19,8 +19,7 @@ export class CreateCalendarEvent {
     oauth2Client.setCredentials({ access_token: command.access_token });
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     const startDate = new Date(command.start_date);
-    const endDate = new Date(command.start_date);
-    endDate.setMinutes(endDate.getMinutes() + command.duration);
+    const endDate = new Date(startDate.getTime() + command.duration * 60000);
 
     const event = {
       summary: command.title,

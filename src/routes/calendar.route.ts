@@ -9,7 +9,7 @@ export const register = (router: Router) => {
   );
   router.post(
     '/calendar',
-    body('access_token').isString().isLength({ min: 1, max: 255 }),
+    body('access_token').isString(),
     body('title').isString().isLength({ min: 1, max: 255 }),
     body('start_date').isString().isLength({ min: 1, max: 255 }),
     body('duration').isNumeric(),
@@ -22,7 +22,7 @@ export const register = (router: Router) => {
   );
   router.delete(
     '/calendar',
-    body('access_token').isString().isLength({ min: 1, max: 255 }),
+    body('access_token').isString(),
     body('title').isString().isLength({ min: 1, max: 255 }),
     body('start_date').isString().isLength({ min: 1, max: 255 }),
     body('duration').isNumeric(),
