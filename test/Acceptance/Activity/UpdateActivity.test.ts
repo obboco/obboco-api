@@ -1,15 +1,13 @@
-import { Ulid } from '../../../src/Domain/Shared/Ulid';
-import { makeRandomIsolatedActivity } from '../../Mock/Activity/activityMother';
-import { Activity } from '../../../src/Domain/Activity';
-import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
+import {Ulid} from '../../../src/Domain/Shared/Ulid';
+import {makeRandomIsolatedActivity} from '../../Mock/Activity/activityMother';
+import {Activity} from '../../../src/Domain/Activity';
+import {ActivityFixtures} from '../../Mock/Activity/activityFixtures';
 import request from 'supertest';
 import faker from 'faker';
-import { BookingApp } from '../../../src/BookingApp';
-
-let application: BookingApp;
+import {application} from '../../hooks';
 
 describe('Update activity', () => {
-  it('Update activity correctly', async (done) => {
+  it('Update activity correctly', async done => {
     const activity: Activity = makeRandomIsolatedActivity();
     const activityFixtures = new ActivityFixtures();
     await activityFixtures.addActivity(activity);
@@ -30,11 +28,11 @@ describe('Update activity', () => {
         description: randomDescription,
         price: randomPrice,
         currency: randomCurrency,
-        location: randomLocation
+        location: randomLocation,
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         activityFixtures
           .getActivity(activity.activity_id.value)
           .then((activityResult: Activity) => {
@@ -48,7 +46,7 @@ describe('Update activity', () => {
       });
   });
 
-  it('Update activity with an image correctly', async (done) => {
+  it('Update activity with an image correctly', async done => {
     const activity: Activity = makeRandomIsolatedActivity();
     const activityFixtures = new ActivityFixtures();
     await activityFixtures.addActivity(activity);
@@ -69,23 +67,21 @@ describe('Update activity', () => {
         description: randomDescription,
         price: randomPrice,
         currency: randomCurrency,
-        image_id: randomActivityImageId
+        image_id: randomActivityImageId,
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         activityFixtures
           .getActivity(activity.activity_id.value)
           .then((activityResult: Activity) => {
-            expect(activityResult.image_id.value).toEqual(
-              randomActivityImageId
-            );
+            expect(activityResult.image_id.value).toEqual(randomActivityImageId);
             done();
           });
       });
   });
 
-  it('Update activity with empty activity_id and throw an error', async (done) => {
+  it('Update activity with empty activity_id and throw an error', async done => {
     const randomUlid = '';
     const activity: Activity = makeRandomIsolatedActivity();
 
@@ -98,16 +94,16 @@ describe('Update activity', () => {
         title: activity.title,
         description: activity.description,
         price: activity.price,
-        currency: activity.currency
+        currency: activity.currency,
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Update activity with empty title and throw an error', async (done) => {
+  it('Update activity with empty title and throw an error', async done => {
     const emptyTitle = '';
     const activity: Activity = makeRandomIsolatedActivity();
 
@@ -118,16 +114,16 @@ describe('Update activity', () => {
       .send({
         activity_id: activity.activity_id.value,
         title: emptyTitle,
-        description: activity.description
+        description: activity.description,
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Update activity with empty description and throw an error', async (done) => {
+  it('Update activity with empty description and throw an error', async done => {
     const activity: Activity = makeRandomIsolatedActivity();
     const randomDescription = '';
 
@@ -138,21 +134,12 @@ describe('Update activity', () => {
       .send({
         activity_id: activity.activity_id.value,
         title: activity.title,
-        description: randomDescription
+        description: randomDescription,
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

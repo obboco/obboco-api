@@ -1,15 +1,13 @@
-import { makeNewRandomBooking } from '../../Mock/Booking/bookingSessionMother';
-import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
-import { GuestFixtures } from '../../Mock/Guest/guestFixtures';
-import { makeRandomGuest } from '../../Mock/Guest/guestMother';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { BookingApp } from '../../../src/BookingApp';
+import {makeNewRandomBooking} from '../../Mock/Booking/bookingSessionMother';
+import {BookingFixtures} from '../../Mock/Booking/bookingFixtures';
+import {GuestFixtures} from '../../Mock/Guest/guestFixtures';
+import {makeRandomGuest} from '../../Mock/Guest/guestMother';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
 import request from 'supertest';
-
-let application: BookingApp;
+import {application} from '../../hooks';
 
 describe('Delete guest', () => {
-  it('Delete guest without bookings correctly', async (done) => {
+  it('Delete guest without bookings correctly', async done => {
     const guestFixtures = new GuestFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -22,13 +20,13 @@ describe('Delete guest', () => {
       .send()
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         expect(await guestFixtures.getByEmail(randomGuest.email)).toBeNull();
         done();
       });
   });
 
-  it('Cannot delete guest with bookings', async (done) => {
+  it('Cannot delete guest with bookings', async done => {
     const guestFixtures = new GuestFixtures();
     const bookingFixtures = new BookingFixtures();
 
@@ -42,20 +40,11 @@ describe('Delete guest', () => {
       .type('json')
       .send()
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual(
           'Cannot delete a guest with bookings'
         );
         done();
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

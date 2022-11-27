@@ -1,12 +1,12 @@
-import { BookingApp } from './BookingApp';
+import {BookingApp} from './BookingApp';
 
 try {
-  new BookingApp().start().catch(handleError);
+  const app = new BookingApp().start().catch(handleError);
 } catch (e) {
   handleError(e);
 }
 
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', err => {
   console.log('uncaughtException', err);
   process.exit(1);
 });

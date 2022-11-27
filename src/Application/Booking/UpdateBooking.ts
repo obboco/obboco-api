@@ -1,8 +1,8 @@
-import { UpdateCurrentCapacityEvent } from '../Event/UpdateCurrentCapacityEvent';
-import { Booking } from '../../Domain/Booking';
-import { Ulid } from '../../Domain/Shared/Ulid';
-import { BookingRepository } from './BookingRepository';
-import { UpdateCurrentCapacityGuestPass } from '../GuestPass/UpdateCurrentCapacityGuestPass';
+import {UpdateCurrentCapacityEvent} from '../Event/UpdateCurrentCapacityEvent';
+import {Booking} from '../../Domain/Booking';
+import {Ulid} from '../../Domain/Shared/Ulid';
+import {BookingRepository} from './BookingRepository';
+import {UpdateCurrentCapacityGuestPass} from '../GuestPass/UpdateCurrentCapacityGuestPass';
 
 interface UpdateBookingCommand {
   booking_id: string;
@@ -11,9 +11,9 @@ interface UpdateBookingCommand {
 
 export class UpdateBooking {
   constructor(
-    private readonly bookingRepository: BookingRepository,
-    private readonly updateCurrentCapacityEvent: UpdateCurrentCapacityEvent,
-    private readonly updateCurrentCapacityGuestPass: UpdateCurrentCapacityGuestPass
+    private bookingRepository: BookingRepository,
+    private updateCurrentCapacityEvent: UpdateCurrentCapacityEvent,
+    private updateCurrentCapacityGuestPass: UpdateCurrentCapacityGuestPass
   ) {}
 
   async make(command: UpdateBookingCommand): Promise<void> {
@@ -25,20 +25,20 @@ export class UpdateBooking {
     this.bookingRepository.update(
       Booking.fromPrimitives({
         ...booking.toPrimitives(),
-        status: command.status
+        status: command.status,
       })
     );
 
     if (command.status === 'canceled') {
       await this.updateCurrentCapacityEvent.make({
         action: 'decrease',
-        event_id: booking.event_id.value
+        event_id: booking.event_id.value,
       });
 
       if (booking.guestPassId)
         await this.updateCurrentCapacityGuestPass.make({
           action: 'increase',
-          guest_pass_id: booking.guestPassId.value
+          guest_pass_id: booking.guestPassId.value,
         });
     }
 
@@ -46,13 +46,13 @@ export class UpdateBooking {
       //Overbooking case
       await this.updateCurrentCapacityEvent.make({
         action: 'increase',
-        event_id: booking.event_id.value
+        event_id: booking.event_id.value,
       });
 
       if (booking.guestPassId)
         await this.updateCurrentCapacityGuestPass.make({
           action: 'decrease',
-          guest_pass_id: booking.guestPassId.value
+          guest_pass_id: booking.guestPassId.value,
         });
     }
   }

@@ -1,14 +1,12 @@
-import { Pass } from '../../../src/Domain/Pass';
-import { makeRandomPass } from '../../Mock/Pass/passMother';
-import { PassFixtures } from '../../Mock/Pass/passFixtures';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { BookingApp } from '../../../src/BookingApp';
+import {Pass} from '../../../src/Domain/Pass';
+import {makeRandomPass} from '../../Mock/Pass/passMother';
+import {PassFixtures} from '../../Mock/Pass/passFixtures';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
 import request from 'supertest';
-
-let application: BookingApp;
+import {application} from '../../hooks';
 
 describe('Update pass', () => {
-  it('Update pass correctly', async (done) => {
+  it('Update pass correctly', async done => {
     const passFixtures = new PassFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -27,11 +25,11 @@ describe('Update pass', () => {
         description: newRandomPass.description,
         quantity: newRandomPass.quantity,
         price: newRandomPass.price,
-        currency: newRandomPass.currency
+        currency: newRandomPass.currency,
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         passFixtures.get(randomPass.pass_id.value).then((pass: Pass) => {
           expect(randomPass.pass_id.value).toEqual(pass.pass_id.value);
           expect(randomPass.partner_id.value).toEqual(pass.partner_id.value);
@@ -44,13 +42,4 @@ describe('Update pass', () => {
         });
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

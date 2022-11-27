@@ -1,16 +1,13 @@
-import { GuestFixtures } from '../../Mock/Guest/guestFixtures';
-import { makeNewRandomBookingSession } from '../../Mock/BookingSession/bookingSessionMother';
-import { BookingSession } from '../../../src/Domain/BookingSession';
-import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
+import {GuestFixtures} from '../../Mock/Guest/guestFixtures';
+import {makeNewRandomBookingSession} from '../../Mock/BookingSession/bookingSessionMother';
+import {BookingSession} from '../../../src/Domain/BookingSession';
+import {BookingSessionFixtures} from '../../Mock/BookingSession/bookingSessionFixtures';
 import request from 'supertest';
-import { BookingApp } from '../../../src/BookingApp';
-
-let application: BookingApp;
+import {application} from '../../hooks';
 
 describe('Add guest details into the booking session', () => {
-  it('Add guest into the booking session correctly', async (done) => {
-    const bookingSessionFixtures: BookingSessionFixtures =
-      new BookingSessionFixtures();
+  it('Add guest into the booking session correctly', async done => {
+    const bookingSessionFixtures: BookingSessionFixtures = new BookingSessionFixtures();
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     const guestFixtures: GuestFixtures = new GuestFixtures();
 
@@ -21,11 +18,11 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         bookingSessionFixtures
           .get(bookingSession.event_id, bookingSession.booking_id)
           .then((bookingSessionResult: BookingSession) => {
@@ -34,8 +31,8 @@ describe('Add guest details into the booking session', () => {
           });
       })
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        guestFixtures.getByEmail(bookingSession.guest.email).then((guest) => {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        guestFixtures.getByEmail(bookingSession.guest.email).then(guest => {
           expect(guest).not.toBeNull();
           expect(bookingSession.guest).toEqual(guest);
           done();
@@ -43,9 +40,8 @@ describe('Add guest details into the booking session', () => {
       });
   });
 
-  it('Do not add already existed guest into the booking session correctly', async (done) => {
-    const bookingSessionFixtures: BookingSessionFixtures =
-      new BookingSessionFixtures();
+  it('Do not add already existed guest into the booking session correctly', async done => {
+    const bookingSessionFixtures: BookingSessionFixtures = new BookingSessionFixtures();
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     const guestFixtures: GuestFixtures = new GuestFixtures();
     guestFixtures.add(bookingSession.guest);
@@ -57,11 +53,11 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         bookingSessionFixtures
           .get(bookingSession.event_id, bookingSession.booking_id)
           .then((bookingSessionResult: BookingSession) => {
@@ -72,7 +68,7 @@ describe('Add guest details into the booking session', () => {
       });
   });
 
-  it('Add guest with empty event_id format and throw an error', async (done) => {
+  it('Add guest with empty event_id format and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
     request(application.httpServer)
@@ -82,16 +78,16 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: '',
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Add guest with incorrect event_id format and throw an error', async (done) => {
+  it('Add guest with incorrect event_id format and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
     request(application.httpServer)
@@ -101,16 +97,16 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: 'invalid_id',
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Add guest with empty booking_id format and throw an error', async (done) => {
+  it('Add guest with empty booking_id format and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
     request(application.httpServer)
@@ -120,16 +116,16 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: '',
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Add guest with incorrect booking_id format and throw an error', async (done) => {
+  it('Add guest with incorrect booking_id format and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
     request(application.httpServer)
@@ -139,16 +135,16 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: 'invalid_id',
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Add guest with empty guest format and throw an error', async (done) => {
+  it('Add guest with empty guest format and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
     request(application.httpServer)
@@ -158,16 +154,16 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: ''
+        guest: '',
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Add guest with empty guest first_name and throw an error', async (done) => {
+  it('Add guest with empty guest first_name and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     bookingSession.guest.first_name = '';
 
@@ -178,16 +174,16 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Add guest with empty guest last_name and throw an error', async (done) => {
+  it('Add guest with empty guest last_name and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     bookingSession.guest.last_name = '';
 
@@ -198,16 +194,16 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Add guest with empty guest email and throw an error', async (done) => {
+  it('Add guest with empty guest email and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     bookingSession.guest.email = '';
 
@@ -218,16 +214,16 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Add guest with wrong format guest email and throw an error', async (done) => {
+  it('Add guest with wrong format guest email and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     bookingSession.guest.email = 'wrong format';
 
@@ -238,16 +234,16 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Add guest with empty guest phone and throw an error', async (done) => {
+  it('Add guest with empty guest phone and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
     bookingSession.guest.phone = '';
 
@@ -258,21 +254,12 @@ describe('Add guest details into the booking session', () => {
       .send({
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
-        guest: bookingSession.guest.toPrimitives()
+        guest: bookingSession.guest.toPrimitives(),
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

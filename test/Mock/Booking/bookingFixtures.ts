@@ -1,16 +1,14 @@
-import { BookingPrimitives } from '../../../src/Domain/Booking';
-import { Booking } from '../../../src/Domain/Booking';
-import { Ulid } from '../../../src/Domain/Shared/Ulid';
-import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
+import {BookingPrimitives} from '../../../src/Domain/Booking';
+import {Booking} from '../../../src/Domain/Booking';
+import {Ulid} from '../../../src/Domain/Shared/Ulid';
+import {execute} from '../../../src/Infrastructure/Mysql/MysqlHandler';
 
 export class BookingFixtures {
   async get(bookingId: Ulid): Promise<Booking | null> {
-    const connection = await mysqlConnection();
-    const [result] = await connection.execute(
+    const result: any = await execute(
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE booking_id = ? LIMIT 1',
       [bookingId.value]
     );
-    connection.end();
     if (result[0] == undefined) {
       return null;
     }
@@ -28,14 +26,13 @@ export class BookingFixtures {
       guest: JSON.parse(result[0].guest),
       source: result[0].source,
       type: result[0].type,
-      guest_pass_id: result[0].guest_pass_id
+      guest_pass_id: result[0].guest_pass_id,
     };
     return Booking.fromPrimitives(bookingPrimitives);
   }
 
   async addBooking(booking: Booking) {
-    const connection = await mysqlConnection();
-    await connection.execute(
+    await execute(
       'INSERT INTO booking(booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest_id, guest, source, type, guest_pass_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         booking.booking_id.value,
@@ -55,13 +52,12 @@ export class BookingFixtures {
           first_name: booking.guest.first_name,
           last_name: booking.guest.last_name,
           email: booking.guest.email,
-          phone: booking.guest.phone
+          phone: booking.guest.phone,
         }),
         booking.source,
         booking.type,
-        booking.guestPassId ? booking.guestPassId.value : null
+        booking.guestPassId ? booking.guestPassId.value : null,
       ]
     );
-    connection.end();
   }
 }

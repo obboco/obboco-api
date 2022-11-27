@@ -1,14 +1,12 @@
-import { Pass } from '../../../src/Domain/Pass';
-import { makeRandomPass } from '../../Mock/Pass/passMother';
-import { PassFixtures } from '../../Mock/Pass/passFixtures';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { BookingApp } from '../../../src/BookingApp';
+import {Pass} from '../../../src/Domain/Pass';
+import {makeRandomPass} from '../../Mock/Pass/passMother';
+import {PassFixtures} from '../../Mock/Pass/passFixtures';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
 import request from 'supertest';
-
-let application: BookingApp;
+import {application} from '../../hooks';
 
 describe('Create pass', () => {
-  it('Create pass correctly', async (done) => {
+  it('Create pass correctly', async done => {
     const passFixtures = new PassFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -24,11 +22,11 @@ describe('Create pass', () => {
         description: randomPass.description,
         quantity: randomPass.quantity,
         price: randomPass.price,
-        currency: randomPass.currency
+        currency: randomPass.currency,
       })
       .expect(200)
-      .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+      .then(async response => {
+        await new Promise(resolve => setTimeout(resolve, 500));
         passFixtures.get(randomPass.pass_id.value).then((pass: Pass) => {
           expect(pass.toPrimitives()).toEqual(randomPass.toPrimitives());
           done();
@@ -36,7 +34,7 @@ describe('Create pass', () => {
       });
   });
 
-  it('Create pass without description correctly', async (done) => {
+  it('Create pass without description correctly', async done => {
     const passFixtures = new PassFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -51,30 +49,17 @@ describe('Create pass', () => {
         title: randomPass.title,
         quantity: randomPass.quantity,
         price: randomPass.price,
-        currency: randomPass.currency
+        currency: randomPass.currency,
       })
       .expect(200)
-      .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+      .then(async response => {
+        await new Promise(resolve => setTimeout(resolve, 500));
         passFixtures.get(randomPass.pass_id.value).then((pass: Pass) => {
-          expect(pass.toPrimitives().pass_id).toEqual(
-            randomPass.toPrimitives().pass_id
-          );
-          expect(pass.toPrimitives().title).toEqual(
-            randomPass.toPrimitives().title
-          );
+          expect(pass.toPrimitives().pass_id).toEqual(randomPass.toPrimitives().pass_id);
+          expect(pass.toPrimitives().title).toEqual(randomPass.toPrimitives().title);
           expect(pass.toPrimitives().description).toBeNull();
           done();
         });
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

@@ -1,13 +1,11 @@
-import { makeRandomPass } from '../../Mock/Pass/passMother';
-import { PassFixtures } from '../../Mock/Pass/passFixtures';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { BookingApp } from '../../../src/BookingApp';
+import {makeRandomPass} from '../../Mock/Pass/passMother';
+import {PassFixtures} from '../../Mock/Pass/passFixtures';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
 import request from 'supertest';
-
-let application: BookingApp;
+import {application} from '../../hooks';
 
 describe('Get pass by partner', () => {
-  it('Get one pass by partner correctly', async (done) => {
+  it('Get one pass by partner correctly', async done => {
     const passFixtures = new PassFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -20,13 +18,13 @@ describe('Get pass by partner', () => {
       .type('json')
       .send()
       .expect(200)
-      .then(async (response) => {
+      .then(async response => {
         expect([randomPass.toPrimitives()]).toEqual(response.body.data);
         done();
       });
   });
 
-  it('Get multiple pass by partner correctly', async (done) => {
+  it('Get multiple pass by partner correctly', async done => {
     const passFixtures = new PassFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -40,16 +38,14 @@ describe('Get pass by partner', () => {
       .type('json')
       .send()
       .expect(200)
-      .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
-          3
-        );
+      .then(async response => {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(3);
         done();
       });
   });
 
-  it('Get empty multiple pass', async (done) => {
+  it('Get empty multiple pass', async done => {
     const randomPartner = makeRandomPartner();
     request(application.httpServer)
       .get('/pass/partner/' + randomPartner.partner_id.value)
@@ -57,18 +53,9 @@ describe('Get pass by partner', () => {
       .type('json')
       .send()
       .expect(200)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.data).toEqual([]);
         done();
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

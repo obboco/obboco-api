@@ -1,28 +1,26 @@
-import { GuestPass } from '../../../src/Domain/GuestPass';
-import { makeRandomNewGuestPass } from '../../Mock/GuestPass/guestPassMother';
-import { Booking } from '../../../src/Domain/Booking';
+import {GuestPass} from '../../../src/Domain/GuestPass';
+import {makeRandomNewGuestPass} from '../../Mock/GuestPass/guestPassMother';
+import {Booking} from '../../../src/Domain/Booking';
 import {
   makeNewRandomBookingSessionWithEvent,
-  makeNewRandomBookingSession
+  makeNewRandomBookingSession,
 } from '../../Mock/BookingSession/bookingSessionMother';
-import { BookingSession } from '../../../src/Domain/BookingSession';
-import { BookingSessionFixtures } from '../../Mock/BookingSession/bookingSessionFixtures';
-import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
-import { makeRandomEvent } from '../../Mock/Event/eventMother';
-import { EventFixtures } from '../../Mock/Event/eventFixtures';
-import { makeRandomActivity } from '../../Mock/Activity/activityMother';
-import { Activity } from '../../../src/Domain/Activity';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { Event } from '../../../src/Domain/Event';
+import {BookingSession} from '../../../src/Domain/BookingSession';
+import {BookingSessionFixtures} from '../../Mock/BookingSession/bookingSessionFixtures';
+import {ActivityFixtures} from '../../Mock/Activity/activityFixtures';
+import {makeRandomEvent} from '../../Mock/Event/eventMother';
+import {EventFixtures} from '../../Mock/Event/eventFixtures';
+import {makeRandomActivity} from '../../Mock/Activity/activityMother';
+import {Activity} from '../../../src/Domain/Activity';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
+import {Event} from '../../../src/Domain/Event';
 import request from 'supertest';
-import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
-import { BookingApp } from '../../../src/BookingApp';
-import { GuestPassFixtures } from '../../Mock/GuestPass/guestPassFixtures';
-
-let application: BookingApp;
+import {BookingFixtures} from '../../Mock/Booking/bookingFixtures';
+import {GuestPassFixtures} from '../../Mock/GuestPass/guestPassFixtures';
+import {application} from '../../hooks';
 
 describe('Finish booking session', () => {
-  it('Finish booking session correctly', async (done) => {
+  it('Finish booking session correctly', async done => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
     const activityFixtures: ActivityFixtures = new ActivityFixtures();
     await activityFixtures.addActivity(activity);
@@ -31,10 +29,8 @@ describe('Finish booking session', () => {
     const eventFixtures: EventFixtures = new EventFixtures();
     await eventFixtures.addEvent(event);
 
-    const bookingSessionFixtures: BookingSessionFixtures =
-      new BookingSessionFixtures();
-    const bookingSession: BookingSession =
-      makeNewRandomBookingSessionWithEvent(event);
+    const bookingSessionFixtures: BookingSessionFixtures = new BookingSessionFixtures();
+    const bookingSession: BookingSession = makeNewRandomBookingSessionWithEvent(event);
     await bookingSessionFixtures.add(bookingSession);
 
     const bookingFixtures: BookingFixtures = new BookingFixtures();
@@ -46,11 +42,11 @@ describe('Finish booking session', () => {
         event_id: bookingSession.event_id.value,
         booking_id: bookingSession.booking_id.value,
         source: 'landing',
-        type: 'direct'
+        type: 'direct',
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
       })
       .then(async () => {
         bookingSessionFixtures
@@ -73,16 +69,14 @@ describe('Finish booking session', () => {
         expect('direct').toEqual(bookingResult.type);
       })
       .then(async () => {
-        eventFixtures
-          .getEvent(event.event_id.value)
-          .then((eventResult: Event) => {
-            expect(1).toEqual(eventResult.current_capacity);
-          });
+        eventFixtures.getEvent(event.event_id.value).then((eventResult: Event) => {
+          expect(1).toEqual(eventResult.current_capacity);
+        });
         done();
       });
   });
 
-  it('Finish booking session with pass is appied correctly', async (done) => {
+  it('Finish booking session with pass is appied correctly', async done => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
     const activityFixtures: ActivityFixtures = new ActivityFixtures();
     await activityFixtures.addActivity(activity);
@@ -91,10 +85,8 @@ describe('Finish booking session', () => {
     const eventFixtures: EventFixtures = new EventFixtures();
     await eventFixtures.addEvent(event);
 
-    const bookingSession: BookingSession =
-      makeNewRandomBookingSessionWithEvent(event);
-    const bookingSessionFixtures: BookingSessionFixtures =
-      new BookingSessionFixtures();
+    const bookingSession: BookingSession = makeNewRandomBookingSessionWithEvent(event);
+    const bookingSessionFixtures: BookingSessionFixtures = new BookingSessionFixtures();
     await bookingSessionFixtures.add(bookingSession);
 
     const randomPartner = makeRandomPartner();
@@ -116,11 +108,11 @@ describe('Finish booking session', () => {
         booking_id: bookingSession.booking_id.value,
         source: 'landing',
         type: 'direct',
-        guest_pass_id: randomGuestPass.guestPassId.value
+        guest_pass_id: randomGuestPass.guestPassId.value,
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
       })
       .then(async () => {
         bookingSessionFixtures
@@ -144,11 +136,9 @@ describe('Finish booking session', () => {
         expect(randomGuestPass.guestPassId).toEqual(bookingResult.guestPassId);
       })
       .then(async () => {
-        eventFixtures
-          .getEvent(event.event_id.value)
-          .then((eventResult: Event) => {
-            expect(1).toEqual(eventResult.current_capacity);
-          });
+        eventFixtures.getEvent(event.event_id.value).then((eventResult: Event) => {
+          expect(1).toEqual(eventResult.current_capacity);
+        });
       })
       .then(async () => {
         guestPassFixtures
@@ -160,7 +150,7 @@ describe('Finish booking session', () => {
       });
   });
 
-  it('Finish booking session with wrong event_id and throw an error', async (done) => {
+  it('Finish booking session with wrong event_id and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
     request(application.httpServer)
@@ -169,16 +159,16 @@ describe('Finish booking session', () => {
       .type('json')
       .send({
         event_id: bookingSession.event_id.value,
-        booking_id: 'wrong_booking_id'
+        booking_id: 'wrong_booking_id',
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Finish booking session with empty booking_id and throw an error', async (done) => {
+  it('Finish booking session with empty booking_id and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
     request(application.httpServer)
@@ -187,16 +177,16 @@ describe('Finish booking session', () => {
       .type('json')
       .send({
         event_id: bookingSession.event_id.value,
-        booking_id: ''
+        booking_id: '',
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Finish booking session with empty event_id and throw an error', async (done) => {
+  it('Finish booking session with empty event_id and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
     request(application.httpServer)
@@ -205,16 +195,16 @@ describe('Finish booking session', () => {
       .type('json')
       .send({
         event_id: '',
-        booking_id: bookingSession.booking_id.value
+        booking_id: bookingSession.booking_id.value,
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
 
-  it('Finish booking session with wrong event_id and throw an error', async (done) => {
+  it('Finish booking session with wrong event_id and throw an error', async done => {
     const bookingSession: BookingSession = makeNewRandomBookingSession();
 
     request(application.httpServer)
@@ -223,21 +213,12 @@ describe('Finish booking session', () => {
       .type('json')
       .send({
         event_id: 'wrong_event_id',
-        booking_id: bookingSession.booking_id.value
+        booking_id: bookingSession.booking_id.value,
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual('Invalid value');
         done();
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

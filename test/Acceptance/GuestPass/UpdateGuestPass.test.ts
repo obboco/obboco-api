@@ -1,16 +1,14 @@
-import { makeRandomPass } from '../../Mock/Pass/passMother';
-import { GuestPass } from '../../../src/Domain/GuestPass';
-import { GuestPassFixtures } from '../../Mock/GuestPass/guestPassFixtures';
-import { makeRandomNewGuestPass } from '../../Mock/GuestPass/guestPassMother';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { BookingApp } from '../../../src/BookingApp';
+import {makeRandomPass} from '../../Mock/Pass/passMother';
+import {GuestPass} from '../../../src/Domain/GuestPass';
+import {GuestPassFixtures} from '../../Mock/GuestPass/guestPassFixtures';
+import {makeRandomNewGuestPass} from '../../Mock/GuestPass/guestPassMother';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
 import request from 'supertest';
-import { makeRandomGuest } from '../../Mock/Guest/guestMother';
-
-let application: BookingApp;
+import {makeRandomGuest} from '../../Mock/Guest/guestMother';
+import {application} from '../../hooks';
 
 describe('Update guest pass', () => {
-  it('Update guest pass correctly', async (done) => {
+  it('Update guest pass correctly', async done => {
     const guestPassFixtures = new GuestPassFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -29,11 +27,11 @@ describe('Update guest pass', () => {
       .type('json')
       .send({
         guest_pass_id: randomGuestPass.guestPassId.value,
-        status: 'paid'
+        status: 'paid',
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         guestPassFixtures
           .get(randomGuestPass.guestPassId.value)
           .then((guestPass: GuestPass) => {
@@ -42,13 +40,4 @@ describe('Update guest pass', () => {
           });
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

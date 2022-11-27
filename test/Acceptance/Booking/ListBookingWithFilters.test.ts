@@ -1,22 +1,20 @@
-import { BookingPrimitives } from '../../../src/Domain/Booking';
+import {BookingPrimitives} from '../../../src/Domain/Booking';
 import {
   makeCustomBookingPrimitives,
-  makeCustomBooking
+  makeCustomBooking,
 } from '../../Mock/Booking/bookingSessionMother';
-import { Partner } from '../../../src/Domain/Partner';
-import { Event } from '../../../src/Domain/Event';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { makeRandomActivity } from '../../Mock/Activity/activityMother';
-import { makeRandomEvent } from '../../Mock/Event/eventMother';
-import { makeRandomBooking } from '../../Mock/Booking/bookingSessionMother';
+import {Partner} from '../../../src/Domain/Partner';
+import {Event} from '../../../src/Domain/Event';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
+import {makeRandomActivity} from '../../Mock/Activity/activityMother';
+import {makeRandomEvent} from '../../Mock/Event/eventMother';
+import {makeRandomBooking} from '../../Mock/Booking/bookingSessionMother';
 import request from 'supertest';
-import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
-import { BookingApp } from '../../../src/BookingApp';
-
-let application: BookingApp;
+import {BookingFixtures} from '../../Mock/Booking/bookingFixtures';
+import {application} from '../../hooks';
 
 describe('List booking with filters', () => {
-  it('Get bookings by partner correctly', async (done) => {
+  it('Get bookings by partner correctly', async done => {
     const partner: Partner = makeRandomPartner();
     const event: Event = makeRandomEvent(makeRandomActivity(partner));
 
@@ -31,16 +29,14 @@ describe('List booking with filters', () => {
       .type('json')
       .send()
       .expect(200)
-      .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
-          3
-        );
+      .then(async response => {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(3);
         done();
       });
   });
 
-  it('Get bookings by partner and date correctly', async (done) => {
+  it('Get bookings by partner and date correctly', async done => {
     const partner: Partner = makeRandomPartner();
 
     let customBooking: BookingPrimitives = makeCustomBookingPrimitives();
@@ -61,16 +57,14 @@ describe('List booking with filters', () => {
       .type('json')
       .send()
       .expect(200)
-      .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
-          2
-        );
+      .then(async response => {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(2);
         done();
       });
   });
 
-  it('Get bookings by partner and status correctly', async (done) => {
+  it('Get bookings by partner and status correctly', async done => {
     const partner: Partner = makeRandomPartner();
 
     let customBooking: BookingPrimitives = makeCustomBookingPrimitives();
@@ -88,21 +82,10 @@ describe('List booking with filters', () => {
       .type('json')
       .send()
       .expect(200)
-      .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
-          2
-        );
+      .then(async response => {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(2);
         done();
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

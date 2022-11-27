@@ -1,10 +1,9 @@
-import { Activity } from '../../../src/Domain/Activity';
-import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
+import {Activity} from '../../../src/Domain/Activity';
+import {execute} from '../../../src/Infrastructure/Mysql/MysqlHandler';
 
 export class ActivityFixtures {
   async addActivity(activity: Activity) {
-    const connection = await mysqlConnection();
-    await connection.execute(
+    await execute(
       'INSERT INTO activity(activity_id, title, description, price, currency, location, partner_id, image_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
       [
         activity.activity_id.value,
@@ -14,19 +13,16 @@ export class ActivityFixtures {
         activity.currency,
         activity.location ? activity.location : null,
         activity.partner_id.value,
-        activity.image_id ? activity.image_id.value : null
+        activity.image_id ? activity.image_id.value : null,
       ]
     );
-    connection.end();
   }
 
   async getActivity(activity_id: string): Promise<Activity | null> {
-    const connection = await mysqlConnection();
-    const [result] = await connection.execute(
+    const result: any = await execute(
       'SELECT activity_id, title, description, price, currency, location, partner_id, image_id FROM activity WHERE activity_id = ?',
       [activity_id]
     );
-    connection.end();
 
     if (result[0] == undefined) {
       return null;

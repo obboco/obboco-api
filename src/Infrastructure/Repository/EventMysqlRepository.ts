@@ -1,15 +1,14 @@
-import { Event } from '../../Domain/Event';
+import {Event} from '../../Domain/Event';
 import {
   EventRepository,
-  EventRepostitoryFilter
+  EventRepostitoryFilter,
 } from '../../Application/Event/EventRepository';
-import { mysqlConnection } from '../Mysql/MysqlConnector';
-import { Ulid } from '../../Domain/Shared/Ulid';
+import {Ulid} from '../../Domain/Shared/Ulid';
+import {execute} from './../Mysql/MysqlHandler';
 
 export class EventMysqlRepository implements EventRepository {
   async getByActivityId(activityId: Ulid): Promise<Event[]> {
-    const connection = await mysqlConnection();
-    const [result] = await connection.execute(
+    const result = await execute(
       'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? ORDER BY start_date DESC',
       [activityId.value]
     );
@@ -20,9 +19,8 @@ export class EventMysqlRepository implements EventRepository {
   }
 
   async add(event: Event): Promise<void> {
-    const connection = await mysqlConnection();
     const moment = require('moment');
-    await connection.execute(
+    await execute(
       'INSERT INTO event(event_id, start_date, duration, capacity, current_capacity, activity_id) VALUES(?, ?, ?, ?, ?, ?)',
       [
         event.event_id.value,
@@ -30,34 +28,29 @@ export class EventMysqlRepository implements EventRepository {
         event.duration,
         event.capacity,
         event.current_capacity,
-        event.activity_id.value
+        event.activity_id.value,
       ]
     );
-    connection.end();
   }
 
   async update(event: Event): Promise<void> {
-    const connection = await mysqlConnection();
-    await connection.execute(
+    await execute(
       'UPDATE event SET start_date = ?, duration = ?, capacity = ?, current_capacity = ? WHERE event_id = ? LIMIT 1',
       [
         event.start_date,
         event.duration,
         event.capacity,
         event.current_capacity,
-        event.event_id.value
+        event.event_id.value,
       ]
     );
-    connection.end();
   }
 
   async get(eventId: Ulid): Promise<Event> {
-    const connection = await mysqlConnection();
-    const [result] = await connection.execute(
+    const result = await execute(
       'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE event_id = ? LIMIT 1',
       [eventId.value]
     );
-    connection.end();
 
     if (result[0] == undefined) {
       return null;
@@ -67,28 +60,23 @@ export class EventMysqlRepository implements EventRepository {
   }
 
   async getByFilter(filters: EventRepostitoryFilter): Promise<Event[]> {
-    const connection = await mysqlConnection();
     const sqlOptionsMaker = (filters: EventRepostitoryFilter) => {
       if (filters.time === 'past') {
         return {
           query:
             'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? AND start_date < NOW() ORDER BY start_date DESC',
-          params: [filters.activityId.value]
+          params: [filters.activityId.value],
         };
       } else {
         return {
           query:
             'SELECT event_id, start_date, duration, capacity, current_capacity, activity_id FROM event WHERE activity_id = ? AND start_date >= NOW() ORDER BY start_date ASC',
-          params: [filters.activityId.value]
+          params: [filters.activityId.value],
         };
       }
     };
     const sqlOptions = sqlOptionsMaker(filters);
-    const [result] = await connection.execute(
-      sqlOptions.query,
-      sqlOptions.params
-    );
-    connection.end();
+    const result = await execute(sqlOptions.query, sqlOptions.params);
 
     return Object.values(JSON.parse(JSON.stringify(result))).map((event: any) =>
       Event.fromPrimitives(event)
@@ -96,10 +84,6 @@ export class EventMysqlRepository implements EventRepository {
   }
 
   async delete(eventId: Ulid): Promise<void> {
-    const connection = await mysqlConnection();
-    await connection.execute('DELETE FROM event WHERE event_id = ? LIMIT 1', [
-      eventId.value
-    ]);
-    connection.end();
+    await execute('DELETE FROM event WHERE event_id = ? LIMIT 1', [eventId.value]);
   }
 }

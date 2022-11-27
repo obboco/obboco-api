@@ -1,21 +1,18 @@
-import { GuestPass } from '../../../src/Domain/GuestPass';
-import { mysqlConnection } from '../../../src/Infrastructure/Mysql/MysqlConnector';
+import {GuestPass} from '../../../src/Domain/GuestPass';
+import {execute} from '../../../src/Infrastructure/Mysql/MysqlHandler';
 
 export class GuestPassFixtures {
   async get(guestPassId: string): Promise<GuestPass | null> {
-    const connection = await mysqlConnection();
-    const [result] = await connection.execute(
+    const result: any = await execute(
       'SELECT guest_pass_id, pass_id, guest_id, partner_id, title, quantity, current_quantity, price, currency, status, created_at as created FROM guest_pass WHERE guest_pass_id = ?',
       [guestPassId]
     );
-    connection.end();
 
     return result[0] == undefined ? null : GuestPass.fromPrimitives(result[0]);
   }
 
   async add(guestPass: GuestPass): Promise<void> {
-    const connection = await mysqlConnection();
-    await connection.execute(
+    await execute(
       'INSERT INTO guest_pass(guest_pass_id, pass_id, guest_id, partner_id, title, quantity, current_quantity, price, currency, status, created_at) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         guestPass.guestPassId.value,
@@ -30,9 +27,8 @@ export class GuestPassFixtures {
         guestPass.status,
         guestPass.createdDate != undefined
           ? guestPass.createdDate
-          : new Date().toISOString()
+          : new Date().toISOString(),
       ]
     );
-    connection.end();
   }
 }

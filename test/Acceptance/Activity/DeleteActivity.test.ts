@@ -1,20 +1,17 @@
-import { EventFixtures } from '../../Mock/Event/eventFixtures';
-import { makeRandomActivityWhithoutOptionalParameters } from '../../Mock/Activity/activityMother';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { ActivityFixtures } from '../../Mock/Activity/activityFixtures';
-import { BookingApp } from '../../../src/BookingApp';
+import {EventFixtures} from '../../Mock/Event/eventFixtures';
+import {makeRandomActivityWhithoutOptionalParameters} from '../../Mock/Activity/activityMother';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
+import {ActivityFixtures} from '../../Mock/Activity/activityFixtures';
 import request from 'supertest';
-import { makeRandomEvent } from '../../Mock/Event/eventMother';
-
-let application: BookingApp;
+import {makeRandomEvent} from '../../Mock/Event/eventMother';
+import {application} from '../../hooks';
 
 describe('Delete activity', () => {
-  it('Delete activity without events correctly', async (done) => {
+  it('Delete activity without events correctly', async done => {
     const activityFixtures = new ActivityFixtures();
 
     const randomPartner = makeRandomPartner();
-    const randomActivity =
-      makeRandomActivityWhithoutOptionalParameters(randomPartner);
+    const randomActivity = makeRandomActivityWhithoutOptionalParameters(randomPartner);
     await activityFixtures.addActivity(randomActivity);
 
     request(application.httpServer)
@@ -24,7 +21,7 @@ describe('Delete activity', () => {
       .send()
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         expect(
           await activityFixtures.getActivity(randomActivity.activity_id.value)
         ).toBeNull();
@@ -32,12 +29,11 @@ describe('Delete activity', () => {
       });
   });
 
-  it('Cannot delete activity with events', async (done) => {
+  it('Cannot delete activity with events', async done => {
     const activityFixtures = new ActivityFixtures();
 
     const randomPartner = makeRandomPartner();
-    const randomActivity =
-      makeRandomActivityWhithoutOptionalParameters(randomPartner);
+    const randomActivity = makeRandomActivityWhithoutOptionalParameters(randomPartner);
     await activityFixtures.addActivity(randomActivity);
 
     const randomEvent = makeRandomEvent(randomActivity);
@@ -50,20 +46,11 @@ describe('Delete activity', () => {
       .type('json')
       .send()
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual(
           'Cannot delete an activity with events'
         );
         done();
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

@@ -1,17 +1,15 @@
-import { makeRandomGuest } from '../../Mock/Guest/guestMother';
-import { makeRandomGuestPass } from '../../Mock/GuestPass/guestPassMother';
-import { GuestPassFixtures } from '../../Mock/GuestPass/guestPassFixtures';
-import { Pass } from '../../../src/Domain/Pass';
-import { makeRandomPass } from '../../Mock/Pass/passMother';
-import { PassFixtures } from '../../Mock/Pass/passFixtures';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { BookingApp } from '../../../src/BookingApp';
+import {makeRandomGuest} from '../../Mock/Guest/guestMother';
+import {makeRandomGuestPass} from '../../Mock/GuestPass/guestPassMother';
+import {GuestPassFixtures} from '../../Mock/GuestPass/guestPassFixtures';
+import {Pass} from '../../../src/Domain/Pass';
+import {makeRandomPass} from '../../Mock/Pass/passMother';
+import {PassFixtures} from '../../Mock/Pass/passFixtures';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
 import request from 'supertest';
-
-let application: BookingApp;
+import {application} from '../../hooks';
 
 describe('Delete pass', () => {
-  it('Delete pass correctly', async (done) => {
+  it('Delete pass correctly', async done => {
     const passFixtures = new PassFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -25,7 +23,7 @@ describe('Delete pass', () => {
       .send()
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         passFixtures.get(randomPass.pass_id.value).then((pass: Pass) => {
           expect(pass).toBeNull();
           done();
@@ -33,7 +31,7 @@ describe('Delete pass', () => {
       });
   });
 
-  it('Can not delete pass when it has some bookings assigned', async (done) => {
+  it('Can not delete pass when it has some bookings assigned', async done => {
     const passFixtures = new PassFixtures();
     const guestPassFixtures = new GuestPassFixtures();
 
@@ -55,20 +53,11 @@ describe('Delete pass', () => {
       .type('json')
       .send()
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual(
           'Cannot delete a pass with some bookings assigned'
         );
         done();
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

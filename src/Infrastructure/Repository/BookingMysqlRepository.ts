@@ -1,14 +1,12 @@
-import { Filter } from '../../Domain/Criteria/Filter';
-import { Criteria } from '../../Domain/Criteria/Criteria';
-import { Ulid } from '../../Domain/Shared/Ulid';
-import { BookingRepository } from '../../Application/Booking/BookingRepository';
-import { Booking, BookingPrimitives } from '../../Domain/Booking';
-import { mysqlConnection } from '../Mysql/MysqlConnector';
-
+import {Filter} from '../../Domain/Criteria/Filter';
+import {Criteria} from '../../Domain/Criteria/Criteria';
+import {Ulid} from '../../Domain/Shared/Ulid';
+import {BookingRepository} from '../../Application/Booking/BookingRepository';
+import {Booking, BookingPrimitives} from '../../Domain/Booking';
+import {execute} from './../Mysql/MysqlHandler';
 export class BookingMysqlRepository implements BookingRepository {
   async add(booking: Booking): Promise<void> {
-    const connection = await mysqlConnection();
-    await connection.execute(
+    await execute(
       'INSERT INTO booking(booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest_id, guest, source, type, guest_pass_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         booking.booking_id.value,
@@ -28,32 +26,27 @@ export class BookingMysqlRepository implements BookingRepository {
           first_name: booking.guest.first_name,
           last_name: booking.guest.last_name,
           email: booking.guest.email,
-          phone: booking.guest.phone
+          phone: booking.guest.phone,
         }),
         booking.source,
         booking.type,
-        booking.guestPassId ? booking.guestPassId.value : null
+        booking.guestPassId ? booking.guestPassId.value : null,
       ]
     );
-    connection.end();
   }
 
   async update(booking: Booking): Promise<void> {
-    const connection = await mysqlConnection();
-    await connection.execute(
-      'UPDATE booking SET status = ? WHERE booking_id = ? LIMIT 1',
-      [booking.status, booking.booking_id.value]
-    );
-    connection.end();
+    await execute('UPDATE booking SET status = ? WHERE booking_id = ? LIMIT 1', [
+      booking.status,
+      booking.booking_id.value,
+    ]);
   }
 
   async get(bookingId: Ulid): Promise<Booking> {
-    const connection = await mysqlConnection();
-    const [result] = await connection.execute(
+    const result = await execute(
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE booking_id = ? LIMIT 1',
       [bookingId.value]
     );
-    connection.end();
 
     const bookingPrimitives: BookingPrimitives = {
       booking_id: result[0].booking_id,
@@ -69,40 +62,36 @@ export class BookingMysqlRepository implements BookingRepository {
       guest: JSON.parse(result[0].guest),
       source: result[0].source,
       type: result[0].type,
-      guest_pass_id: result[0].guest_pass_id
+      guest_pass_id: result[0].guest_pass_id,
     };
     return Booking.fromPrimitives(bookingPrimitives);
   }
 
   async getByEventId(eventId: Ulid): Promise<Booking[]> {
-    const connection = await mysqlConnection();
-    const [result] = await connection.execute(
+    const result = await execute(
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE event_id = ? ORDER BY created_at ASC',
       [eventId.value]
     );
-    connection.end();
 
-    return Object.values(JSON.parse(JSON.stringify(result))).map(
-      (booking: any) => {
-        const bookingPrimitives: BookingPrimitives = {
-          booking_id: booking.booking_id,
-          event_id: booking.event_id,
-          activity_id: booking.activity_id,
-          partner_id: booking.partner_id,
-          status: booking.status,
-          title: booking.title,
-          start_date: booking.start_date,
-          duration: booking.duration,
-          price: booking.price,
-          currency: booking.currency,
-          guest: JSON.parse(booking.guest),
-          source: booking.source,
-          type: booking.type,
-          guest_pass_id: booking.guest_pass_id
-        };
-        return Booking.fromPrimitives(bookingPrimitives);
-      }
-    );
+    return Object.values(JSON.parse(JSON.stringify(result))).map((booking: any) => {
+      const bookingPrimitives: BookingPrimitives = {
+        booking_id: booking.booking_id,
+        event_id: booking.event_id,
+        activity_id: booking.activity_id,
+        partner_id: booking.partner_id,
+        status: booking.status,
+        title: booking.title,
+        start_date: booking.start_date,
+        duration: booking.duration,
+        price: booking.price,
+        currency: booking.currency,
+        guest: JSON.parse(booking.guest),
+        source: booking.source,
+        type: booking.type,
+        guest_pass_id: booking.guest_pass_id,
+      };
+      return Booking.fromPrimitives(bookingPrimitives);
+    });
   }
 
   async getByCriteria(criteria: Criteria): Promise<Booking[]> {
@@ -112,63 +101,55 @@ export class BookingMysqlRepository implements BookingRepository {
       })
       .join(' AND ');
 
-    const connection = await mysqlConnection();
-    const [result] = await connection.execute(
+    const result = await execute(
       `SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE ${filters} ORDER BY start_date DESC`
     );
-    connection.end();
 
-    return Object.values(JSON.parse(JSON.stringify(result))).map(
-      (booking: any) => {
-        const bookingPrimitives: BookingPrimitives = {
-          booking_id: booking.booking_id,
-          event_id: booking.event_id,
-          activity_id: booking.activity_id,
-          partner_id: booking.partner_id,
-          status: booking.status,
-          title: booking.title,
-          start_date: booking.start_date,
-          duration: booking.duration,
-          price: booking.price,
-          currency: booking.currency,
-          guest: JSON.parse(booking.guest),
-          source: booking.source,
-          type: booking.type,
-          guest_pass_id: booking.guest_pass_id
-        };
-        return Booking.fromPrimitives(bookingPrimitives);
-      }
-    );
+    return Object.values(JSON.parse(JSON.stringify(result))).map((booking: any) => {
+      const bookingPrimitives: BookingPrimitives = {
+        booking_id: booking.booking_id,
+        event_id: booking.event_id,
+        activity_id: booking.activity_id,
+        partner_id: booking.partner_id,
+        status: booking.status,
+        title: booking.title,
+        start_date: booking.start_date,
+        duration: booking.duration,
+        price: booking.price,
+        currency: booking.currency,
+        guest: JSON.parse(booking.guest),
+        source: booking.source,
+        type: booking.type,
+        guest_pass_id: booking.guest_pass_id,
+      };
+      return Booking.fromPrimitives(bookingPrimitives);
+    });
   }
 
   async getByGuestId(guestId: Ulid): Promise<Booking[]> {
-    const connection = await mysqlConnection();
-    const [result] = await connection.execute(
+    const result = await execute(
       'SELECT booking_id, event_id, activity_id, partner_id, status, title, start_date, duration, price, currency, guest, source, type, guest_pass_id FROM booking WHERE guest_id = ? ORDER BY created_at ASC',
       [guestId.value]
     );
-    connection.end();
 
-    return Object.values(JSON.parse(JSON.stringify(result))).map(
-      (booking: any) => {
-        const bookingPrimitives: BookingPrimitives = {
-          booking_id: booking.booking_id,
-          event_id: booking.event_id,
-          activity_id: booking.activity_id,
-          partner_id: booking.partner_id,
-          status: booking.status,
-          title: booking.title,
-          start_date: booking.start_date,
-          duration: booking.duration,
-          price: booking.price,
-          currency: booking.currency,
-          guest: JSON.parse(booking.guest),
-          source: booking.source,
-          type: booking.type,
-          guest_pass_id: booking.guest_pass_id
-        };
-        return Booking.fromPrimitives(bookingPrimitives);
-      }
-    );
+    return Object.values(JSON.parse(JSON.stringify(result))).map((booking: any) => {
+      const bookingPrimitives: BookingPrimitives = {
+        booking_id: booking.booking_id,
+        event_id: booking.event_id,
+        activity_id: booking.activity_id,
+        partner_id: booking.partner_id,
+        status: booking.status,
+        title: booking.title,
+        start_date: booking.start_date,
+        duration: booking.duration,
+        price: booking.price,
+        currency: booking.currency,
+        guest: JSON.parse(booking.guest),
+        source: booking.source,
+        type: booking.type,
+        guest_pass_id: booking.guest_pass_id,
+      };
+      return Booking.fromPrimitives(bookingPrimitives);
+    });
   }
 }

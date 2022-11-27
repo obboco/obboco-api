@@ -1,14 +1,13 @@
+import { BookingFinishPostController } from './../Infrastructure/Web/Booking/BookingFinishPostController';
+import { BookingInitPostController } from './../Infrastructure/Web/Booking/BookingInitPostController';
+import { BookingGetByEventController } from './../Infrastructure/Web/Booking/BookingGetByEventController';
 import { ulidValidator } from './Validator/ulidValidator';
 import { Router, Request, Response } from 'express';
 import { body, param } from 'express-validator';
-import container from '../dependency-injection';
 import { validateMiddleware } from './Validator/validateMiddleware';
+import { BookingGuestPostController } from '../Infrastructure/Web/Booking/BookingGuestPostController';
 
 export const register = (router: Router) => {
-  const bookingGetByEventController = container.get(
-    'Infrastructure.Web.Booking.BookingGetByEventController'
-  );
-
   router.get(
     '/booking/event/:event_id',
     param('event_id')
@@ -16,12 +15,13 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom(ulidValidator),
     validateMiddleware,
-    (req: Request, res: Response) => bookingGetByEventController.run(req, res)
+    (req: Request, res: Response) => {
+      const bookingGetByEventController: BookingGetByEventController =
+        new BookingGetByEventController();
+      bookingGetByEventController.run(req, res);
+    }
   );
 
-  const bookingInitPostController = container.get(
-    'Infrastructure.Web.Booking.BookingInitPostController'
-  );
   router.post(
     '/booking/init',
     body('booking_id')
@@ -33,12 +33,13 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom(ulidValidator),
     validateMiddleware,
-    (req: Request, res: Response) => bookingInitPostController.run(req, res)
+    (req: Request, res: Response) => {
+      const bookingInitPostController: BookingInitPostController =
+        new BookingInitPostController();
+      bookingInitPostController.run(req, res);
+    }
   );
 
-  const bookingGuestPostController = container.get(
-    'Infrastructure.Web.Booking.BookingGuestPostController'
-  );
   router.post(
     '/booking/guest',
     body('event_id')
@@ -58,12 +59,13 @@ export const register = (router: Router) => {
     body('guest.email').isString().isLength({ min: 1, max: 255 }).isEmail(),
     body('guest.phone').isString().isLength({ min: 1, max: 255 }),
     validateMiddleware,
-    (req: Request, res: Response) => bookingGuestPostController.run(req, res)
+    (req: Request, res: Response) => {
+      const bookingGuestPostController: BookingGuestPostController =
+        new BookingGuestPostController();
+      bookingGuestPostController.run(req, res);
+    }
   );
 
-  const bookingFinishPostController = container.get(
-    'Infrastructure.Web.Booking.BookingFinishPostController'
-  );
   router.post(
     '/booking/finish',
     body('event_id')
@@ -82,6 +84,10 @@ export const register = (router: Router) => {
       .isLength({ min: 1, max: 255 })
       .custom(ulidValidator),
     validateMiddleware,
-    (req: Request, res: Response) => bookingFinishPostController.run(req, res)
+    (req: Request, res: Response) => {
+      const bookingFinishPostController: BookingFinishPostController =
+        new BookingFinishPostController();
+      bookingFinishPostController.run(req, res);
+    }
   );
 };

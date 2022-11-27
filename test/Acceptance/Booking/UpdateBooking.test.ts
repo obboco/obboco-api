@@ -1,23 +1,21 @@
-import { GuestPass } from './../../../src/Domain/GuestPass';
-import { GuestPassFixtures } from './../../Mock/GuestPass/guestPassFixtures';
-import { makeRandomGuestPass } from './../../Mock/GuestPass/guestPassMother';
-import { Ulid } from './../../../src/Domain/Shared/Ulid';
-import { Event } from '../../../src/Domain/Event';
-import { EventFixtures } from '../../Mock/Event/eventFixtures';
-import { makeRandomEventWithSomeCapacity } from '../../Mock/Event/eventMother';
-import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
+import {GuestPass} from './../../../src/Domain/GuestPass';
+import {GuestPassFixtures} from './../../Mock/GuestPass/guestPassFixtures';
+import {makeRandomGuestPass} from './../../Mock/GuestPass/guestPassMother';
+import {Ulid} from './../../../src/Domain/Shared/Ulid';
+import {Event} from '../../../src/Domain/Event';
+import {EventFixtures} from '../../Mock/Event/eventFixtures';
+import {makeRandomEventWithSomeCapacity} from '../../Mock/Event/eventMother';
+import {BookingFixtures} from '../../Mock/Booking/bookingFixtures';
 import {
   makeNewRandomBooking,
-  makeCustomBooking
+  makeCustomBooking,
 } from '../../Mock/Booking/bookingSessionMother';
-import { Booking } from '../../../src/Domain/Booking';
+import {Booking} from '../../../src/Domain/Booking';
 import request from 'supertest';
-import { BookingApp } from '../../../src/BookingApp';
-
-let application: BookingApp;
+import {application} from '../../hooks';
 
 describe('Update booking', () => {
-  it('Update booking status from booked to paid', async (done) => {
+  it('Update booking status from booked to paid', async done => {
     const booking: Booking = makeNewRandomBooking();
     const bookingFixtures = new BookingFixtures();
     await bookingFixtures.addBooking(booking);
@@ -28,21 +26,19 @@ describe('Update booking', () => {
       .type('json')
       .send({
         booking_id: booking.booking_id.value,
-        status: 'paid'
+        status: 'paid',
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        bookingFixtures
-          .get(booking.booking_id)
-          .then((bookingResult: Booking) => {
-            expect('paid').toEqual(bookingResult.status);
-            done();
-          });
+        await new Promise(resolve => setTimeout(resolve, 500));
+        bookingFixtures.get(booking.booking_id).then((bookingResult: Booking) => {
+          expect('paid').toEqual(bookingResult.status);
+          done();
+        });
       });
   });
 
-  it('Update booking status from booked to canceled and add 1 extra capacity to the event', async (done) => {
+  it('Update booking status from booked to canceled and add 1 extra capacity to the event', async done => {
     const randomEvent = makeRandomEventWithSomeCapacity();
     const eventFixtures: EventFixtures = new EventFixtures();
     await eventFixtures.addEvent(randomEvent);
@@ -52,7 +48,7 @@ describe('Update booking', () => {
       ...bookingPrimitives,
       event_id: randomEvent.event_id.value,
       status: 'booked',
-      guest_pass_id: null
+      guest_pass_id: null,
     };
 
     const booking: Booking = makeCustomBooking(bookingPrimitives);
@@ -65,31 +61,25 @@ describe('Update booking', () => {
       .type('json')
       .send({
         booking_id: booking.booking_id.value,
-        status: 'canceled'
+        status: 'canceled',
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        bookingFixtures
-          .get(booking.booking_id)
-          .then((bookingResult: Booking) => {
-            expect('canceled').toEqual(bookingResult.status);
-          });
+        await new Promise(resolve => setTimeout(resolve, 500));
+        bookingFixtures.get(booking.booking_id).then((bookingResult: Booking) => {
+          expect('canceled').toEqual(bookingResult.status);
+        });
       })
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        eventFixtures
-          .getEvent(randomEvent.event_id.value)
-          .then((eventResult: Event) => {
-            expect(randomEvent.current_capacity - 1).toEqual(
-              eventResult.current_capacity
-            );
-            done();
-          });
+        await new Promise(resolve => setTimeout(resolve, 500));
+        eventFixtures.getEvent(randomEvent.event_id.value).then((eventResult: Event) => {
+          expect(randomEvent.current_capacity - 1).toEqual(eventResult.current_capacity);
+          done();
+        });
       });
   });
 
-  it('Update booking status from canceled to paid and reduce 1 capacity to the event', async (done) => {
+  it('Update booking status from canceled to paid and reduce 1 capacity to the event', async done => {
     const randomEvent = makeRandomEventWithSomeCapacity();
     const eventFixtures: EventFixtures = new EventFixtures();
     await eventFixtures.addEvent(randomEvent);
@@ -99,7 +89,7 @@ describe('Update booking', () => {
       ...bookingPrimitives,
       event_id: randomEvent.event_id.value,
       status: 'canceled',
-      guest_pass_id: null
+      guest_pass_id: null,
     };
 
     const booking: Booking = makeCustomBooking(bookingPrimitives);
@@ -112,31 +102,25 @@ describe('Update booking', () => {
       .type('json')
       .send({
         booking_id: booking.booking_id.value,
-        status: 'paid'
+        status: 'paid',
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        bookingFixtures
-          .get(booking.booking_id)
-          .then((bookingResult: Booking) => {
-            expect('paid').toEqual(bookingResult.status);
-          });
+        await new Promise(resolve => setTimeout(resolve, 500));
+        bookingFixtures.get(booking.booking_id).then((bookingResult: Booking) => {
+          expect('paid').toEqual(bookingResult.status);
+        });
       })
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        eventFixtures
-          .getEvent(randomEvent.event_id.value)
-          .then((eventResult: Event) => {
-            expect(randomEvent.current_capacity + 1).toEqual(
-              eventResult.current_capacity
-            );
-            done();
-          });
+        await new Promise(resolve => setTimeout(resolve, 500));
+        eventFixtures.getEvent(randomEvent.event_id.value).then((eventResult: Event) => {
+          expect(randomEvent.current_capacity + 1).toEqual(eventResult.current_capacity);
+          done();
+        });
       });
   });
 
-  it('Update booking status from booked to canceled and add 1 extra capacity to the guest pass', async (done) => {
+  it('Update booking status from booked to canceled and add 1 extra capacity to the guest pass', async done => {
     const randomGuestPass = makeRandomGuestPass(
       Ulid.create(),
       Ulid.create(),
@@ -154,7 +138,7 @@ describe('Update booking', () => {
       ...bookingPrimitives,
       event_id: randomEvent.event_id.value,
       guest_pass_id: randomGuestPass.guestPassId.value,
-      status: 'booked'
+      status: 'booked',
     };
 
     const booking: Booking = makeCustomBooking(bookingPrimitives);
@@ -167,19 +151,17 @@ describe('Update booking', () => {
       .type('json')
       .send({
         booking_id: booking.booking_id.value,
-        status: 'canceled'
+        status: 'canceled',
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        bookingFixtures
-          .get(booking.booking_id)
-          .then((bookingResult: Booking) => {
-            expect('canceled').toEqual(bookingResult.status);
-          });
+        await new Promise(resolve => setTimeout(resolve, 500));
+        bookingFixtures.get(booking.booking_id).then((bookingResult: Booking) => {
+          expect('canceled').toEqual(bookingResult.status);
+        });
       })
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         guestPassFixtures
           .get(randomGuestPass.guestPassId.value)
           .then((guestPassResult: GuestPass) => {
@@ -191,7 +173,7 @@ describe('Update booking', () => {
       });
   });
 
-  it('Update booking status from canceled to paid and reduce extra capacity to the guest pass', async (done) => {
+  it('Update booking status from canceled to paid and reduce extra capacity to the guest pass', async done => {
     const randomGuestPass = makeRandomGuestPass(
       Ulid.create(),
       Ulid.create(),
@@ -209,7 +191,7 @@ describe('Update booking', () => {
       ...bookingPrimitives,
       event_id: randomEvent.event_id.value,
       guest_pass_id: randomGuestPass.guestPassId.value,
-      status: 'canceled'
+      status: 'canceled',
     };
 
     const booking: Booking = makeCustomBooking(bookingPrimitives);
@@ -222,19 +204,17 @@ describe('Update booking', () => {
       .type('json')
       .send({
         booking_id: booking.booking_id.value,
-        status: 'paid'
+        status: 'paid',
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        bookingFixtures
-          .get(booking.booking_id)
-          .then((bookingResult: Booking) => {
-            expect('paid').toEqual(bookingResult.status);
-          });
+        await new Promise(resolve => setTimeout(resolve, 500));
+        bookingFixtures.get(booking.booking_id).then((bookingResult: Booking) => {
+          expect('paid').toEqual(bookingResult.status);
+        });
       })
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
         guestPassFixtures
           .get(randomGuestPass.guestPassId.value)
           .then((guestPassResult: GuestPass) => {
@@ -245,13 +225,4 @@ describe('Update booking', () => {
           });
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

@@ -1,19 +1,17 @@
-import { BookingFixtures } from '../../Mock/Booking/bookingFixtures';
-import { makeNewRandomBookingWithEvent } from '../../Mock/Booking/bookingSessionMother';
-import { Booking } from '../../../src/Domain/Booking';
-import { Activity } from '../../../src/Domain/Activity';
-import { makeRandomActivity } from '../../Mock/Activity/activityMother';
-import { Event } from '../../../src/Domain/Event';
-import { EventFixtures } from '../../Mock/Event/eventFixtures';
+import {BookingFixtures} from '../../Mock/Booking/bookingFixtures';
+import {makeNewRandomBookingWithEvent} from '../../Mock/Booking/bookingSessionMother';
+import {Booking} from '../../../src/Domain/Booking';
+import {Activity} from '../../../src/Domain/Activity';
+import {makeRandomActivity} from '../../Mock/Activity/activityMother';
+import {Event} from '../../../src/Domain/Event';
+import {EventFixtures} from '../../Mock/Event/eventFixtures';
 import request from 'supertest';
-import { makeRandomEvent } from '../../Mock/Event/eventMother';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { BookingApp } from '../../../src/BookingApp';
-
-let application: BookingApp;
+import {makeRandomEvent} from '../../Mock/Event/eventMother';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
+import {application} from '../../hooks';
 
 describe('Update event', () => {
-  it('Update event correctly', async (done) => {
+  it('Update event correctly', async done => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
     const eventFixtures: EventFixtures = new EventFixtures();
     const event = makeRandomEvent(activity);
@@ -29,22 +27,20 @@ describe('Update event', () => {
         start_date: newEvent.start_date,
         duration: newEvent.duration,
         capacity: newEvent.capacity,
-        activity_id: event.activity_id.value
+        activity_id: event.activity_id.value,
       })
       .expect(200)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        eventFixtures
-          .getEvent(event.event_id.value)
-          .then((eventResponse: Event) => {
-            expect(newEvent.duration).toEqual(eventResponse.duration);
-            expect(newEvent.capacity).toEqual(eventResponse.capacity);
-            done();
-          });
+        await new Promise(resolve => setTimeout(resolve, 500));
+        eventFixtures.getEvent(event.event_id.value).then((eventResponse: Event) => {
+          expect(newEvent.duration).toEqual(eventResponse.duration);
+          expect(newEvent.capacity).toEqual(eventResponse.capacity);
+          done();
+        });
       });
   });
 
-  it('Cannot update event with bookings', async (done) => {
+  it('Cannot update event with bookings', async done => {
     const activity: Activity = makeRandomActivity(makeRandomPartner());
 
     const randomEvent = makeRandomEvent(activity);
@@ -65,10 +61,10 @@ describe('Update event', () => {
         start_date: newEvent.start_date,
         duration: newEvent.duration,
         capacity: newEvent.capacity,
-        activity_id: randomEvent.activity_id.value
+        activity_id: randomEvent.activity_id.value,
       })
       .expect(400)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.errors[0].msg).toEqual(
           'Cannot update an event with bookings'
         );
@@ -236,13 +232,4 @@ describe('Update event', () => {
       });
   });
   */
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

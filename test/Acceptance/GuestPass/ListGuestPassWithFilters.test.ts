@@ -1,18 +1,16 @@
 import {
   makeCustomGuestPassPrimitives,
-  makeCustomGuestPass
+  makeCustomGuestPass,
 } from '../../Mock/GuestPass/guestPassMother';
-import { GuestPassPrimitives } from '../../../src/Domain/GuestPass';
-import { GuestPassFixtures } from '../../Mock/GuestPass/guestPassFixtures';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { BookingApp } from '../../../src/BookingApp';
+import {GuestPassPrimitives} from '../../../src/Domain/GuestPass';
+import {GuestPassFixtures} from '../../Mock/GuestPass/guestPassFixtures';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
 import request from 'supertest';
-import { makeRandomGuest } from '../../Mock/Guest/guestMother';
-
-let application: BookingApp;
+import {makeRandomGuest} from '../../Mock/Guest/guestMother';
+import {application} from '../../hooks';
 
 describe('Get guest pass', () => {
-  it('Get some guest pass by guest correctly', async (done) => {
+  it('Get some guest pass by guest correctly', async done => {
     const guestPassFixtures = new GuestPassFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -48,21 +46,10 @@ describe('Get guest pass', () => {
       .type('json')
       .send()
       .expect(200)
-      .then(async (response) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
-          2
-        );
+      .then(async response => {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(2);
         done();
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });

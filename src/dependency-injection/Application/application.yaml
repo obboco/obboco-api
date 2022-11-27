@@ -7,6 +7,7 @@ services:
         '@Application.Event.UpdateCurrentCapacityEvent',
         '@Application.GuestPass.UpdateCurrentCapacityGuestPass'
       ]
+
   Application.Event.UpdateCurrentCapacityEvent:
     class: ../../Application/Event/UpdateCurrentCapacityEvent
     arguments: ['@Infrastructure.Repository.EventMysqlRepository']

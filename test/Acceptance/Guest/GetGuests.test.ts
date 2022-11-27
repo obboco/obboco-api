@@ -1,13 +1,11 @@
-import { GuestFixtures } from '../../Mock/Guest/guestFixtures';
-import { makeRandomGuest } from '../../Mock/Guest/guestMother';
-import { makeRandomPartner } from '../../Mock/Partner/partnerMother';
-import { BookingApp } from '../../../src/BookingApp';
+import {GuestFixtures} from '../../Mock/Guest/guestFixtures';
+import {makeRandomGuest} from '../../Mock/Guest/guestMother';
+import {makeRandomPartner} from '../../Mock/Partner/partnerMother';
 import request from 'supertest';
-
-let application: BookingApp;
+import {application} from '../../hooks';
 
 describe('Get guests', () => {
-  it('Get empty guest list correctly', async (done) => {
+  it('Get empty guest list correctly', async done => {
     const randomPartner = makeRandomPartner();
     request(application.httpServer)
       .get('/guests/' + randomPartner.partner_id.value)
@@ -15,13 +13,13 @@ describe('Get guests', () => {
       .type('json')
       .send()
       .expect(200)
-      .then(async (response) => {
+      .then(async response => {
         expect(response.body.data).toEqual([]);
         done();
       });
   });
 
-  it('Get guests correctly', async (done) => {
+  it('Get guests correctly', async done => {
     const guestFixtures = new GuestFixtures();
 
     const randomPartner = makeRandomPartner();
@@ -35,20 +33,9 @@ describe('Get guests', () => {
       .type('json')
       .send()
       .expect(200)
-      .then(async (response) => {
-        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(
-          3
-        );
+      .then(async response => {
+        expect(JSON.parse(JSON.stringify(response.body.data)).length).toEqual(3);
         done();
       });
   });
-});
-
-beforeAll(async () => {
-  application = new BookingApp();
-  await application.start();
-});
-
-afterAll(async () => {
-  await application.stop();
 });
