@@ -1,7 +1,7 @@
 import {BookingApp} from './BookingApp';
 
 try {
-  const app = new BookingApp().start().catch(handleError);
+  new BookingApp().start().catch(handleError);
 } catch (e) {
   handleError(e);
 }
