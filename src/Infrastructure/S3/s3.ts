@@ -27,7 +27,6 @@ export const uploadFiles = (request, response, next) => {
       limits: {files: 1},
       s3: s3,
       bucket: bucketName,
-      acl: 'public-read',
       metadata: function (req, file, cb) {
         cb(null, {fieldName: activityImageId.value});
       },
