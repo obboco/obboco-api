@@ -10,12 +10,13 @@ const credentials = {
 };
 const bucketName = process.env.STORAGE_BUCKET_NAME;
 const spacesEndpoint = process.env.STORAGE_SPACES_ENDPOINT;
+const region = process.env.STORAGE_REGION;
 
 const s3 = new S3Client({
   credentials,
   forcePathStyle: true,
   endpoint: spacesEndpoint,
-  region: 'nyc3',
+  region: region,
 });
 
 export const uploadFiles = (request, response, next) => {
