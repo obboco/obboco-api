@@ -37,11 +37,11 @@
     "tslint": "^5.20.1"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.218.0",
     "@sendgrid/mail": "^7.7.0",
     "@types/faker": "^6.6.8",
     "@types/multer": "^1.4.7",
     "assert": "^2.0.0",
-    "aws-sdk": "^2.1258.0",
     "calendar-link": "^2.4.0",
     "compress": "^0.99.0",
     "compression": "^1.7.4",
