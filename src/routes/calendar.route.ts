@@ -11,6 +11,7 @@ export const register = (router: Router) => {
     body('title').isString().isLength({min: 1, max: 255}),
     body('start_date').isString().isLength({min: 1, max: 255}),
     body('duration').isNumeric(),
+    body('time_zone').isString(),
     validateMiddleware,
     (req: Request, res: Response) => {
       const calendarEventPostController: CalendarEventPostController =
@@ -25,6 +26,7 @@ export const register = (router: Router) => {
     body('title').isString().isLength({min: 1, max: 255}),
     body('start_date').isString().isLength({min: 1, max: 255}),
     body('duration').isNumeric(),
+    body('time_zone').isString(),
     validateMiddleware,
     (req: Request, res: Response) => {
       const calendarEventDeleteController: CalendarEventDeleteController =

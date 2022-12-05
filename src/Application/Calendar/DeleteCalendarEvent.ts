@@ -1,10 +1,11 @@
-import { google } from 'googleapis';
+import {google} from 'googleapis';
 
 interface DeleteCalendarEventCommand {
   access_token: string;
   title: string;
   start_date: string;
   duration: number;
+  time_zone: string;
 }
 
 export class DeleteCalendarEvent {
@@ -16,9 +17,9 @@ export class DeleteCalendarEvent {
       process.env.GOOGLE_CLIENT_SECRET
     );
 
-    oauth2Client.setCredentials({ access_token: command.access_token });
+    oauth2Client.setCredentials({access_token: command.access_token});
 
-    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    const calendar = google.calendar({version: 'v3', auth: oauth2Client});
     const startDate = new Date(command.start_date);
     const endDate = new Date(command.start_date);
     endDate.setMinutes(endDate.getMinutes() + command.duration);
@@ -29,7 +30,8 @@ export class DeleteCalendarEvent {
       q: command.title,
       timeMin: startDate.toISOString(),
       timeMax: endDate.toISOString(),
-      singleEvents: true
+      timeZone: command.time_zone,
+      singleEvents: true,
     });
 
     if (
@@ -39,7 +41,7 @@ export class DeleteCalendarEvent {
       const eventId = calendarListResult.data.items[0].id;
       calendar.events.delete({
         calendarId: 'primary',
-        eventId: eventId
+        eventId: eventId,
       });
     }
   }

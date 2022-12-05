@@ -15,6 +15,7 @@ export class CalendarEventDeleteController implements Controller {
         title: req.body.title,
         start_date: req.body.start_date,
         duration: req.body.duration,
+        time_zone: req.body.time_zone,
       };
       this.deleteCalendarEvent.make(request);
       res.status(httpStatus.OK).send(this.toResponse());
