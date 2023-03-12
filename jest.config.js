@@ -1,4 +1,9 @@
 module.exports = {
+  globals: {
+    'ts-jest': {
+      isolatedModules: true,
+    },
+  },
   testRunner: 'jest-jasmine2',
   preset: 'ts-jest',
   testEnvironment: 'node',
