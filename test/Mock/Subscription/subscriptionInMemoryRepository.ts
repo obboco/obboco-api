@@ -9,6 +9,14 @@ export class SubscriptionInMemoryRepository implements SubscriptionRepository {
   }
 
   async get(subscriptionId: Ulid): Promise<Subscription> {
-    return this.subscriptions.get(subscriptionId.value);
+    const subscription = this.subscriptions.get(subscriptionId.value);
+    if (!subscription) {
+      throw new Error('Subscription not found');
+    }
+    return subscription;
+  }
+
+  async update(subscription: Subscription): Promise<void> {
+    this.subscriptions.set(subscription.subscription_id.value, subscription);
   }
 }

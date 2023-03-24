@@ -7,8 +7,8 @@ describe('Create subscription', () => {
     const randomSubscription = makeNewRandomSubscription();
     const subscriptionRepository = new SubscriptionInMemoryRepository();
 
-    const subscriptionApplication = new CreateSubscription(subscriptionRepository);
-    subscriptionApplication.make(randomSubscription.toPrimitives());
+    const createSubscription = new CreateSubscription(subscriptionRepository);
+    createSubscription.make(randomSubscription.toPrimitives());
     const subscriptionResponse = await subscriptionRepository.get(
       randomSubscription.subscription_id
     );
