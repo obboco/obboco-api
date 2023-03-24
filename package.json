@@ -14,6 +14,8 @@
     "build:tsc": "tsc -p tsconfig.prod.json",
     "build:clean": "rm -r dist; exit 0",
     "test": "NODE_ENV=test jest --force-exit --detectOpenHandles",
+    "test:unit": "jest --testPathPattern=test/Unit --force-exit --detectOpenHandles",
+    "test:integration": "NODE_ENV=test jest  --testPathPattern=test/Acceptance --force-exit --detectOpenHandles",
     "test:watch": "jest --watch --detectOpenHandles",
     "test:cov": "jest --coverage --force-exit --detectOpenHandles"
   },
