@@ -5,4 +5,5 @@ export interface SubscriptionGuestRepository {
   add(subscription: SubscriptionGuest): Promise<void>;
   get(subscriptionId: Ulid): Promise<SubscriptionGuest>;
   update(subscription: SubscriptionGuest): Promise<void>;
+  getBySubscriptionId(subscriptionId: Ulid): Promise<SubscriptionGuest[]>;
 }

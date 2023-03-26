@@ -25,6 +25,16 @@ export class SubscriptionGuestInMemoryRepository implements SubscriptionGuestRep
     );
   }
 
+  async getBySubscriptionId(subscriptionId: Ulid): Promise<SubscriptionGuest[]> {
+    const subscriptionGuests: SubscriptionGuest[] = [];
+    this.subscriptionGuests.forEach(subscriptionGuest => {
+      if (subscriptionGuest.subscription_id.value === subscriptionId.value) {
+        subscriptionGuests.push(subscriptionGuest);
+      }
+    });
+    return subscriptionGuests;
+  }
+
   throwExpression(errorMessage: string): never {
     throw new Error(errorMessage);
   }
