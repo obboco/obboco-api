@@ -19,4 +19,14 @@ export class SubscriptionInMemoryRepository implements SubscriptionRepository {
   async update(subscription: Subscription): Promise<void> {
     this.subscriptions.set(subscription.subscription_id.value, subscription);
   }
+
+  async getByPartnerId(partnerId: Ulid): Promise<Subscription[]> {
+    const subscriptions: Subscription[] = [];
+    this.subscriptions.forEach((subscription: Subscription) => {
+      if (subscription.partner_id.value === partnerId.value) {
+        subscriptions.push(subscription);
+      }
+    });
+    return subscriptions;
+  }
 }
