@@ -106,3 +106,4 @@ volumes/s3-storage/.localstack
 .DS_Store
 
 .tmp
+.DS_Store
