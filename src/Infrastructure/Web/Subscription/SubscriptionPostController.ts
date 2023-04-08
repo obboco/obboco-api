@@ -1,5 +1,5 @@
 import {CreateSubscription} from '../../../Application/Subscription/CreateSubscription';
-import {SubspcrtionMysqlRepository} from '../../Repository/SubscriptionMysqlRepository';
+import {SubscriptionMysqlRepository} from '../../Repository/SubscriptionMysqlRepository';
 import {Controller} from '../Controller';
 import {Request, Response} from 'express';
 import httpStatus from 'http-status';
@@ -9,7 +9,7 @@ export class SubscriptionPostController implements Controller {
 
   async run(req: Request, res: Response) {
     const createSubscription: CreateSubscription = new CreateSubscription(
-      new SubspcrtionMysqlRepository()
+      new SubscriptionMysqlRepository()
     );
     createSubscription.make({
       subscription_id: req.body.subscription_id,

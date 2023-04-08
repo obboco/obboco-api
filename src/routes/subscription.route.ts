@@ -1,9 +1,9 @@
-import {SubscriptionPostController} from '../Infrastructure/Web/Subscription/SubscriptionPostController';
 import {ulidValidator} from './Validator/ulidValidator';
 import {Router, Request, Response} from 'express';
 import {validateMiddleware} from './Validator/validateMiddleware';
 import {param, body} from 'express-validator';
 import {SubscriptionPutController} from '../Infrastructure/Web/Subscription/SubscriptionPutController';
+import {SubscriptionPostController} from '../Infrastructure/Web/Subscription/SubscriptionPostController';
 import {SubscriptionListController} from '../Infrastructure/Web/Subscription/SubscriptionListController';
 
 export const register = (router: Router) => {
