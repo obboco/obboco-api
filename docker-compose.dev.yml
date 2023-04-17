@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   mysql:
-    image: mysql:5.7
+    image: mariadb:10.7
     container_name: booking-mysql
     command: mysqld --sql_mode="NO_ENGINE_SUBSTITUTION"
     volumes:

@@ -13,7 +13,7 @@ export class SubscriptionListController implements Controller {
       new SubscriptionMysqlRepository()
     );
     const subscriptions: Subscription[] = await listSubscription.make({
-      partner_id: req.body.partner_id,
+      partner_id: req.params.partner_id,
     });
     res.status(httpStatus.OK).send(this.toResponse(subscriptions));
   }

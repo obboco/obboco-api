@@ -22,7 +22,7 @@ export class PartnerGetController implements Controller {
       res.status(httpStatus.BAD_REQUEST).json({ errors: [{ msg: e.message }] });
     }
   }
-
+  
   private toResponse(partner: Partner): any {
     return {
       data: partner.toPrimitives()

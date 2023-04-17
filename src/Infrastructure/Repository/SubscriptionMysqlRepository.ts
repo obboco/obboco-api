@@ -6,7 +6,7 @@ import {SubscriptionRepository} from './../../Application/Subscription/Subscript
 export class SubscriptionMysqlRepository implements SubscriptionRepository {
   async add(subscription: Subscription): Promise<void> {
     await execute(
-      'INSERT INTO subscription(subscription_id, user_id, activity_id, status) VALUES(?, ?, ?, ?)',
+      'INSERT INTO subscription(subscription_id, partner_id, name, price, currency, cycle) VALUES(?, ?, ?, ?, ?, ?)',
       [
         subscription.subscription_id.value,
         subscription.partner_id.value,
